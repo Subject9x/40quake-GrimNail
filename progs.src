@@ -1,15 +1,22 @@
 ../progs.dat
 
 defs.qc
+
+40q/defs/40q_defs.qc
+
 subs.qc
 fight.qc
 ai.qc
 combat.qc
-items.qc
-weapons.qc
+
+40q/items/items.qc
+40q/items/weapons.qc
+
 world.qc
-client.qc
-player.qc
+
+40q/client.qc
+40q/player.qc
+
 monsters.qc
 doors.qc
 buttons.qc
@@ -17,19 +24,19 @@ triggers.qc
 plats.qc
 misc.qc
 
-ogre.qc
-demon.qc
-shambler.qc
-knight.qc
-soldier.qc
-wizard.qc
-dog.qc
-zombie.qc
-boss.qc
+40q/monst/ogre.qc
+40q/monst/demon.qc
+40q/monst/shambler.qc
+40q/monst/knight.qc
+40q/monst/soldier.qc
+40q/monst/wizard.qc
+40q/monst/dog.qc
+40q/monst/zombie.qc
+40q/monst/boss.qc
 
-tarbaby.qc		// registered
-hknight.qc		// registered
-fish.qc			// registered
-shalrath.qc		// registered
-enforcer.qc		// registered
-oldone.qc		// registered
+40q/monst/tarbaby.qc		// registered
+40q/monst/hknight.qc		// registered
+40q/monst/fish.qc			// registered
+40q/monst/shalrath.qc		// registered
+40q/monst/enforcer.qc		// registered
+40q/monst/oldone.qc		// registered
