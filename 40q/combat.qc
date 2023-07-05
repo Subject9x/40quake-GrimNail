@@ -144,6 +144,11 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		float armorSV;
 		float calcDmg;
 
+		logFloat("Tough", targ.toughness);	//debug
+		logFloat("armor", targ.armor_save);	//debug
+
+		logFloat("AP", attacker.weapon_ap);	//debug
+
 		toWound = 4;
 		if(attacker.weapon_str > targ.toughness)
 		{
@@ -159,35 +164,33 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 				toWound = 6;
 			}
 		}
-		roll = 1.0 + floor(random() * 5.0);
-		
-		if(roll >= toWound)
-		{
-			hits = attacker.weapon_dmg;
-			while(hits != 0){
-				armorSV = targ.armor_save - attacker.weapon_ap;
-				if(armorSV <= 0){
-					armorSV = 0;
-				}
-				if(targ.invuln_save > armorSV )
-				{
-					armorSV = targ.invuln_save;
-				}
-				roll = 1.0 + floor(random() * 5.0);
-				if(roll < armorSV){
-					calcDmg = calcDmg + 1;
-				}
-				hits = hits - 1;
+		roll = floor(1.0 + (random() * 5.0));
+		logFloat("toWound", toWound);	//debug
+		logFloat("Wound roll", roll);	//debug
+
+		if(roll > toWound){
+			armorSV = targ.armor_save - attacker.weapon_ap;
+			if(armorSV < targ.invuln_save){
+				armorSV = targ.invuln_save;
 			}
+			roll = floor(1.0 + (random() * 5.0));
+			
+			logFloat("armorSV", armorSV);	//debug
+			logFloat("Armor Save roll", roll);	//debug
+
+			if(roll < armorSV){
+				targ.wounds = targ.wounds - attacker.weapon_dmg;
+				if(targ.wounds <= 0 ){
+					take = targ.health_max;
+				}
+			}
+			logFloat("take", take);	//debug
+	
 		}
-		targ.wounds = targ.wounds - calcDmg;
-		if(targ.wound <= 0){
-			take = damage;
-		}
-		else{
-			take = damage * (calcDmg / targ.wounds);
-		}
-		targ.dmg_take = targ.dmg_take + take;
+		targ.dmg_take = targ.dmg_take + (take * damage);
+	}
+	else{
+		damage = damage * 5;
 	}
 //-----------------------------------------------------------------------
 
@@ -277,7 +280,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		if (self != attacker && attacker != self.enemy)
 		{
-			if((self.flags & FL_DEMON) && !(attacker.flags & FL_DEMON)
+			if((self.flags & FL_DEMON) && !(attacker.flags & FL_DEMON))
 			{
 				self.oldenemy = self.enemy;
 				self.enemy = attacker;

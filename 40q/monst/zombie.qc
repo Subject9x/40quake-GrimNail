@@ -526,7 +526,6 @@ void() monster_zombie =
 	setmodel(self, "progs/zombie.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');
-	self.health = 60;
 
 	self.th_stand = zombie_stand1;
 	self.th_walk = zombie_walk1;
@@ -537,11 +536,12 @@ void() monster_zombie =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 3;
-	self.toughness = 4;
-	self.armor_save = 0;
-	self.invuln_save = 6;
-	self.wounds = 2;
+	self.health = ZOMBIE_HP;
+	self.strength = ZOMBIE_STR;
+	self.toughness = ZOMBIE_TOUGH;
+	self.armor_save = ZOMBIE_ARMOR_SV;
+	self.invuln_save = ZOMBIE_INVULN;
+	self.wounds = ZOMBIE_WOUNDS;
 	//------------------------
 
 	if (self.spawnflags & SPAWN_CRUCIFIED)

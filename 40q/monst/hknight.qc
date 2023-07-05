@@ -455,7 +455,6 @@ void() monster_hell_knight =
 	setmodel(self, "progs/hknight.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');
-	self.health = 250;
 
 	self.th_stand = hknight_stand1;
 	self.th_walk = hknight_walk1;
@@ -467,11 +466,12 @@ void() monster_hell_knight =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 5;
-	self.toughness = 4;
-	self.armor_save = 3;
-	self.invuln_save = 0;
-	self.wounds = 2;
+	self.health = HKNIGHT_HP;
+	self.strength = HKNIGHT_STR;
+	self.toughness = HKNIGHT_TOUGH;
+	self.armor_save = HKNIGHT_ARMOR_SV;
+	self.invuln_save = HKNIGHT_INVULN;
+	self.wounds = HKNIGHT_WOUNDS;
 	//------------------------
 
 	walkmonster_start();

@@ -15,20 +15,30 @@
 #define IT_AMMO_HVY 1024
 #define IT_CELLS 2048
 
-#define AMMO_COST_HBOLT 4
-#define AMMO_COST_STORMBOLT 3
-#define AMMO_COST_BOLT 2
-#define AMMO_COST_MISSILE 3
-#define AMMO_COST_PLAS 5
-#define AMMO_COST_MELT 10
+#define AMMO_COST_HBOLT 2
+#define AMMO_COST_STORMBOLT 2
+#define AMMO_COST_BOLT 1
+#define AMMO_COST_MISSILE 2
+#define AMMO_COST_PLAS 3
+#define AMMO_COST_MELT 7
 
-#define DMG_BOLTGUN 
-#define DMG_ASSHOTG 
-#define DMG_TEMPEST 
-#define DMG_HVYBOLT 
-#define DMG_PLASMA 
-#define DMG_ROCKET 
-#define DMG_MELTA 
+/*
+#define DMG_SHOTTGUN 6
+#define DMG_SUPRSHOTG 14
+#define DMG_NAILGUN 3
+#define DMG_SUPER_NAIL 9
+#define DMG_GRENADE 80
+#define DMG_ROCKET 100
+#define DMG_MELTA 100
+*/
+
+#define DMG_BOLTGUN 4
+#define DMG_ASTSHOTG 1
+#define DMG_TEMPEST 1
+#define DMG_HVYBOLT 5
+#define DMG_PLASMA 8
+#define DMG_ROCKET 6
+#define DMG_MELTA 12
 
 #define FL_DEMON 8192
 #define FL_MOB 16384

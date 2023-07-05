@@ -723,7 +723,7 @@ void() item_shells =
 		self.aflag = 20;
 	}
 	self.weapon = 1;
-	self.netname = "shells";
+	self.netname = "light ammo";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
 };
@@ -748,7 +748,7 @@ void() item_spikes =
 		self.aflag = 25;
 	}
 	self.weapon = 2;
-	self.netname = "nails";
+	self.netname = "bolter ammo";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
 };
@@ -773,7 +773,7 @@ void() item_rockets =
 		self.aflag = 5;
 	}
 	self.weapon = 3;
-	self.netname = "rockets";
+	self.netname = "heavy ammo";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
 };

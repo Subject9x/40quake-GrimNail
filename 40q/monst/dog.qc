@@ -371,7 +371,6 @@ void() monster_dog =
 	setmodel(self, "progs/dog.mdl");
 
 	setsize(self, '-32 -32 -24', '32 32 40');
-	self.health = 25;
 
 	self.th_stand = dog_stand1;
 	self.th_walk = dog_walk1;
@@ -383,11 +382,12 @@ void() monster_dog =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 3;
-	self.toughness = 2;
-	self.armor_save = 0;
-	self.invuln_save = 0;
-	self.wounds = 1;
+	self.health = DOG_HP;
+	self.strength = DOG_STR;
+	self.toughness = DOG_TOUGH;
+	self.armor_save = DOG_ARMOR_SV;
+	self.invuln_save = DOG_INVULN;
+	self.wounds = DOG_WOUNDS;
 	//------------------------
 
 	walkmonster_start();

@@ -1,0 +1,194 @@
+/*
+	STOCK VALUES
+
+#define MOB_HP_FISH 25
+#define MOB_HP_DOG 25
+#define MOB_HP_ZOMBIE 60
+#define MOB_HP_SOLDIER 30 
+#define MOB_HP_ENFORCE 80
+#define MOB_HP_KNIGHT 75
+#define MOB_HP_WIZARD 80
+#define MOB_HP_OGRE 200
+#define MOB_HP_HKNIGHT 250
+#define MOB_HP_FIEND 300
+#define MOB_HP_VORE 400
+#define MOB_HP_SHAMBLER 600
+*/
+
+#define PLAYER_HP 100
+#define PLAYER_TOUGH 5
+#define PLAYER_STR 5
+#define PLAYER_ARMOR_SV 2
+#define PLAYER_INVULN 5
+#define PLAYER_WOUNDS 14
+
+#define FISH_HP 25
+#define FISH_STR 2
+#define FISH_TOUGH 2 
+#define FISH_ARMOR_SV 6
+#define FISH_INVULN 0
+#define FISH_WOUNDS 4
+
+#define DOG_HP 25
+#define DOG_STR 3
+#define DOG_TOUGH 2
+#define DOG_ARMOR_SV 6
+#define DOG_INVULN 0
+#define DOG_WOUNDS 4
+
+#define ZOMBIE_HP 60
+#define ZOMBIE_STR 3
+#define ZOMBIE_TOUGH 4
+#define ZOMBIE_ARMOR_SV 0
+#define ZOMBIE_INVULN 6
+#define ZOMBIE_WOUNDS 8
+
+#define SOLDIER_HP 30
+#define SOLDIER_STR 3
+#define SOLDIER_TOUGH 3
+#define SOLDIER_ARMOR_SV 5
+#define SOLDIER_INVULN 0
+#define SOLDIER_WOUNDS 4
+
+#define ENFORCE_HP 80
+#define ENFORCE_STR 3
+#define ENFORCE_TOUGH 3
+#define ENFORCE_ARMOR_SV 4
+#define ENFORCE_INVULN 0
+#define ENFORCE_WOUNDS 8
+
+#define KNIGHT_HP 75
+#define KNIGHT_STR 4
+#define KNIGHT_TOUGH 3
+#define KNIGHT_ARMOR_SV 4
+#define KNIGHT_INVULN 0
+#define KNIGHT_WOUNDS 4
+
+#define WIZARD_HP 80
+#define WIZARD_STR 3
+#define WIZARD_TOUGH 5
+#define WIZARD_ARMOR_SV 0
+#define WIZARD_INVULN 4
+#define WIZARD_WOUNDS 12
+
+#define OGRE_HP 200
+#define OGRE_STR 5
+#define OGRE_TOUGH 4
+#define OGRE_ARMOR_SV 4
+#define OGRE_INVULN 0
+#define OGRE_WOUNDS 8
+
+#define HKNIGHT_HP 250
+#define HKNIGHT_STR 5
+#define HKNIGHT_TOUGH 4
+#define HKNIGHT_ARMOR_SV 3
+#define HKNIGHT_INVULN 6
+#define HKNIGHT_WOUNDS 12
+
+#define FIEND_HP 300
+#define FIEND_STR 6
+#define FIEND_TOUGH 5
+#define FIEND_ARMOR_SV 5
+#define FIEND_INVULN 6
+#define FIEND_WOUNDS 12
+
+#define VORE_HP 400
+#define VORE_STR 4
+#define VORE_TOUGH 4
+#define VORE_ARMOR_SV 5
+#define VORE_INVULN 5
+#define VORE_WOUNDS 12
+
+#define SHAMBLER_HP 600
+#define SHAMBLER_STR 6
+#define SHAMBLER_TOUGH 7
+#define SHAMBLER_ARMOR_SV 3
+#define SHAMBLER_INVULN 4
+#define SHAMBLER_WOUNDS 16
+
+/*
+    somewhat table -based old stats
+#define FISH_HP 25
+#define FISH_STR 2
+#define FISH_TOUGH 2 
+#define FISH_ARMOR_SV 6
+#define FISH_INVULN 0
+#define FISH_WOUNDS 1
+
+#define DOG_HP 25
+#define DOG_STR 3
+#define DOG_TOUGH 2
+#define DOG_ARMOR_SV 6
+#define DOG_INVULN 0
+#define DOG_WOUNDS 1
+
+#define ZOMBIE_HP 60
+#define ZOMBIE_STR 3
+#define ZOMBIE_TOUGH 4
+#define ZOMBIE_ARMOR_SV 0
+#define ZOMBIE_INVULN 6
+#define ZOMBIE_WOUNDS 2
+
+#define SOLDIER_HP 30
+#define SOLDIER_STR 3
+#define SOLDIER_TOUGH 3
+#define SOLDIER_ARMOR_SV 5
+#define SOLDIER_INVULN 0
+#define SOLDIER_WOUNDS 1
+
+#define ENFORCE_HP 80
+#define ENFORCE_STR 3
+#define ENFORCE_TOUGH 3
+#define ENFORCE_ARMOR_SV 4
+#define ENFORCE_INVULN 0
+#define ENFORCE_WOUNDS 2
+
+#define KNIGHT_HP 75
+#define KNIGHT_STR 4
+#define KNIGHT_TOUGH 3
+#define KNIGHT_ARMOR_SV 4
+#define KNIGHT_INVULN 0
+#define KNIGHT_WOUNDS 1
+
+#define WIZARD_HP 80
+#define WIZARD_STR 3
+#define WIZARD_TOUGH 5
+#define WIZARD_ARMOR_SV 0
+#define WIZARD_INVULN 4
+#define WIZARD_WOUNDS 3
+
+#define OGRE_HP 200
+#define OGRE_STR 5
+#define OGRE_TOUGH 4
+#define OGRE_ARMOR_SV 4
+#define OGRE_INVULN 0
+#define OGRE_WOUNDS 2
+
+#define HKNIGHT_HP 250
+#define HKNIGHT_STR 5
+#define HKNIGHT_TOUGH 4
+#define HKNIGHT_ARMOR_SV 3
+#define HKNIGHT_INVULN 6
+#define HKNIGHT_WOUNDS 3
+
+#define FIEND_HP 300
+#define FIEND_STR 6
+#define FIEND_TOUGH 5
+#define FIEND_ARMOR_SV 5
+#define FIEND_INVULN 6
+#define FIEND_WOUNDS 3
+
+#define VORE_HP 400
+#define VORE_STR 4
+#define VORE_TOUGH 4
+#define VORE_ARMOR_SV 5
+#define VORE_INVULN 5
+#define VORE_WOUNDS 3
+
+#define SHAMBLER_HP 600
+#define SHAMBLER_STR 6
+#define SHAMBLER_TOUGH 7
+#define SHAMBLER_ARMOR_SV 3
+#define SHAMBLER_INVULN 4
+#define SHAMBLER_WOUNDS 4
+*/

@@ -389,7 +389,6 @@ void() monster_shambler =
 	setmodel(self, "progs/shambler.mdl");
 
 	setsize(self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-	self.health = 600;
 
 	self.th_stand = sham_stand1;
 	self.th_walk = sham_walk1;
@@ -401,11 +400,12 @@ void() monster_shambler =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_DEMON | FL_MOB;
-	self.strength = 7;
-	self.toughness = 7;
-	self.armor_save = 3;
-	self.invuln_save = 4;
-	self.wounds = 4;
+	self.health = SHAMBLER_HP;
+	self.strength = SHAMBLER_STR;
+	self.toughness = SHAMBLER_TOUGH;
+	self.armor_save = SHAMBLER_ARMOR_SV;
+	self.invuln_save = SHAMBLER_INVULN;
+	self.wounds = SHAMBLER_WOUNDS;
 	//------------------------
 	
 	walkmonster_start();

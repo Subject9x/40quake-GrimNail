@@ -423,7 +423,6 @@ void() monster_wizard =
 	setmodel(self, "progs/wizard.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');
-	self.health = 80;
 
 	self.th_stand = wiz_stand1;
 	self.th_walk = wiz_walk1;
@@ -434,11 +433,12 @@ void() monster_wizard =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_DEMON | FL_MOB;
-	self.strength = 3;
-	self.toughness = 6;
-	self.armor_save = 0;
-	self.invuln_save = 4;
-	self.wounds = 3;
+	self.health = WIZARD_HP;
+	self.strength = WIZARD_STR;
+	self.toughness = WIZARD_TOUGH;
+	self.armor_save = WIZARD_ARMOR_SV;
+	self.invuln_save = WIZARD_INVULN;
+	self.wounds = WIZARD_WOUNDS;
 	//------------------------
 
 	flymonster_start();

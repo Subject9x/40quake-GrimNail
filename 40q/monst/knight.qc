@@ -277,7 +277,6 @@ void() monster_knight =
 	setmodel(self, "progs/knight.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');
-	self.health = 75;
 
 	self.th_stand = knight_stand1;
 	self.th_walk = knight_walk1;
@@ -288,11 +287,12 @@ void() monster_knight =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 4;
-	self.toughness = 3;
-	self.armor_save = 4;
-	self.invuln_save = 0;
-	self.wounds = 1;
+	self.health = KNIGHT_HP;
+	self.strength = KNIGHT_STR;
+	self.toughness = KNIGHT_TOUGH;
+	self.armor_save = KNIGHT_ARMOR_SV;
+	self.invuln_save = KNIGHT_INVULN;
+	self.wounds = KNIGHT_WOUNDS;
 	//------------------------
 	
 	walkmonster_start();

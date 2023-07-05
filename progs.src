@@ -3,11 +3,12 @@
 defs.qc
 
 40q/defs/40q_defs.qc
+40q/defs/monst_stats.qc
 
 subs.qc
 fight.qc
 ai.qc
-combat.qc
+40q/combat.qc
 
 40q/items/items.qc
 40q/items/weapons.qc

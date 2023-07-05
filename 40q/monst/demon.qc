@@ -220,7 +220,6 @@ void() monster_demon1 =
 	setmodel(self, "progs/demon.mdl");
 
 	setsize(self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-	self.health = 300;
 
 	self.th_stand = demon1_stand1;
 	self.th_walk = demon1_walk1;
@@ -232,11 +231,12 @@ void() monster_demon1 =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_DEMON | FL_MOB;
-	self.strength = 6;
-	self.toughness = 4;
-	self.armor_save = 6;
-	self.invuln_save = 0;
-	self.wounds = 2;
+	self.health = FIEND_HP;
+	self.strength = FIEND_STR;
+	self.toughness = FIEND_TOUGH;
+	self.armor_save = FIEND_ARMOR_SV;
+	self.invuln_save = FIEND_INVULN;
+	self.wounds = FIEND_WOUNDS;
 	//------------------------
 	
 	walkmonster_start();

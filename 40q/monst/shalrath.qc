@@ -247,7 +247,6 @@ void() monster_shalrath =
 
 	setmodel(self, "progs/shalrath.mdl");
 	setsize(self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-	self.health = 400;
 
 	self.th_stand = shal_stand;
 	self.th_walk = shal_walk1;
@@ -258,11 +257,12 @@ void() monster_shalrath =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_DEMON | FL_MOB;
-	self.strength = 4;
-	self.toughness = 4;
-	self.armor_save = 3;
-	self.invuln_save = 5;
-	self.wounds = 3;
+	self.health = VORE_HP;
+	self.strength = VORE_STR;
+	self.toughness = VORE_TOUGH;
+	self.armor_save = VORE_ARMOR_SV;
+	self.invuln_save = VORE_INVULN;
+	self.wounds = VORE_WOUNDS;
 	//------------------------
 
 	self.think = walkmonster_start;

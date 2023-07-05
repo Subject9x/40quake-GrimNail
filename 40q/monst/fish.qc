@@ -193,7 +193,6 @@ void() monster_fish =
 	setmodel(self, "progs/fish.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 24');
-	self.health = 25;
 
 	self.th_stand = f_stand1;
 	self.th_walk = f_walk1;
@@ -204,11 +203,12 @@ void() monster_fish =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 2;
-	self.toughness = 2;
-	self.armor_save = 0;
-	self.invuln_save = 0;
-	self.wounds = 1;
+	self.health = FISH_HP;
+	self.strength = FISH_STR;
+	self.toughness = FISH_TOUGH;
+	self.armor_save = FISH_ARMOR_SV;
+	self.invuln_save = FISH_INVULN;
+	self.wounds = FISH_WOUNDS;
 	//------------------------
 
 	swimmonster_start();

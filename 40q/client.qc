@@ -502,14 +502,13 @@ void() PutClientInServer =
 	self.fixangle = TRUE; // turn this way immediately
 
 	// 40Q mod---------------------------
-	//
 	//Mob base stats
 	self.flags = self.flags | FL_MOB;
-	self.strength = 5;
-	self.toughness = 5;
-	self.armor_save = 3;
-	self.invuln_save = 4;
-	self.wounds = 3;
+	self.strength = PLAYER_STR;
+	self.toughness = PLAYER_TOUGH;
+	self.armor_save = PLAYER_ARMOR_SV;
+	self.invuln_save = PLAYER_INVULN;
+	self.wounds = PLAYER_WOUNDS;
 
 	// Augments Mob's base stats for melee attacks.
 	self.melee_str = 5;

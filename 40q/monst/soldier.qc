@@ -306,7 +306,6 @@ void() monster_army =
 	setmodel(self, "progs/soldier.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');
-	self.health = 30;
 
 	self.th_stand = army_stand1;
 	self.th_walk = army_walk1;
@@ -317,11 +316,12 @@ void() monster_army =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 3;
-	self.toughness = 3;
-	self.armor_save = 5;
-	self.invuln_save = 0;
-	self.wounds = 1;
+	self.health = SOLDIER_HP;
+	self.strength = SOLDIER_STR;
+	self.toughness = SOLDIER_TOUGH;
+	self.armor_save = SOLDIER_ARMOR_SV;
+	self.invuln_save = SOLDIER_INVULN;
+	self.wounds = SOLDIER_WOUNDS;
 	//------------------------
 	
 	walkmonster_start();

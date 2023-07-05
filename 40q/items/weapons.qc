@@ -309,11 +309,11 @@ void() W_FireSuperShotgun =
 
 	sound(self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);
 
-	self.punchangle_x = -4;
+	self.punchangle_x = -2;
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 2;
 	dir = aim(self, 100000);
-	FireBullets(14, dir, '0.14 0.08 0');
+	FireBullets(DMG_ASTSHOTG, dir, '0.14 0.08 0');
 };
 
 
@@ -355,7 +355,7 @@ void() T_MissileTouch =
 		return;
 	}
 
-	damg = 100 + random()*20;
+	damg = DMG_ROCKET + random()*20;
 
 	if (other.health)
 	{
@@ -435,7 +435,7 @@ void() T_PlasmaTouch =
 	}
 
 	//damg = 100 + random()*20;
-	damg = 20 + random()*20;
+	damg = DMG_PLASMA + random()*20;
 
 	if (other.health)
 	{
@@ -698,7 +698,7 @@ void() W_FireMeltaGun={
 	WriteCoord(MSG_BROADCAST, trace_endpos_y);
 	WriteCoord(MSG_BROADCAST, trace_endpos_z);
 
-	MeltaDamage(self.origin, trace_endpos + v_forward*4, self, 100);
+	MeltaDamage(self.origin, trace_endpos + v_forward*4, self, DMG_MELTA);
 
 	self.attack_finished = time + 1.0;
 };
@@ -1089,11 +1089,11 @@ void() bolt_touch =
 	{
 		if((self.items & IT_BOLTGUN)){
 			spawn_touchblood(9);
-			T_Damage(other, self, self.owner, 6);
+			T_Damage(other, self, self.owner, DMG_BOLTGUN);
 		}
 		else{
 			spawn_touchblood(9);
-			T_Damage(other, self, self.owner, 3);
+			T_Damage(other, self, self.owner, DMG_TEMPEST);
 		}
 	}
 	else
@@ -1126,7 +1126,7 @@ void() heavy_bolter_touch =
 	if (other.takedamage)
 	{
 		spawn_touchblood(18);
-		T_Damage(other, self, self.owner, 24);
+		T_Damage(other, self, self.owner, DMG_HVYBOLT);
 	}
 	else
 	{

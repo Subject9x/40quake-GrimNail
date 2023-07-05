@@ -506,7 +506,6 @@ void() monster_ogre =
 	setmodel(self, "progs/ogre.mdl");
 
 	setsize(self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-	self.health = 200;
 
 	self.th_stand = ogre_stand1;
 	self.th_walk = ogre_walk1;
@@ -517,12 +516,13 @@ void() monster_ogre =
 	self.th_pain = ogre_pain;
 
 	//40Q stats----------------
-	self.flags = self.flags | FL_DEMON | FL_MOB;
-	self.strength = 5;
-	self.toughness = 4;
-	self.armor_save = 4;
-	self.invuln_save = 0;
-	self.wounds = 2;
+	self.flags = self.flags | (FL_DEMON | FL_MOB);
+	self.health = OGRE_HP;
+	self.strength = OGRE_STR;
+	self.toughness = OGRE_TOUGH;
+	self.armor_save = OGRE_ARMOR_SV;
+	self.invuln_save = OGRE_INVULN;
+	self.wounds = OGRE_WOUNDS;
 	//------------------------
 
 	walkmonster_start();

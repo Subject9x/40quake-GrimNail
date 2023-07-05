@@ -366,7 +366,6 @@ void() monster_enforcer =
 	setmodel(self, "progs/enforcer.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');
-	self.health = 80;
 
 	self.th_stand = enf_stand1;
 	self.th_walk = enf_walk1;
@@ -377,11 +376,12 @@ void() monster_enforcer =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_MOB;
-	self.strength = 3;
-	self.toughness = 3;
-	self.armor_save = 4;
-	self.invuln_save = 0;
-	self.wounds = 1;
+	self.health = ENFORCE_HP;
+	self.strength = ENFORCE_STR;
+	self.toughness = ENFORCE_TOUGH;
+	self.armor_save = ENFORCE_ARMOR_SV;
+	self.invuln_save = ENFORCE_INVULN;
+	self.wounds = ENFORCE_WOUNDS;
 	//------------------------
 
 	walkmonster_start();
