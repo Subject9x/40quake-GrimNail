@@ -130,9 +130,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // used by buttons and triggers to set activator for target firing
 	damage_attacker = attacker;
 
+	//TODO - adjust quad to match new system
 // check for quad damage powerup on the attacker
-	if (attacker.super_damage_finished > time)
-		damage = damage * 4;
+	//if (attacker.super_damage_finished > time)
+	//	damage = damage * 4;
 
 
 //40Q - MECHANICS CHECK:-------------------------------------------------
@@ -141,26 +142,26 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		float roll;
 		float toWound;
 		float hits;
-		float armorSV;
+		float armorSv;
 		float calcDmg;
 
-		logFloat("Tough", targ.toughness);	//debug
+		logFloat("----------------\nTough", targ.toughness);	//debug
 		logFloat("armor", targ.armor_save);	//debug
-
-		logFloat("AP", attacker.weapon_ap);	//debug
+		logFloat("AP", inflictor.weapon_ap);	//debug
+		logFloat("STR", inflictor.weapon_str);	//debug
 
 		toWound = 4;
-		if(attacker.weapon_str > targ.toughness)
+		if(inflictor.weapon_str > targ.toughness)
 		{
 			toWound = 3;
-			if(attacker.weapon_str >= targ.toughness * 2){
+			if(inflictor.weapon_str >= targ.toughness * 2){
 				toWound = 2;
 			}
 		}
 		else
 		{
 			toWound = 5;
-			if(attacker.weapon_str <= targ.toughness / 2){
+			if(inflictor.weapon_str <= targ.toughness / 2){
 				toWound = 6;
 			}
 		}
@@ -168,29 +169,51 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		logFloat("toWound", toWound);	//debug
 		logFloat("Wound roll", roll);	//debug
 
-		if(roll > toWound){
-			armorSV = targ.armor_save - attacker.weapon_ap;
-			if(armorSV < targ.invuln_save){
-				armorSV = targ.invuln_save;
-			}
-			roll = floor(1.0 + (random() * 5.0));
-			
-			logFloat("armorSV", armorSV);	//debug
-			logFloat("Armor Save roll", roll);	//debug
+		if(roll >= toWound){
+			if(targ.armor_save || targ.invuln_save){
+				roll = floor(1.0 + (random() * 5.0));
+				armorSv = roll + inflictor.weapon_ap;
 
-			if(roll < armorSV){
-				targ.wounds = targ.wounds - attacker.weapon_dmg;
-				if(targ.wounds <= 0 ){
-					take = targ.health_max;
+				if(armorSv >= targ.armor_save){
+					//successful armor save.
+					take = inflictor.weapon_dmg * 1.5;
+					logFloat("ARMOR SAVE DMG", take);	//debug
+				}
+				else{
+					if(targ.invuln_save && roll >= targ.invuln_save){
+						//successful armor save.
+						take = inflictor.weapon_dmg * 1.5;
+						logFloat("INVULN SAVE DMG", take);	//debug
+					}
+					else{
+						//take wounds from weapon dmg
+						targ.wounds = targ.wounds - inflictor.weapon_dmg;
+						if(targ.wounds <= 0 ){
+							take = targ.health_max * (1.0 + random() * 0.5);
+							logFloat("NO WOUNDS DEAD!", take);	//debug
+						}
+						else{
+							take = inflictor.weapon_dmg * 50;
+							logFloat("TAKE WOUND DAMAGE", take);	//debug
+						}
+					}
 				}
 			}
-			logFloat("take", take);	//debug
-	
+			else{
+				//no armor save, take pure damage
+				take = inflictor.weapon_dmg * 50;
+				logFloat("No-ARMOR Hit", take);	//debug
+			}
+
 		}
-		targ.dmg_take = targ.dmg_take + (take * damage);
+		else{
+			//failed to wound, do chip damage.
+			take = inflictor.weapon_dmg * 2;
+			logFloat("No-Wound Chip", take);	//debug
+		}
 	}
 	else{
-		damage = damage * 5;
+		take = damage;
 	}
 //-----------------------------------------------------------------------
 
@@ -280,7 +303,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		if (self != attacker && attacker != self.enemy)
 		{
-			if((self.flags & FL_DEMON) && !(attacker.flags & FL_DEMON))
+			if( ((self.flags & FL_DEMON) && !(attacker.flags & FL_DEMON)) || (attacker.flags & FL_CLIENT))
 			{
 				self.oldenemy = self.enemy;
 				self.enemy = attacker;
@@ -333,10 +356,11 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 				{
 					if (CanDamage(head, inflictor))
 					{ // shambler takes half damage from all explosions
-						if (head.classname == "monster_shambler")
-							T_Damage(head, inflictor, attacker, points*0.5);
-						else
-							T_Damage(head, inflictor, attacker, points);
+						//if (head.classname == "monster_shambler")
+						//	T_Damage(head, inflictor, attacker, points*0.5);
+						//else
+						//	T_Damage(head, inflictor, attacker, points);
+						T_Damage(head, inflictor, attacker, points);
 					}
 				}
 			}
@@ -381,4 +405,3 @@ void(entity attacker, float damage) T_BeamDamage =
 		head = head.chain;
 	}
 };
-

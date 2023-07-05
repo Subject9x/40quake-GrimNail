@@ -56,6 +56,8 @@ void() W_FireAxe =
 {
 	vector source;
 	vector org;
+	vector oWep;
+	entity this;
 
 	source = self.origin + '0 0 16';
 	traceline(source, source + v_forward*64, FALSE, self);
@@ -66,18 +68,40 @@ void() W_FireAxe =
 
 	if (trace_ent.takedamage)
 	{
-		trace_ent.axhitme = 1;
-		SpawnBlood(org, '0 0 0', 20);
+		if(trace_ent.axhitme == FALSE){
+			trace_ent.axhitme = 1;
+			SpawnBlood(org, '0 0 0', 20);
+		}
+		oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
+		self.weapon_str = self.melee_str + self.strength;
+		self.weapon_ap = self.melee_ap;
+		self.weapon_dmg = self.melee_dmg;
+	
 		T_Damage(trace_ent, self, self, 20);
+	
+		self.weapon_str = oWep_x;
+		self.weapon_ap = oWep_y;
+		self.weapon_dmg = oWep_z;
+
+		//TODO - 40Q pain lock
+		/*if((trace_ent.flags &(FL_MOB) && !(trace_ent.flags & FL_DEMON))){
+			this = self;
+			self = trace_ent;
+				self.th_pain(this, 20);
+			self = this;
+		}*/
+	
 	}
 	else
-	{ // hit wall
-		sound(self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
-		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte(MSG_BROADCAST, TE_GUNSHOT);
-		WriteCoord(MSG_BROADCAST, org_x);
-		WriteCoord(MSG_BROADCAST, org_y);
-		WriteCoord(MSG_BROADCAST, org_z);
+	{ 
+		if(trace_ent){// hit wall
+			sound(self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+			WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+			WriteByte(MSG_BROADCAST, TE_GUNSHOT);
+			WriteCoord(MSG_BROADCAST, org_x);
+			WriteCoord(MSG_BROADCAST, org_y);
+			WriteCoord(MSG_BROADCAST, org_z);
+		}
 	}
 };
 
@@ -301,19 +325,22 @@ void() W_FireSuperShotgun =
 {
 	vector dir;
 
-	if (self.currentammo == 1)
-	{
-		W_FireShotgun();
-		return;
-	}
 
 	sound(self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);
 
 	self.punchangle_x = -2;
 
-	self.currentammo = self.ammo_shells = self.ammo_shells - 2;
+	if (self.currentammo == 1)
+	{
+		self.currentammo = self.ammo_shells = self.ammo_shells - 1;
+	}
+	else
+	{
+		self.currentammo = self.ammo_shells = self.ammo_shells - 2;
+	}
+	
 	dir = aim(self, 100000);
-	FireBullets(DMG_ASTSHOTG, dir, '0.14 0.08 0');
+	FireBullets(14, dir, '0.14 0.08 0');
 };
 
 
@@ -355,7 +382,7 @@ void() T_MissileTouch =
 		return;
 	}
 
-	damg = DMG_ROCKET + random()*20;
+	damg = ROCKET_DMG + random()*20;
 
 	if (other.health)
 	{
@@ -391,7 +418,7 @@ void() W_FireRocket =
 {
 	entity missile;
 
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - AMMO_COST_MISSILE;
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - ROCKET_AMMO_COST;
 
 	sound(self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
@@ -418,6 +445,10 @@ void() W_FireRocket =
 	setmodel(missile, "progs/missile.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
 	setorigin(missile, self.origin + v_forward*8 + '0 0 16');
+
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 };
 
 
@@ -435,7 +466,7 @@ void() T_PlasmaTouch =
 	}
 
 	//damg = 100 + random()*20;
-	damg = DMG_PLASMA + random()*20;
+	damg = PLASMA_DMG + random()*20;
 
 	if (other.health)
 	{
@@ -467,7 +498,7 @@ void() W_FirePlasma =
 {
 	entity missile;
 
-	self.currentammo = self.ammo_cells = self.ammo_cells - AMMO_COST_PLAS;
+	self.currentammo = self.ammo_cells = self.ammo_cells - PLASMA_AMMO_COST;
 
 	sound(self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
@@ -497,6 +528,10 @@ void() W_FirePlasma =
 	setmodel(missile, "progs/v_spike.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
 	setorigin(missile, self.origin + v_forward*8 + '0 0 16');
+
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 };
 
 
@@ -657,6 +692,10 @@ void(vector p1, vector p2, entity from, float damage) MeltaDamage =
 void() W_FireMeltaGun={
 	vector org;
 
+	if (time < self.attack_finished){
+		return;
+	}	
+
 	if (self.ammo_cells < 1)
 	{
 		self.weapon = W_BestWeapon();
@@ -681,12 +720,12 @@ void() W_FireMeltaGun={
 	}
 	self.punchangle_x = -2;
 
-	self.currentammo = self.ammo_cells = self.ammo_cells - AMMO_COST_MELT;
+	self.currentammo = self.ammo_cells = self.ammo_cells - MELTA_AMMO_COST;
 
 	org = self.origin + '0 0 16';
 
 	//traceline(org, org + v_forward*600, TRUE, self);
-	traceline(org, org + v_forward*350, TRUE, self);
+	traceline(org, org + v_forward*400, TRUE, self);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_LIGHTNING2);
@@ -698,7 +737,7 @@ void() W_FireMeltaGun={
 	WriteCoord(MSG_BROADCAST, trace_endpos_y);
 	WriteCoord(MSG_BROADCAST, trace_endpos_z);
 
-	MeltaDamage(self.origin, trace_endpos + v_forward*4, self, DMG_MELTA);
+	MeltaDamage(self.origin, trace_endpos + v_forward*4, self, MELTA_DMG);
 
 	self.attack_finished = time + 1.0;
 };
@@ -780,6 +819,10 @@ void() W_FireGrenade =
 	setmodel(missile, "progs/grenade.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
 	setorigin(missile, self.origin);
+
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 };
 
 
@@ -933,6 +976,101 @@ void() superspike_touch =
 	remove(self);
 };
 
+/*
+===============
+Autogun and Stubber
+===============
+*/
+void() stub_touch =
+{
+	vector org;
+
+	if (other == self.owner)
+		return; // don't explode on owner
+
+	if (pointcontents(self.origin) == CONTENT_SKY)
+	{
+		remove(self);
+		return;
+	}
+	
+	org = self.origin - 8*normalize(self.velocity);
+
+	if (other.health)
+	{
+		SpawnBlood(org, self.velocity*0.2, 15);
+		T_Damage(other, self, self.owner, 15);
+	}
+	else
+	{
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_GUNSHOT);
+		WriteCoord(MSG_BROADCAST, org_x);
+		WriteCoord(MSG_BROADCAST, org_y);
+		WriteCoord(MSG_BROADCAST, org_z);
+	}
+
+	remove(self);
+};
+
+void(vector org, vector vec, float hvy) launch_stub =
+{
+	if (self.classname == "monster_enforcer")
+		sound(self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
+	else
+		sound(self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
+
+	vec = normalize(vec);
+
+	newmis = spawn();
+	newmis.owner = self;
+	newmis.movetype = MOVETYPE_FLY;
+	newmis.solid = SOLID_BBOX;
+	newmis.effects = EF_DIMLIGHT;
+
+	setmodel(newmis, "progs/s_spike.mdl");
+	setsize(newmis, '0 0 0', '0 0 0');
+
+	setorigin(newmis, org);
+
+	newmis.velocity = vec * 600;
+	newmis.angles = vectoangles(newmis.velocity);
+
+	newmis.nextthink = time + 5;
+	newmis.think = SUB_Remove;
+	newmis.touch = stub_touch;
+
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
+};
+
+
+
+void() W_FireAutogun =
+{
+	vector org;
+
+	self.effects = self.effects | EF_MUZZLEFLASH;
+	makevectors(self.angles);
+
+	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
+
+	launch_stub(org, self.enemy.origin - self.origin, FALSE);
+};
+
+void() W_FireHvyStub =
+{
+	vector org;
+
+	self.effects = self.effects | EF_MUZZLEFLASH;
+	makevectors(self.angles);
+
+	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
+
+	launch_stub(org, self.enemy.origin - self.origin, TRUE);
+};
+
 
 void() bolt_touch;
 void() heavy_bolter_touch;
@@ -962,12 +1100,20 @@ void(vector org, vector dir) launch_bolt_rnd =
 	setorigin(newmis, org);
 
 	newmis.velocity = dir * 850;	//1000
+
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
 };
 
 void() W_FireHeavyBolter =
 {
 	vector dir;
 
+	if (time < self.attack_finished)
+	{
+		return;
+	}
 	if (self.ammo_rockets < 1)
 	{
 		self.weapon = W_BestWeapon();
@@ -975,15 +1121,10 @@ void() W_FireHeavyBolter =
 		return;
 	}
 
-	if (time < self.attack_finished)
-	{
-		return;
-	}
 	sound(self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
-	self.attack_finished = time + 0.25;
+	self.attack_finished = time + HVYBOLT_ROF;
 
-
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - AMMO_COST_HBOLT;
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - HVYBOLT_AMMO_COST;
 
 	dir = aim(self, 1000);
 	
@@ -1004,6 +1145,11 @@ void() W_FireBoltgun =
 
 	vector dir;
 
+	if (time < self.attack_finished)
+	{
+		return;
+	}
+
 	if (self.ammo_nails < 1)
 	{
 		self.weapon = W_BestWeapon();
@@ -1011,15 +1157,10 @@ void() W_FireBoltgun =
 		return;
 	}
 
-	if (time < self.attack_finished)
-	{
-		return;
-	}
-
 	sound(self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
-	self.attack_finished = time + 0.5;
+	self.attack_finished = time + BOLTGUN_ROF;
 	
-	self.currentammo = self.ammo_nails = self.ammo_nails - AMMO_COST_BOLT;
+	self.currentammo = self.ammo_nails = self.ammo_nails - BOLTGUN_AMMO_COST;
 
 	dir = aim(self, 1000);
 	
@@ -1051,6 +1192,10 @@ void(float ox) W_FireBolt =
 		return;
 	}
 
+	if (time < self.attack_finished)
+	{
+		return;
+	}
 	if (self.ammo_nails < 1)
 	{
 		self.weapon = W_BestWeapon();
@@ -1059,8 +1204,8 @@ void(float ox) W_FireBolt =
 	}
 
 	sound(self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
-	self.attack_finished = time + 0.085;
-	self.currentammo = self.ammo_nails = self.ammo_nails - AMMO_COST_STORMBOLT;
+	self.attack_finished = time + TEMPEST_ROF;
+	self.currentammo = self.ammo_nails = self.ammo_nails - TEMPEST_AMMO_COST;
 	dir = aim(self, 1000);
 	launch_bolt_rnd(self.origin + '0 0 16' + v_right*ox, dir);
 	newmis.items = 0 | IT_TEMPEST_BOLTER;
@@ -1089,11 +1234,11 @@ void() bolt_touch =
 	{
 		if((self.items & IT_BOLTGUN)){
 			spawn_touchblood(9);
-			T_Damage(other, self, self.owner, DMG_BOLTGUN);
+			T_Damage(other, self, self.owner, BOLTGUN_DMG);
 		}
 		else{
 			spawn_touchblood(9);
-			T_Damage(other, self, self.owner, DMG_TEMPEST);
+			T_Damage(other, self, self.owner, TEMPEST_DMG);
 		}
 	}
 	else
@@ -1126,7 +1271,7 @@ void() heavy_bolter_touch =
 	if (other.takedamage)
 	{
 		spawn_touchblood(18);
-		T_Damage(other, self, self.owner, DMG_HVYBOLT);
+		T_Damage(other, self, self.owner, HVYBOLT_DMG);
 	}
 	else
 	{
@@ -1164,6 +1309,12 @@ void() W_SetCurrentAmmo =
 		self.weaponmodel = "progs/v_axe.mdl";
 		self.weaponframe = 0;
 
+		//weapon stats - CHAINAXE
+		self.weapon_str = self.strength + CHAINAXE_STR;
+		self.weapon_ap = CHAINAXE_AP;
+		self.weapon_dmg = CHAINAXE_DMG;
+		//------------------------------------
+
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
@@ -1173,9 +1324,9 @@ void() W_SetCurrentAmmo =
 			
 		// Ranged weapon stats - BOLT PISTOL
 		self.items = self.items | IT_NAILS;
-		self.weapon_str = 4;
-		self.weapon_ap = -1;
-		self.weapon_dmg = 1;
+		self.weapon_str = BOLTGUN_STR;
+		self.weapon_ap = BOLTGUN_AP;
+		self.weapon_dmg = BOLTGUN_DMG;
 		//------------------------------------
 
 	}
@@ -1187,9 +1338,9 @@ void() W_SetCurrentAmmo =
 		self.items = self.items | IT_SHELLS;
 			
 		// Ranged weapon stats - SPACE SHOTGUN
-		self.weapon_str = 4;
-		self.weapon_ap = 0;
-		self.weapon_dmg = 2;
+		self.weapon_str = ASTSHOTG_STR;
+		self.weapon_ap = ASTSHOTG_AP;
+		self.weapon_dmg = ASTSHOTG_DMG;
 		//------------------------------------
 
 	}
@@ -1201,9 +1352,9 @@ void() W_SetCurrentAmmo =
 
 		// Ranged weapon stats - BOLTGUN
 		self.items = self.items | IT_NAILS;
-		self.weapon_str = 4;
-		self.weapon_ap = -1;
-		self.weapon_dmg = 1;
+		self.weapon_str = TEMPEST_STR;
+		self.weapon_ap = TEMPEST_AP;
+		self.weapon_dmg = TEMPEST_DMG;
 		//------------------------------------
 
 	}
@@ -1215,9 +1366,9 @@ void() W_SetCurrentAmmo =
 
 		// Ranged weapon stats - HEAVY BOLTER
 		self.items = self.items | IT_ROCKETS;
-		self.weapon_str = 5;
-		self.weapon_ap = -1;
-		self.weapon_dmg = 1;
+		self.weapon_str = HVYBOLT_STR;
+		self.weapon_ap = HVYBOLT_AP;
+		self.weapon_dmg = HVYBOLT_DMG;
 		//------------------------------------
 
 	}
@@ -1229,9 +1380,9 @@ void() W_SetCurrentAmmo =
 
 		// Ranged weapon stats - IONIZED GUN
 		self.items = self.items | IT_CELLS;
-		self.weapon_str = 7;
-		self.weapon_ap = -2;
-		self.weapon_dmg = 2;
+		self.weapon_str = PLASMA_STR;
+		self.weapon_ap = PLASMA_AP;
+		self.weapon_dmg = PLASMA_DMG;
 		//------------------------------------
 
 	}
@@ -1243,9 +1394,9 @@ void() W_SetCurrentAmmo =
 		self.items = self.items | IT_ROCKETS;
 
 		// Ranged weapon stats - HE ROCKET
-		self.weapon_str = 4;
-		self.weapon_ap = 0;
-		self.weapon_dmg = 4;
+		self.weapon_str = ROCKET_STR;
+		self.weapon_ap = ROCKET_AP;
+		self.weapon_dmg = ROCKET_DMG;
 		//------------------------------------
 
 	}
@@ -1257,9 +1408,9 @@ void() W_SetCurrentAmmo =
 		self.items = self.items | IT_CELLS;
 
 		// Ranged weapon stats - HEAT RAY
-		self.weapon_str = 8;
-		self.weapon_ap = -4;
-		self.weapon_dmg = 6;
+		self.weapon_str = MELTA_STR;
+		self.weapon_ap = MELTA_AP;
+		self.weapon_dmg = MELTA_DMG;
 		//------------------------------------
 	}
 	else
@@ -1268,7 +1419,7 @@ void() W_SetCurrentAmmo =
 		self.weaponmodel = "";
 		self.weaponframe = 0;
 
-		// Ranged weapon stats - HEAVY BOLTER
+		// Ranged weapon stats 
 		self.weapon_str = 1;
 		self.weapon_ap = 0;
 		self.weapon_dmg = 1;
@@ -1361,7 +1512,7 @@ void() W_Attack =
 			player_axec1();
 		else
 			player_axed1();
-		self.attack_finished = time + 0.5;
+		self.attack_finished = time + CHAINAXE_ROF;
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
@@ -1374,7 +1525,7 @@ void() W_Attack =
 	{
 		player_shot1();
 		W_FireSuperShotgun();
-		self.attack_finished = time + 0.7;
+		self.attack_finished = time + ASTSHOTG_ROF;
 	}
 	else if (self.weapon == IT_NAILGUN)
 	{
@@ -1389,7 +1540,7 @@ void() W_Attack =
 	{
 		player_rocket1();
 		W_FirePlasma();
-		self.attack_finished = time + 0.4;
+		self.attack_finished = time + PLASMA_ROF;
 		//W_FireGrenade();
 		//self.attack_finished = time + 0.6;
 	}
@@ -1397,13 +1548,13 @@ void() W_Attack =
 	{
 		player_rocket1();
 		W_FireRocket();
-		self.attack_finished = time + 0.95;
+		self.attack_finished = time + ROCKET_ROF;
 	}
 	else if (self.weapon == IT_LIGHTNING)
 	{
 		player_light1();
-		self.attack_finished = time + 1.0;
 		sound(self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
+		self.attack_finished = time + MELTA_ROF;
 	}
 };
 

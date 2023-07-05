@@ -70,6 +70,10 @@ $frame pull1 pull2 pull3 pull4 pull5 pull6 pull7 pull8 pull9 pull10 pull11
 
 void() OgreGrenadeExplode =
 {
+	self.owner.weapon_str = GRENLNCH_STR;
+	self.owner.weapon_ap = GRENLNCH_AP;
+	self.owner.weapon_dmg = GRENLNCH_DMG;
+	
 	T_RadiusDamage(self, self.owner, 40, world);
 	sound(self, CHAN_VOICE, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
@@ -118,6 +122,10 @@ void() OgreFireGrenade =
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
+
 // set missile speed
 
 	makevectors(self.angles);
@@ -155,6 +163,7 @@ void(float side) chainsaw =
 {
 	vector delta;
 	float ldmg;
+	vector oWep;
 
 	if (!self.enemy)
 		return;
@@ -169,7 +178,18 @@ void(float side) chainsaw =
 		return;
 
 	ldmg = (random() + random() + random()) * 4;
+
+	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
+
+	self.weapon_str = self.melee_str + self.strength;
+	self.weapon_ap = self.melee_ap;
+	self.weapon_dmg = self.melee_dmg;
+
 	T_Damage(self.enemy, self, self, ldmg);
+
+	self.weapon_str = oWep_x;
+	self.weapon_ap = oWep_y;
+	self.weapon_dmg = oWep_z;
 
 	if (side)
 	{
@@ -523,6 +543,14 @@ void() monster_ogre =
 	self.armor_save = OGRE_ARMOR_SV;
 	self.invuln_save = OGRE_INVULN;
 	self.wounds = OGRE_WOUNDS;
+
+	self.melee_str = CHAINSAW_STR + OGRE_STR;
+	self.melee_ap = CHAINSAW_AP;
+	self.melee_dmg = CHAINSAW_DMG;
+
+	self.weapon_str = GRENLNCH_STR;
+	self.weapon_ap = GRENLNCH_AP;
+	self.weapon_dmg = GRENLNCH_STR;
 	//------------------------
 
 	walkmonster_start();

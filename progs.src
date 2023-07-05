@@ -4,17 +4,16 @@ defs.qc
 
 40q/defs/40q_defs.qc
 40q/defs/monst_stats.qc
+40q/defs/wep_stats.qc
 
 subs.qc
-fight.qc
+40q/fight.qc
 ai.qc
 40q/combat.qc
 
 40q/items/items.qc
 40q/items/weapons.qc
-
-world.qc
-
+40q/world.qc
 40q/client.qc
 40q/player.qc
 

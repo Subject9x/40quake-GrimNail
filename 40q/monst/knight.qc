@@ -293,6 +293,10 @@ void() monster_knight =
 	self.armor_save = KNIGHT_ARMOR_SV;
 	self.invuln_save = KNIGHT_INVULN;
 	self.wounds = KNIGHT_WOUNDS;
+
+	self.melee_str = KNIGHT_STR + SWORD_STR;
+	self.melee_ap = SWORD_AP;
+	self.melee_dmg = SWORD_DMG;
 	//------------------------
 	
 	walkmonster_start();

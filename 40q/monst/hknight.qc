@@ -96,6 +96,10 @@ void(float offset) hknight_shot =
 	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 	newmis.velocity = vec*300;
 	sound(self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
 };
 
 void() CheckForCharge =
@@ -472,6 +476,14 @@ void() monster_hell_knight =
 	self.armor_save = HKNIGHT_ARMOR_SV;
 	self.invuln_save = HKNIGHT_INVULN;
 	self.wounds = HKNIGHT_WOUNDS;
+
+	self.melee_str = HKNIGHT_STR + PWR_SWORD_STR;
+	self.melee_ap = PWR_SWORD_AP;
+	self.melee_dmg = PWR_SWORD_DMG;
+
+	self.weapon_str = KNIGHT_SPELL_STR;
+	self.weapon_ap = KNIGHT_SPELL_AP;
+	self.weapon_dmg = KNIGHT_SPELL_DMG;
 	//------------------------
 
 	walkmonster_start();

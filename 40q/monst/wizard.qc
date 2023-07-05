@@ -93,6 +93,10 @@ void(entity missile, float mspeed, float accuracy) LaunchMissile =
 // set missile duration
 	missile.nextthink = time + 5;
 	missile.think = SUB_Remove;
+
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 };
 
 
@@ -129,7 +133,13 @@ float() WizardCheckAttack =
 
 // see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
-	spot2 = targ.origin + targ.view_ofs;
+	if((targ.flags & FL_CLIENT))
+	{
+		spot2 = targ.origin + '0 0 22';
+	}
+	else{
+		spot2 = targ.origin + targ.view_ofs;
+	}
 
 	traceline(spot1, spot2, FALSE, self);
 
@@ -225,6 +235,10 @@ void() Wiz_FastFire =
 		newmis.classname = "wizspike";
 		setmodel(newmis, "progs/w_spike.mdl");
 		setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
+
+		newmis.weapon_str = self.weapon_str;
+		newmis.weapon_ap = self.weapon_ap;
+		newmis.weapon_dmg = self.weapon_dmg;
 	}
 
 	remove(self);
@@ -248,6 +262,10 @@ void() Wiz_StartFast =
 	missile.nextthink = time + 0.8;
 	missile.think = Wiz_FastFire;
 	missile.movedir = v_right;
+	
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 
 	missile = spawn();
 	missile.owner = self;
@@ -258,6 +276,10 @@ void() Wiz_StartFast =
 	missile.nextthink = time + 0.3;
 	missile.think = Wiz_FastFire;
 	missile.movedir = VEC_ORIGIN - v_right;
+	
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 };
 
 
@@ -439,6 +461,10 @@ void() monster_wizard =
 	self.armor_save = WIZARD_ARMOR_SV;
 	self.invuln_save = WIZARD_INVULN;
 	self.wounds = WIZARD_WOUNDS;
+
+	self.weapon_str = WIZ_SPELL_STR;
+	self.weapon_ap = WIZ_SPELL_AP;
+	self.weapon_dmg = WIZ_SPELL_DMG;
 	//------------------------
 
 	flymonster_start();

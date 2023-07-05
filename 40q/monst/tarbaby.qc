@@ -236,11 +236,15 @@ void() monster_tarbaby =
 
 	//40Q stats----------------
 	self.flags = self.flags | FL_DEMON | FL_MOB;
-	self.strength = 6;
-	self.toughness = 5;
-	self.armor_save = 0;
-	self.invuln_save = 5;
-	self.wounds = 3;
+	self.strength = SPAWN_STR;
+	self.toughness = SPAWN_TOUGH;
+	self.armor_save = SPAWN_ARMOR_SV;
+	self.invuln_save = SPAWN_INVULN;
+	self.wounds = SPAWN_WOUNDS;
+
+	self.weapon_str = SPAWN_SPLAT_STR;
+	self.weapon_ap = SPAWN_SPLAT_AP;
+	self.weapon_dmg = SPAWN_SPLAT_DMG;
 	//------------------------
 	
 	walkmonster_start();

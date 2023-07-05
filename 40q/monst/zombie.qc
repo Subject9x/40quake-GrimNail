@@ -209,6 +209,10 @@ void(vector st) ZombieFireGrenade =
 
 	missile.touch = ZombieGrenadeTouch;
 
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
+
 // set missile duration
 	missile.nextthink = time + 2.5;
 	missile.think = SUB_Remove;
@@ -542,6 +546,10 @@ void() monster_zombie =
 	self.armor_save = ZOMBIE_ARMOR_SV;
 	self.invuln_save = ZOMBIE_INVULN;
 	self.wounds = ZOMBIE_WOUNDS;
+
+	self.weapon_str = ZOMB_CHUNK_STR;
+	self.weapon_ap = ZOMB_CHUNK_AP;
+	self.weapon_dmg = ZOMB_CHUNK_DMG;
 	//------------------------
 
 	if (self.spawnflags & SPAWN_CRUCIFIED)

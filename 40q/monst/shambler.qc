@@ -119,6 +119,7 @@ void() sham_smash10 = [ $smash10, sham_smash11 ]
 {
 	vector delta;
 	float ldmg;
+	vector oWep;
 
 	if (!self.enemy)
 		return;
@@ -132,7 +133,18 @@ void() sham_smash10 = [ $smash10, sham_smash11 ]
 		return;
 
 	ldmg = (random() + random() + random()) * 40;
+	
+	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
+	self.weapon_str = self.melee_str + self.strength;
+	self.weapon_ap = self.melee_ap;
+	self.weapon_dmg = self.melee_dmg;
+
 	T_Damage(self.enemy, self, self, ldmg);
+
+	self.weapon_str = oWep_x;
+	self.weapon_ap = oWep_y;
+	self.weapon_dmg = oWep_z;
+
 	sound(self, CHAN_VOICE, "shambler/smack.wav", 1, ATTN_NORM);
 
 	SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);
@@ -147,6 +159,7 @@ void(float side) ShamClaw =
 {
 	vector delta;
 	float ldmg;
+	vector oWep;
 
 	if (!self.enemy)
 		return;
@@ -158,7 +171,18 @@ void(float side) ShamClaw =
 		return;
 
 	ldmg = (random() + random() + random()) * 20;
+	
+	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
+	self.weapon_str = self.melee_str + self.strength;
+	self.weapon_ap = self.melee_ap;
+	self.weapon_dmg = self.melee_dmg;
+
 	T_Damage(self.enemy, self, self, ldmg);
+
+	self.weapon_str = oWep_x;
+	self.weapon_ap = oWep_y;
+	self.weapon_dmg = oWep_z;
+
 	sound(self, CHAN_VOICE, "shambler/smack.wav", 1, ATTN_NORM);
 
 	if (side)
@@ -406,6 +430,14 @@ void() monster_shambler =
 	self.armor_save = SHAMBLER_ARMOR_SV;
 	self.invuln_save = SHAMBLER_INVULN;
 	self.wounds = SHAMBLER_WOUNDS;
+
+	self.melee_str = SHMBL_CLAW_STR;
+	self.melee_ap = SHMBL_CLAW_AP;
+	self.melee_dmg = SHMBL_CLAW_DMG;
+
+	self.weapon_str = SHMBL_SPELL_STR;
+	self.weapon_ap = SHMBL_CLAW_DMG;
+	self.weapon_dmg = SHMBL_SPELL_DMG;
 	//------------------------
 	
 	walkmonster_start();

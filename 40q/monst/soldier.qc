@@ -200,20 +200,22 @@ void(entity attacker, float damage) army_pain =
 
 void() army_fire =
 {
-	vector dir;
+
+	W_FireAutogun();
+	/*vector dir;
 	entity en;
 
 	ai_face();
 
-	sound(self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);
+	sound(self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);*/
 
 // fire somewhat behind the player, so a dodging player is harder to hit
-	en = self.enemy;
+	/*en = self.enemy;
 
 	dir = en.origin - en.velocity*0.2;
 	dir = normalize(dir - self.origin);
 
-	FireBullets(4, dir, '0.1 0.1 0');
+	FireBullets(4, dir, '0.1 0.1 0');*/
 };
 
 
@@ -322,6 +324,10 @@ void() monster_army =
 	self.armor_save = SOLDIER_ARMOR_SV;
 	self.invuln_save = SOLDIER_INVULN;
 	self.wounds = SOLDIER_WOUNDS;
+
+	self.weapon_dmg = AUTOGUN_DMG;
+	self.weapon_str = AUTOGUN_STR;
+	self.weapon_ap = AUTOGUN_AP;
 	//------------------------
 	
 	walkmonster_start();

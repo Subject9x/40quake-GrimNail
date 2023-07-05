@@ -237,6 +237,10 @@ void() monster_demon1 =
 	self.armor_save = FIEND_ARMOR_SV;
 	self.invuln_save = FIEND_INVULN;
 	self.wounds = FIEND_WOUNDS;
+
+	self.weapon_str = FIEND_CLAW_STR + FIEND_STR;
+	self.weapon_ap = FIEND_CLAW_AP;
+	self.weapon_dmg = FIEND_CLAW_DMG;
 	//------------------------
 	
 	walkmonster_start();

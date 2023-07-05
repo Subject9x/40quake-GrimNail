@@ -75,10 +75,10 @@ void() SetChangeParms =
 void() SetNewParms =
 {
 	parm1 = IT_SHOTGUN | IT_AXE;
-	parm2 = 100;
+	parm2 = PLAYER_HP;
 	parm3 = 0;
 	parm4 = 25;
-	parm5 = 0;
+	parm5 = 50;
 	parm6 = 0;
 	parm7 = 0;
 	parm8 = 1;
@@ -467,12 +467,10 @@ void() PutClientInServer =
 	entity spot;
 
 	self.classname = "player";
-	self.health = 100;
 	self.takedamage = DAMAGE_AIM;
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_WALK;
 	self.show_hostile = 0;
-	self.max_health = 100;
 	self.flags = FL_CLIENT;
 	self.air_finished = time + 12;
 	self.dmg = 2; // initial water damage
@@ -504,6 +502,8 @@ void() PutClientInServer =
 	// 40Q mod---------------------------
 	//Mob base stats
 	self.flags = self.flags | FL_MOB;
+	self.health = PLAYER_HP;
+	self.health_max = PLAYER_HP;
 	self.strength = PLAYER_STR;
 	self.toughness = PLAYER_TOUGH;
 	self.armor_save = PLAYER_ARMOR_SV;
@@ -511,9 +511,9 @@ void() PutClientInServer =
 	self.wounds = PLAYER_WOUNDS;
 
 	// Augments Mob's base stats for melee attacks.
-	self.melee_str = 5;
-	self.melee_ap = -1;
-	self.melee_dmg = 2;
+	self.melee_str = CHAINAXE_STR + PLAYER_STR;
+	self.melee_ap = CHAINAXE_AP;
+	self.melee_dmg = CHAINAXE_DMG;
 	//----------------------------------------
 
 
@@ -527,7 +527,7 @@ void() PutClientInServer =
 	setsize(self, VEC_HULL_MIN, VEC_HULL_MAX);
 
 	//self.view_ofs = '0 0 22';
-	self.view_ofs = '0 0 35'; //become void ranger!
+	self.view_ofs = '0 0 32'; //become void ranger!
 
 	player_stand1();
 
@@ -746,7 +746,8 @@ void() WaterMove =
 	if (self.health < 0)
 		return;
 
-	if (self.waterlevel != 3)
+	//40Q - space marines can't drown?
+	/*if (self.waterlevel != 3)
 	{
 		if (self.air_finished < time)
 			sound(self, CHAN_VOICE, "player/gasp2.wav", 1, ATTN_NORM);
@@ -765,7 +766,7 @@ void() WaterMove =
 			T_Damage(self, world, world, self.dmg);
 			self.pain_finished = time + 1;
 		}
-	}
+	}*/
 
 	if (!self.waterlevel)
 	{
@@ -785,17 +786,16 @@ void() WaterMove =
 			if (self.radsuit_finished > time)
 				self.dmgtime = time + 1;
 			else
-				self.dmgtime = time + 0.2;
-
-			T_Damage(self, world, world, 10*self.waterlevel);
+				self.dmgtime = time + 2;
+			T_Damage(self, WORLD_ENT, world, 10*self.waterlevel);
 		}
 	}
 	else if (self.watertype == CONTENT_SLIME)
 	{ // do damage
 		if (self.dmgtime < time && self.radsuit_finished < time)
 		{
-			self.dmgtime = time + 1;
-			T_Damage(self, world, world, 4*self.waterlevel);
+			self.dmgtime = time + 4;
+			T_Damage(self, WORLD_ENT, world, 4*self.waterlevel);
 		}
 	}
 
@@ -1067,7 +1067,6 @@ void() PlayerPostThink =
 		return;
 
 // do weapon stuff
-
 	W_WeaponFrame();
 
 // check to see if player landed and play landing sound

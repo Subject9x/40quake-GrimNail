@@ -139,6 +139,7 @@ void() item_health =
 		setmodel(self, "maps/b_bh10.bsp");
 		self.noise = "items/r_item1.wav";
 		self.healamount = 15;
+		self.wounds = 1;
 		self.healtype = 0;
 	}
 	else
@@ -149,6 +150,7 @@ void() item_health =
 		setmodel(self, "maps/b_bh100.bsp");
 		self.noise = "items/r_item2.wav";
 		self.healamount = 100;
+		self.wounds = 5;
 		self.healtype = 2;
 	}
 	else
@@ -158,6 +160,7 @@ void() item_health =
 		setmodel(self, "maps/b_bh25.bsp");
 		self.noise = "items/health1.wav";
 		self.healamount = 25;
+		self.wounds = 3;
 		self.healtype = 1;
 	}
 	setsize(self, '0 0 0', '32 32 56');
@@ -525,7 +528,7 @@ void() weapon_supershotgun =
 	precache_model("progs/g_shot.mdl");
 	setmodel(self, "progs/g_shot.mdl");
 	self.weapon = IT_SUPER_SHOTGUN;
-	self.netname = "Double-barrelled Shotgun";
+	self.netname = "Astartes Shotgun";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
@@ -539,7 +542,7 @@ void() weapon_nailgun =
 	precache_model("progs/g_nail.mdl");
 	setmodel(self, "progs/g_nail.mdl");
 	self.weapon = IT_NAILGUN;
-	self.netname = "nailgun";
+	self.netname = "Tempest Boltgun";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
@@ -553,7 +556,7 @@ void() weapon_supernailgun =
 	precache_model("progs/g_nail2.mdl");
 	setmodel(self, "progs/g_nail2.mdl");
 	self.weapon = IT_SUPER_NAILGUN;
-	self.netname = "Super Nailgun";
+	self.netname = "Reaper Autocannon";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
@@ -567,7 +570,7 @@ void() weapon_grenadelauncher =
 	precache_model("progs/g_rock.mdl");
 	setmodel(self, "progs/g_rock.mdl");
 	self.weapon = 3;
-	self.netname = "Grenade Launcher";
+	self.netname = "Plasma Gun";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
@@ -596,7 +599,7 @@ void() weapon_lightning =
 	precache_model("progs/g_light.mdl");
 	setmodel(self, "progs/g_light.mdl");
 	self.weapon = 3;
-	self.netname = "Thunderbolt";
+	self.netname = "Meltagun";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
@@ -629,31 +632,37 @@ void() ammo_touch =
 
 
 // shotgun
-	if (self.weapon == 1)
+	if (self.weapon == IT_AMMO_SMALL)
 	{
-		if (other.ammo_shells >= 100)
-			return;
-		other.ammo_shells = other.ammo_shells + self.aflag;
+		if (other.ammo_shells < 100)
+			other.ammo_shells = other.ammo_shells + self.aflag / 2;
+		
+		if (other.ammo_nails < 200)
+			other.ammo_nails = other.ammo_nails + self.aflag / 2;
 	}
 
 // spikes
-	if (self.weapon == 2)
+	if (self.weapon == IT_AMMO_LT)
 	{
-		if (other.ammo_nails >= 200)
-			return;
-		other.ammo_nails = other.ammo_nails + self.aflag;
+		if (other.ammo_shells < 100)
+			other.ammo_shells = other.ammo_shells + self.aflag / 2;
+		
+		if (other.ammo_nails < 200)
+			other.ammo_nails = other.ammo_nails + self.aflag / 2;
 	}
 
 //	rockets
-	if (self.weapon == 3)
+	if (self.weapon == IT_AMMO_HVY)
 	{
-		if (other.ammo_rockets >= 100)
-			return;
-		other.ammo_rockets = other.ammo_rockets + self.aflag;
+		if (other.ammo_rockets < 100)
+			other.ammo_rockets = other.ammo_rockets + self.aflag;
+		
+		if (other.ammo_nails < 200)
+			other.ammo_nails = other.ammo_nails + self.aflag;
 	}
 
 //	cells
-	if (self.weapon == 4)
+	if (self.weapon == IT_AMMO_CELLS)
 	{
 		if (other.ammo_cells >= 200)
 			return;
@@ -722,7 +731,7 @@ void() item_shells =
 		setmodel(self, "maps/b_shell0.bsp");
 		self.aflag = 20;
 	}
-	self.weapon = 1;
+	self.weapon = IT_AMMO_SMALL;
 	self.netname = "light ammo";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
@@ -747,7 +756,7 @@ void() item_spikes =
 		setmodel(self, "maps/b_nail0.bsp");
 		self.aflag = 25;
 	}
-	self.weapon = 2;
+	self.weapon = IT_AMMO_LT;
 	self.netname = "bolter ammo";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
@@ -764,15 +773,17 @@ void() item_rockets =
 	{
 		precache_model("maps/b_rock1.bsp");
 		setmodel(self, "maps/b_rock1.bsp");
-		self.aflag = 10;
+		//self.aflag = 10; //stock
+		self.aflag = 25; //stock
 	}
 	else
 	{
 		precache_model("maps/b_rock0.bsp");
 		setmodel(self, "maps/b_rock0.bsp");
-		self.aflag = 5;
+		//self.aflag = 5; //stock
+		self.aflag = 10; //stock
 	}
-	self.weapon = 3;
+	self.weapon = IT_AMMO_HVY;
 	self.netname = "heavy ammo";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
@@ -798,7 +809,7 @@ void() item_cells =
 		setmodel(self, "maps/b_batt0.bsp");
 		self.aflag = 6;
 	}
-	self.weapon = 4;
+	self.weapon = IT_AMMO_CELLS;
 	self.netname = "cells";
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();

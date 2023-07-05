@@ -119,14 +119,16 @@ void(vector org, vector vec) LaunchLaser =
 
 void() enforcer_fire =
 {
-	vector org;
+	W_FireHvyStub();
+	//todo - remove when ready
+	/*vector org;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	makevectors(self.angles);
 
 	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
 
-	LaunchLaser(org, self.enemy.origin - self.origin);
+	LaunchLaser(org, self.enemy.origin - self.origin);*/
 };
 
 //============================================================================
@@ -177,17 +179,47 @@ void() enf_run8 = [ $run8  , enf_run1 ] { ai_run(11); };
 
 void() enf_atk1 = [ $attack1, enf_atk2 ] { ai_face(); };
 void() enf_atk2 = [ $attack2, enf_atk3 ] { ai_face(); };
-void() enf_atk3 = [ $attack3, enf_atk4 ] { ai_face(); };
-void() enf_atk4 = [ $attack4, enf_atk5 ] { ai_face(); };
-void() enf_atk5 = [ $attack5, enf_atk6 ] { ai_face(); };
-void() enf_atk6 = [ $attack6, enf_atk7 ] { enforcer_fire(); };
-void() enf_atk7 = [ $attack7, enf_atk8 ] { ai_face(); };
-void() enf_atk8 = [ $attack8, enf_atk9 ] { ai_face(); };
-void() enf_atk9 = [ $attack5, enf_atk10 ] { ai_face(); };
-void() enf_atk10 = [ $attack6, enf_atk11 ] { enforcer_fire(); };
-void() enf_atk11 = [ $attack7, enf_atk12 ] { ai_face(); };
-void() enf_atk12 = [ $attack8, enf_atk13 ] { ai_face(); };
-void() enf_atk13 = [ $attack9, enf_atk14 ] { ai_face(); };
+void() enf_atk3 = [ $attack3, enf_atk4 ] { 
+	ai_face();
+	enforcer_fire();
+};
+void() enf_atk4 = [ $attack4, enf_atk5 ] { 
+	enforcer_fire(); 
+	ai_face();
+};
+void() enf_atk5 = [ $attack5, enf_atk6 ] { 
+	ai_face();
+};
+void() enf_atk6 = [ $attack6, enf_atk7 ] { 
+	enforcer_fire(); 
+};
+void() enf_atk7 = [ $attack7, enf_atk8 ] { 
+	ai_face();
+};
+void() enf_atk8 = [ $attack8, enf_atk9 ] { 
+	enforcer_fire();
+	if(cvar("skill") > 1){
+	 	ai_face(); 
+	}
+};
+void() enf_atk9 = [ $attack5, enf_atk10 ] { 
+	ai_face();
+ };
+void() enf_atk10 = [ $attack6, enf_atk11 ] { 
+	enforcer_fire(); 
+};
+void() enf_atk11 = [ $attack7, enf_atk12 ] { 
+	ai_face();
+ };
+void() enf_atk12 = [ $attack8, enf_atk13 ] { 
+	enforcer_fire();
+	if(cvar("skill") > 1){
+	 	ai_face(); 
+	}
+};
+void() enf_atk13 = [ $attack9, enf_atk14 ] { 
+	ai_face();
+ };
 void() enf_atk14 = [ $attack10, enf_run1 ]
 {
 	ai_face();
@@ -382,6 +414,10 @@ void() monster_enforcer =
 	self.armor_save = ENFORCE_ARMOR_SV;
 	self.invuln_save = ENFORCE_INVULN;
 	self.wounds = ENFORCE_WOUNDS;
+
+	self.weapon_str = HVYSTUB_STR;
+	self.weapon_ap = HVYSTUB_AP;
+	self.weapon_dmg = HVYSTUB_DMG;
 	//------------------------
 
 	walkmonster_start();

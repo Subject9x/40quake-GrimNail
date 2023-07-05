@@ -10,17 +10,15 @@
 #define IT_ROCKET_LAUNCH 32
 #define IT_MELTAGUN 64
 
-#define IT_SMALL 256
-#define IT_AMMO_LT 512
-#define IT_AMMO_HVY 1024
-#define IT_CELLS 2048
+//#define IT_SMALL 256
+//#define IT_AMMO_LT 512
+//#define IT_AMMO_HVY 1024
+//#define IT_CELLS 2048
 
-#define AMMO_COST_HBOLT 2
-#define AMMO_COST_STORMBOLT 2
-#define AMMO_COST_BOLT 1
-#define AMMO_COST_MISSILE 2
-#define AMMO_COST_PLAS 3
-#define AMMO_COST_MELT 7
+#define IT_AMMO_SMALL 1
+#define IT_AMMO_LT 2
+#define IT_AMMO_HVY 3
+#define IT_AMMO_CELLS 4
 
 /*
 #define DMG_SHOTTGUN 6
@@ -31,14 +29,6 @@
 #define DMG_ROCKET 100
 #define DMG_MELTA 100
 */
-
-#define DMG_BOLTGUN 4
-#define DMG_ASTSHOTG 1
-#define DMG_TEMPEST 1
-#define DMG_HVYBOLT 5
-#define DMG_PLASMA 8
-#define DMG_ROCKET 6
-#define DMG_MELTA 12
 
 #define FL_DEMON 8192
 #define FL_MOB 16384
@@ -56,7 +46,6 @@
 .float invuln_save;
 .float wounds;
 .float demon_mark;
-
 
 // Ranged weapon stats
 .float weapon_str;
@@ -97,3 +86,5 @@ void(string msg, float val) logFloat={
 	dprint(ftos(val));
 	dprint("\n");
 };
+
+entity WORLD_ENT;	//stand-in for World something something assignable fields.

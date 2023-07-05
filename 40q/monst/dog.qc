@@ -62,6 +62,7 @@ void() dog_bite =
 {
 	vector delta;
 	float ldmg;
+	vector oWep;
 
 	if (!self.enemy)
 		return;
@@ -77,12 +78,22 @@ void() dog_bite =
 		return;
 
 	ldmg = (random() + random() + random()) * 8;
+
+	self.weapon_str = self.melee_str + self.strength;
+	self.weapon_ap = self.melee_ap;
+	self.weapon_dmg = self.melee_dmg;
+
 	T_Damage(self.enemy, self, self, ldmg);
+
+	self.weapon_str = oWep_x;
+	self.weapon_ap = oWep_y;
+	self.weapon_dmg = oWep_z;
 };
 
 void() Dog_JumpTouch =
 {
 	float ldmg;
+	vector oWep;
 
 	if (self.health <= 0)
 		return;
@@ -92,7 +103,16 @@ void() Dog_JumpTouch =
 		if (vlen(self.velocity) > 300)
 		{
 			ldmg = 10 + 10*random();
-			T_Damage(other, self, self, ldmg);
+
+			self.weapon_str = self.melee_str + self.strength;
+			self.weapon_ap = self.melee_ap;
+			self.weapon_dmg = self.melee_dmg;
+		
+			T_Damage(self.enemy, self, self, ldmg);
+		
+			self.weapon_str = oWep_x;
+			self.weapon_ap = oWep_y;
+			self.weapon_dmg = oWep_z;
 		}
 	}
 
@@ -388,6 +408,10 @@ void() monster_dog =
 	self.armor_save = DOG_ARMOR_SV;
 	self.invuln_save = DOG_INVULN;
 	self.wounds = DOG_WOUNDS;
+
+	self.melee_str = DOG_BITE_STR;
+	self.melee_ap = DOG_BITE_AP;
+	self.melee_dmg = DOG_BITE_DMG;
 	//------------------------
 
 	walkmonster_start();

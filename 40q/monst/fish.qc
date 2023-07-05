@@ -209,6 +209,10 @@ void() monster_fish =
 	self.armor_save = FISH_ARMOR_SV;
 	self.invuln_save = FISH_INVULN;
 	self.wounds = FISH_WOUNDS;
+
+	self.weapon_str = FISH_STR + FISH_BITE_STR;
+	self.weapon_ap = FISH_BITE_AP;
+	self.weapon_dmg = FISH_BITE_DMG;
 	//------------------------
 
 	swimmonster_start();

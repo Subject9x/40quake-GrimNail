@@ -263,6 +263,14 @@ void() monster_shalrath =
 	self.armor_save = VORE_ARMOR_SV;
 	self.invuln_save = VORE_INVULN;
 	self.wounds = VORE_WOUNDS;
+
+	self.melee_str = VORE_CLAW_STR + VORE_STR;
+	self.melee_ap = VORE_CLAW_AP;
+	self.melee_dmg = VORE_CLAW_DMG;
+
+	self.weapon_str = VORE_SPELL_STR;
+	self.weapon_ap = VORE_SPELL_AP;
+	self.weapon_dmg = VORE_SPELL_DMG;
 	//------------------------
 
 	self.think = walkmonster_start;
