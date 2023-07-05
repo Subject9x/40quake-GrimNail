@@ -1,0 +1,5 @@
+*.bat
+*.exe
+*.asm
+*.txt
+fteqcc
