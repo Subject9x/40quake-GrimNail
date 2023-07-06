@@ -252,45 +252,32 @@ void() armor_touch =
 
 	if (other.health <= 0)
 		return;
+	
 	if (other.classname != "player")
 		return;
 
-	if (self.classname == "item_armor1")
-	{
-		value = 1;
-		bit = IT_ARMOR1;
-	}
-	if (self.classname == "item_armor2")
-	{
-		value = 2;
-		bit = IT_ARMOR2;
-	}
-	if (self.classname == "item_armorInv")
-	{
-		value = 3;
-		bit = IT_ARMOR3;
-	}
-	if((other.items & bit)){
+	if((other.items & self.armortype))
 		return;
-	}
-
-	if(bit == IT_ARMOR1){
-		self.toughness = self.toughness + 1;
+	
+	if(self.armortype == IT_ARMOR1){
+		other.toughness = self.toughness + 1;
+		other.armorvalue = 100;
 		sprint(other, "Armor MKII\n");
 		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
-	if(bit == IT_ARMOR2){
-		self.armor_save = self.armor_save - 1;
+	if(self.armortype == IT_ARMOR2){
+		other.armor_save = self.armor_save - 1;
+		other.armorvalue = 200;
 		sprint(other, "Armor MKIII\n");
 		centerprint(other, "Armor Upgrade - Armor Save + 1");
 	}
-	if(bit == IT_ARMOR3){
-		self.invuln_save = self.invuln_save - 1;
+	if(self.armortype == IT_ARMOR3){
+		other.invuln_save = self.invuln_save - 1;
+		other.armorvalue = 300;
 		sprint(other, "Armor MKIV - ");
 		centerprint(other, "Armor Upgrade - Invuln Save + 1\n Toughness + 1");
 	}
-	other.armorvalue = value;
-	other.items = other.items | bit;
+	other.items = other.items | self.armortype;
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;
@@ -316,6 +303,7 @@ void() item_armor1 =
 	precache_model("progs/armor.mdl");
 	setmodel(self, "progs/armor.mdl");
 	self.skin = 0;
+	self.armortype = IT_ARMOR1;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
 };
@@ -329,6 +317,7 @@ void() item_armor2 =
 	precache_model("progs/armor.mdl");
 	setmodel(self, "progs/armor.mdl");
 	self.skin = 1;
+	self.armortype = IT_ARMOR2;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
 };
@@ -342,6 +331,7 @@ void() item_armorInv =
 	precache_model("progs/armor.mdl");
 	setmodel(self, "progs/armor.mdl");
 	self.skin = 2;
+	self.armortype = IT_ARMOR3;
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
 };

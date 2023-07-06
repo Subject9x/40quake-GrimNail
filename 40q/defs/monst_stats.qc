@@ -39,8 +39,8 @@
 #define ZOMBIE_HP 150
 #define ZOMBIE_STR 3
 #define ZOMBIE_TOUGH 4
-#define ZOMBIE_ARMOR_SV 0
-#define ZOMBIE_INVULN 6
+#define ZOMBIE_ARMOR_SV 6
+#define ZOMBIE_INVULN 0
 #define ZOMBIE_WOUNDS 3
 
 #define SOLDIER_HP 50
@@ -71,7 +71,7 @@
 #define WIZARD_HP 100
 #define WIZARD_STR 3
 #define WIZARD_TOUGH 3
-#define WIZARD_ARMOR_SV 0
+#define WIZARD_ARMOR_SV 7
 #define WIZARD_INVULN 5
 #define WIZARD_WOUNDS 2
 

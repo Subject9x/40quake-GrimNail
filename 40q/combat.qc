@@ -167,11 +167,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		float armorSv;
 		float calcDmg;
 
-		logFloat("----------------\nTough", targ.toughness);	//debug
-		logFloat("armor", targ.armor_save);	//debug
-		logFloat("AP", inflictor.weapon_ap);	//debug
-		logFloat("STR", inflictor.weapon_str);	//debug
-
 		toWound = 4;
 		if(wepStr > targ.toughness)
 		{
@@ -187,26 +182,22 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 				toWound = 6;
 			}
 		}
-		roll = floor(1.0 + (random() * 5.0));
-		logFloat("toWound", toWound);	//debug
-		logFloat("Wound roll", roll);	//debug
+		roll = ceil(1.0 + (random() * 5.0));
 
 		if(roll >= toWound){
 			if(targ.armor_save || targ.invuln_save){
-				roll = floor(1.0 + (random() * 5.0));
+				roll = ceil(1.0 + (random() * 5.0));
 				armorSv = roll + wepAp;
 
 				if(armorSv >= targ.armor_save){
 					//successful armor save.
 					take = 0;
-					logFloat("ARMOR SAVE DMG", take);	//debug
 					sfx_armor_save(targ);
 				}
 				else{
 					if(targ.invuln_save && roll >= targ.invuln_save){
 						//successful armor save.
 						take = 0;
-						logFloat("INVULN SAVE DMG", take);	//debug
 						sfx_armor_save(targ);
 					}
 					else{
@@ -214,11 +205,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 						targ.wounds = targ.wounds - wepDmg;
 						if(targ.wounds <= 0 ){
 							take = targ.max_health * (1.0 + random() * 0.5);
-							logFloat("NO WOUNDS DEAD!", take);	//debug
 						}
 						else{
 							take = wepDmg * 50;
-							logFloat("TAKE WOUND DAMAGE", take);	//debug
 						}
 					}
 				}
@@ -226,13 +215,11 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			else{
 				//no armor save, take pure damage
 				take = wepDmg * 50;
-				logFloat("No-ARMOR Hit", take);	//debug
 			}
 		}
 		else{
 			//failed to wound, do chip damage.
 			take = 0;
-			logFloat("No-Wound Chip", take);	//debug
 			sfx_armor_save(targ);
 		}
 	}
@@ -384,7 +371,8 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 						//	T_Damage(head, inflictor, attacker, points*0.5);
 						//else
 						//	T_Damage(head, inflictor, attacker, points);
-						T_Damage(head, inflictor, attacker, points);
+						if(head != inflictor.owner)
+							T_Damage(head, inflictor, attacker, points);
 					}
 				}
 			}

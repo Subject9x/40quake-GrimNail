@@ -17,20 +17,20 @@
 #define BOLTGUN_DMG 1
 #define BOLTGUN_STR 4
 #define BOLTGUN_AP -1
-#define BOLTGUN_AMMO_COST 1
+#define BOLTGUN_AMMO_COST 2
 #define BOLTGUN_ROF 0.6
 
 #define ASTSHOTG_DMG 2
-#define ASTSHOTG_STR 3
+#define ASTSHOTG_STR 4
 #define ASTSHOTG_AP 0
 #define ASTSHOTG_AMMO_COST 2
 #define ASTSHOTG_ROF 0.75
 
 #define TEMPEST_DMG 1
 #define TEMPEST_STR 4
-#define TEMPEST_AP 1
-#define TEMPEST_AMMO_COST 3
-#define TEMPEST_ROF 0.3
+#define TEMPEST_AP -1
+#define TEMPEST_AMMO_COST 4
+#define TEMPEST_ROF 0.25
 
 #define HVYBOLT_DMG 2
 #define HVYBOLT_STR 7
@@ -50,11 +50,12 @@
 #define ROCKET_AMMO_COST 5
 #define ROCKET_ROF 0.6
 
-#define MELTA_DMG 3
+#define MELTA_DMG 6
 #define MELTA_STR 8
 #define MELTA_AP -4
-#define MELTA_AMMO_COST 1
+#define MELTA_AMMO_COST 20
 #define MELTA_ROF 0.75
+#define MELTA_RANGE 450
 
 
 //Monster weapons

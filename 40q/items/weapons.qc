@@ -72,6 +72,7 @@ void() W_FireAxe =
 			trace_ent.axhitme = 1;
 			SpawnBlood(org, '0 0 0', 20);
 		}
+		
 		oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 		self.weapon_str = self.melee_str + self.strength;
 		self.weapon_ap = self.melee_ap;
@@ -372,7 +373,6 @@ void() BecomeExplosion =
 
 void() T_MissileTouch =
 {
-	float damg;
 
 	if (other == self.owner)
 		return; // don't explode on owner
@@ -383,18 +383,12 @@ void() T_MissileTouch =
 		return;
 	}
 
-	damg = ROCKET_DMG + random()*20;
-
 	if (other.health)
-	{
-		if (other.classname == "monster_shambler")
-			damg = damg * 0.5; // mostly immune
-		T_Damage(other, self, self.owner, damg );
-	}
-
+		T_Damage(other, self, self.owner, self.weapon_dmg * 50 );
+	
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
-	T_RadiusDamage(self, self.owner, 120, other);
+	T_RadiusDamage(self, self.owner, 150, other);
 
 //	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
@@ -470,13 +464,16 @@ void() T_PlasmaTouch =
 	damg = PLASMA_DMG + random()*20;
 
 	if (other.health)
-	{
 		T_Damage(other, self, self.owner, damg );
-	}
 
+	
+	self.weapon_str = self.weapon_str * 0.5;
+	self.weapon_ap = self.weapon_ap * 0.5;
+	self.weapon_dmg = 1;
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
-	T_RadiusDamage(self, self.owner, 120, other);
+
+	T_RadiusDamage(self, self.owner, 24, other);
 
 //	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
@@ -498,6 +495,7 @@ W_FirePlasma
 void() W_FirePlasma =
 {
 	entity missile;
+	float waterVel;
 
 	self.currentammo = self.ammo_cells = self.ammo_cells - PLASMA_AMMO_COST;
 
@@ -512,9 +510,13 @@ void() W_FirePlasma =
 
 // set missile speed
 
+	waterVel = 650;
+	if(self.waterlevel > 1)
+		waterVel = waterVel * 0.5;
+
 	makevectors(self.v_angle);
 	missile.velocity = aim(self, 1000);
-	missile.velocity = missile.velocity * 650;	// 1000
+	missile.velocity = missile.velocity * waterVel;	// 1000
 	//missile.angles = vectoangles(missile.velocity);
 	missile.avelocity = '200 100 300';
 
@@ -693,11 +695,13 @@ void(vector p1, vector p2, entity from, float damage) MeltaDamage =
 void() W_FireMeltaGun={
 	vector org;
 
+	float range;
+
 	if (time < self.attack_finished){
 		return;
 	}	
 
-	if (self.ammo_cells < 1)
+	if (self.ammo_cells < MELTA_AMMO_COST)
 	{
 		self.weapon = W_BestWeapon();
 		W_SetCurrentAmmo();
@@ -714,6 +718,10 @@ void() W_FireMeltaGun={
 		return;
 	}
 	*/
+	range = MELTA_RANGE;
+	if(self.waterlevel > 1)
+		range = range * 0.5;
+
 	if (self.t_width < time)
 	{
 		sound(self, CHAN_WEAPON, "weapons/lhit.wav", 1, ATTN_NORM);
@@ -726,7 +734,7 @@ void() W_FireMeltaGun={
 	org = self.origin + '0 0 16';
 
 	//traceline(org, org + v_forward*600, TRUE, self);
-	traceline(org, org + v_forward*400, TRUE, self);
+	traceline(org, org + v_forward*range, TRUE, self);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_LIGHTNING2);
@@ -740,7 +748,7 @@ void() W_FireMeltaGun={
 
 	MeltaDamage(self.origin, trace_endpos + v_forward*4, self, MELTA_DMG);
 
-	self.attack_finished = time + 1.0;
+	self.attack_finished = time + MELTA_ROF;
 };
 
 //=============================================================================
@@ -1089,6 +1097,8 @@ Used for both the player and the ogre
 */
 void(vector org, vector dir) launch_bolt_rnd =
 {
+	float waterVel;
+
 	newmis = spawn();
 	newmis.owner = self;
 	newmis.movetype = MOVETYPE_FLYMISSILE;
@@ -1104,7 +1114,11 @@ void(vector org, vector dir) launch_bolt_rnd =
 	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 	setorigin(newmis, org);
 
-	newmis.velocity = dir * 850;	//1000
+	waterVel = 850;
+	if(self.waterlevel > 1)
+		waterVel = waterVel * 0.5;
+	
+	newmis.velocity = dir * waterVel;	//1000
 
 	newmis.weapon_str = self.weapon_str;
 	newmis.weapon_ap = self.weapon_ap;
@@ -1115,16 +1129,15 @@ void() W_FireHeavyBolter =
 {
 	vector dir;
 
-	if (time < self.attack_finished)
-	{
-		return;
-	}
-	if (self.ammo_rockets < 1)
+	if (self.ammo_rockets < HVYBOLT_AMMO_COST)
 	{
 		self.weapon = W_BestWeapon();
 		W_SetCurrentAmmo();
 		return;
 	}
+
+	if (time < self.attack_finished)
+		return;
 
 	sound(self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
 	self.attack_finished = time + HVYBOLT_ROF;
@@ -1150,18 +1163,16 @@ void() W_FireBoltgun =
 
 	vector dir;
 
-	if (time < self.attack_finished)
-	{
-		return;
-	}
-
-	if (self.ammo_nails < 1)
+	if (self.ammo_nails < BOLTGUN_AMMO_COST)
 	{
 		self.weapon = W_BestWeapon();
 		W_SetCurrentAmmo();
 		return;
 	}
 
+	if (time < self.attack_finished)
+		return;
+	
 	sound(self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
 	self.attack_finished = time + BOLTGUN_ROF;
 	
@@ -1185,28 +1196,25 @@ void(float ox) W_FireBolt =
 
 	makevectors(self.v_angle);
 
-	if ( self.weapon == IT_SUPER_NAILGUN && self.ammo_rockets > 0)
+	if ( self.weapon == IT_SUPER_NAILGUN )
 	{
-		//W_FireSuperSpikes();
 		W_FireHeavyBolter();
 		return;
 	}
-	if (self.weapon == IT_SHOTGUN && self.ammo_nails > 0)
+	if (self.weapon == IT_SHOTGUN )
 	{
 		W_FireBoltgun();
 		return;
 	}
 
-	if (time < self.attack_finished)
-	{
-		return;
-	}
-	if (self.ammo_nails < 1)
+	if (self.ammo_nails < TEMPEST_AMMO_COST)
 	{
 		self.weapon = W_BestWeapon();
 		W_SetCurrentAmmo();
 		return;
 	}
+	if (time < self.attack_finished)
+		return;
 
 	sound(self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
 	self.attack_finished = time + TEMPEST_ROF;
@@ -1439,20 +1447,20 @@ float() W_BestWeapon =
 
 	it = self.items;
 
-	if (self.ammo_cells >= MELTA_AMMO_COST && (it & IT_LIGHTNING) && self.waterlevel > 1)
+	if (self.ammo_cells >= MELTA_AMMO_COST && (it & IT_LIGHTNING))
 		return IT_LIGHTNING;
-	else if (self.ammo_cells >= PLASMA_AMMO_COST && (it & IT_MELTAGUN))
+	else if (self.ammo_cells >= PLASMA_AMMO_COST && (it & IT_PLASMA_GUN))
 		return IT_PLASMA_GUN;
 	else if (self.ammo_rockets >= HVYBOLT_AMMO_COST && (it & IT_HVY_BOLTER))
 		return IT_HVY_BOLTER;
 	else if (self.ammo_nails >= TEMPEST_AMMO_COST && (it & IT_TEMPEST_BOLTER))
 		return IT_TEMPEST_BOLTER;
 	else if (self.ammo_rockets >= ROCKET_AMMO_COST && (it & IT_ROCKET_LAUNCHER))
-		return IT_TEMPEST_BOLTER;
-	else if (self.ammo_shells >= ASTSHOTG_AMMO_COST && (it & IT_SPACE_SHOTG))
-		return IT_SPACE_SHOTG;
+		return IT_ROCKET_LAUNCHER;
 	else if (self.ammo_nails >= BOLTGUN_AMMO_COST && (it & IT_BOLTGUN))
 		return IT_BOLTGUN;
+	else if (self.ammo_shells >= ASTSHOTG_AMMO_COST && (it & IT_SPACE_SHOTG))
+		return IT_SPACE_SHOTG;
 
 /*
 	if (self.ammo_rockets >= 1 && (it & IT_ROCKET_LAUNCHER))

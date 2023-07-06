@@ -171,12 +171,16 @@ void() ShalMissile =
 	setsize(missile, '0 0 0', '0 0 0');
 
 	missile.origin = self.origin + '0 0 10';
-	missile.velocity = dir * 400;
+	missile.velocity = dir * 350;	//400
 	missile.avelocity = '300 300 300';
 	missile.nextthink = flytime + time;
 	missile.think = ShalHome;
 	missile.enemy = self.enemy;
 	missile.touch = ShalMissileTouch;
+
+	missile.weapon_str = self.weapon_str;
+	missile.weapon_ap = self.weapon_ap;
+	missile.weapon_dmg = self.weapon_dmg;
 };
 
 void() ShalHome =
@@ -190,9 +194,9 @@ void() ShalHome =
 	}
 	dir = normalize(vtemp - self.origin);
 	if (skill == 3)
-		self.velocity = dir * 350;
+		self.velocity = dir * 300;	//350
 	else
-		self.velocity = dir * 250;
+		self.velocity = dir * 200;	//250
 	self.nextthink = time + 0.2;
 	self.think = ShalHome;
 };
@@ -204,6 +208,8 @@ void() ShalMissileTouch =
 
 	if (other.classname == "monster_zombie")
 		T_Damage(other, self, self, 110);
+
+	
 	T_RadiusDamage(self, self.owner, 40, world);
 	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 

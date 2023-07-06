@@ -51,7 +51,7 @@ void() info_intermission =
 void() SetChangeParms =
 {
 // remove items
-	self.items -= self.items & (IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD | IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3);
+	self.items = self.items - self.items & (IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD | IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3);
 
 // cap super health
 	if (self.health > 100)
