@@ -4,9 +4,24 @@
 In the dark grimness of the retro-fps, 1...void...ranger must purge our dimension of a hostile invasion.
 
 ## features?
-+ gim dark items.
-+ new flavored mobs.
+### Weapons
++ Axe -> Chain Axe
++ Shotgun -> Boltgun
++ Super Shot -> Scattergun
++ Nailgun -> Tempest Bolter
++ Super Nail -> Heavy Bolter
++ Grenade Launcher -> Plasma Gun
++ Lightning -> Meltagun
 
+### Damage mechanics
++ Tabletop-based stats for monsters and weapons.
++ T_Damage does rules-based check with dice rolls for damage, heh.
+
+### Mobs
++ Mobs re-done to fit mechanics and themes, rebalanced too.
+
+### Items
++ WIP.
 
 ### Credit
 + Source code based on the great https://github.com/shpuld/id1-quakec-cleaned
