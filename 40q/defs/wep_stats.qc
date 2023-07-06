@@ -9,28 +9,28 @@
 #define DMG_MELTA 12
 */
 
-#define CHAINAXE_DMG 0.5
+#define CHAINAXE_DMG 1
 #define CHAINAXE_STR 0  //+1
 #define CHAINAXE_AP 0
-#define CHAINAXE_ROF 1.0
+#define CHAINAXE_ROF 0.85
 
 #define BOLTGUN_DMG 1
 #define BOLTGUN_STR 4
 #define BOLTGUN_AP -1
-#define BOLTGUN_AMMO_COST 2
+#define BOLTGUN_AMMO_COST 1
 #define BOLTGUN_ROF 0.6
 
-#define ASTSHOTG_DMG 1
-#define ASTSHOTG_STR 4
-#define ASTSHOTG_AP 1
-#define ASTSHOTG_AMMO_COST 1
+#define ASTSHOTG_DMG 2
+#define ASTSHOTG_STR 3
+#define ASTSHOTG_AP 0
+#define ASTSHOTG_AMMO_COST 2
 #define ASTSHOTG_ROF 0.75
 
-#define TEMPEST_DMG 0.33
-#define TEMPEST_STR 3
-#define TEMPEST_AP 0
-#define TEMPEST_AMMO_COST 1
-#define TEMPEST_ROF 0.1
+#define TEMPEST_DMG 1
+#define TEMPEST_STR 4
+#define TEMPEST_AP 1
+#define TEMPEST_AMMO_COST 3
+#define TEMPEST_ROF 0.3
 
 #define HVYBOLT_DMG 2
 #define HVYBOLT_STR 7
@@ -41,12 +41,12 @@
 #define PLASMA_DMG 1
 #define PLASMA_STR 7
 #define PLASMA_AP -3
-#define PLASMA_AMMO_COST 1
+#define PLASMA_AMMO_COST 2
 #define PLASMA_ROF 0.6
 
 #define ROCKET_DMG 1
 #define ROCKET_STR 4
-#define ROCKET_AP -1
+#define ROCKET_AP 0
 #define ROCKET_AMMO_COST 5
 #define ROCKET_ROF 0.6
 

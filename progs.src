@@ -22,7 +22,8 @@ doors.qc
 buttons.qc
 triggers.qc
 plats.qc
-misc.qc
+
+40q/misc.qc
 
 40q/monst/ogre.qc
 40q/monst/demon.qc

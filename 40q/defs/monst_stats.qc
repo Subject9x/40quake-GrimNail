@@ -15,12 +15,12 @@
 #define MOB_HP_SHAMBLER 600
 */
 
-#define PLAYER_HP 800
-#define PLAYER_TOUGH 5
-#define PLAYER_STR 5
+#define PLAYER_HP 500
+#define PLAYER_TOUGH 4
+#define PLAYER_STR 4
 #define PLAYER_ARMOR_SV 3
 #define PLAYER_INVULN 4
-#define PLAYER_WOUNDS 8
+#define PLAYER_WOUNDS 10
 
 #define FISH_HP 50
 #define FISH_STR 2

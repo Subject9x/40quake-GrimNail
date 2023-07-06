@@ -23,6 +23,18 @@ void(entity targ, entity attacker) ClientObituary;
 
 void() monster_death_use;
 
+void(entity t) sfx_armor_save={
+
+	float r;
+
+	r = random();
+	if(r < 0.34)
+		sound(t, CHAN_AUTO, "weapons/ric1.wav", 1, ATTN_NORM);
+	else if(r < 0.68)
+		sound(t, CHAN_AUTO, "weapons/ric2.wav", 1, ATTN_NORM);
+	else
+		sound(t, CHAN_AUTO, "weapons/ric3.wav", 1, ATTN_NORM);
+};
 //============================================================================
 
 /*
@@ -186,20 +198,22 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 				if(armorSv >= targ.armor_save){
 					//successful armor save.
-					take = wepDmg * 1.5;
+					take = 0;
 					logFloat("ARMOR SAVE DMG", take);	//debug
+					sfx_armor_save(targ);
 				}
 				else{
 					if(targ.invuln_save && roll >= targ.invuln_save){
 						//successful armor save.
-						take = wepDmg * 1.5;
+						take = 0;
 						logFloat("INVULN SAVE DMG", take);	//debug
+						sfx_armor_save(targ);
 					}
 					else{
 						//take wounds from weapon dmg
 						targ.wounds = targ.wounds - wepDmg;
 						if(targ.wounds <= 0 ){
-							take = targ.health_max * (1.0 + random() * 0.5);
+							take = targ.max_health * (1.0 + random() * 0.5);
 							logFloat("NO WOUNDS DEAD!", take);	//debug
 						}
 						else{
@@ -214,12 +228,12 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 				take = wepDmg * 50;
 				logFloat("No-ARMOR Hit", take);	//debug
 			}
-
 		}
 		else{
 			//failed to wound, do chip damage.
-			take = wepDmg * 2;
+			take = 0;
 			logFloat("No-Wound Chip", take);	//debug
+			sfx_armor_save(targ);
 		}
 	}
 	else{

@@ -858,6 +858,10 @@ void(vector org, vector dir) launch_spike =
 	setorigin(newmis, org);
 
 	newmis.velocity = dir * 1000;
+
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
 };
 
 void() W_FireSuperSpikes =
@@ -1435,16 +1439,20 @@ float() W_BestWeapon =
 
 	it = self.items;
 
-	if (self.ammo_cells >= 1 && (it & IT_LIGHTNING) && self.waterlevel > 1)
+	if (self.ammo_cells >= MELTA_AMMO_COST && (it & IT_LIGHTNING) && self.waterlevel > 1)
 		return IT_LIGHTNING;
-	else if (self.ammo_nails >= 2 && (it & IT_SUPER_NAILGUN))
-		return IT_SUPER_NAILGUN;
-	else if (self.ammo_shells >= 2 && (it & IT_SUPER_SHOTGUN))
-		return IT_SUPER_SHOTGUN;
-	else if (self.ammo_nails >= 1 && (it & IT_NAILGUN))
-		return IT_NAILGUN;
-	else if (self.ammo_shells >= 1 && (it & IT_SHOTGUN))
-		return IT_SHOTGUN;
+	else if (self.ammo_cells >= PLASMA_AMMO_COST && (it & IT_MELTAGUN))
+		return IT_PLASMA_GUN;
+	else if (self.ammo_rockets >= HVYBOLT_AMMO_COST && (it & IT_HVY_BOLTER))
+		return IT_HVY_BOLTER;
+	else if (self.ammo_nails >= TEMPEST_AMMO_COST && (it & IT_TEMPEST_BOLTER))
+		return IT_TEMPEST_BOLTER;
+	else if (self.ammo_rockets >= ROCKET_AMMO_COST && (it & IT_ROCKET_LAUNCHER))
+		return IT_TEMPEST_BOLTER;
+	else if (self.ammo_shells >= ASTSHOTG_AMMO_COST && (it & IT_SPACE_SHOTG))
+		return IT_SPACE_SHOTG;
+	else if (self.ammo_nails >= BOLTGUN_AMMO_COST && (it & IT_BOLTGUN))
+		return IT_BOLTGUN;
 
 /*
 	if (self.ammo_rockets >= 1 && (it & IT_ROCKET_LAUNCHER))
@@ -1578,44 +1586,44 @@ void() W_ChangeWeapon =
 	}
 	else if (self.impulse == 2)
 	{
-		fl = IT_SHOTGUN;
-		if (self.ammo_shells < 1)
+		fl = IT_BOLTGUN;
+		if (self.ammo_nails < BOLTGUN_AMMO_COST)
 			am = 1;
 	}
 	else if (self.impulse == 3)
 	{
-		fl = IT_SUPER_SHOTGUN;
-		if (self.ammo_shells < 2)
+		fl = IT_SPACE_SHOTG;
+		if (self.ammo_shells < ASTSHOTG_AMMO_COST)
 			am = 1;
 	}
 	else if (self.impulse == 4)
 	{
-		fl = IT_NAILGUN;
-		if (self.ammo_nails < 1)
+		fl = IT_TEMPEST_BOLTER;
+		if (self.ammo_nails < TEMPEST_AMMO_COST)
 			am = 1;
 	}
 	else if (self.impulse == 5)
 	{
-		fl = IT_SUPER_NAILGUN;
-		if (self.ammo_nails < 2)
+		fl = IT_HVY_BOLTER;
+		if (self.ammo_rockets < HVYBOLT_AMMO_COST)
 			am = 1;
 	}
 	else if (self.impulse == 6)
 	{
-		fl = IT_GRENADE_LAUNCHER;
-		if (self.ammo_rockets < 1)
+		fl = IT_PLASMA_GUN;
+		if (self.ammo_cells < PLASMA_AMMO_COST)
 			am = 1;
 	}
 	else if (self.impulse == 7)
 	{
 		fl = IT_ROCKET_LAUNCHER;
-		if (self.ammo_rockets < 1)
+		if (self.ammo_rockets < ROCKET_AMMO_COST)
 			am = 1;
 	}
 	else if (self.impulse == 8)
 	{
-		fl = IT_LIGHTNING;
-		if (self.ammo_cells < 1)
+		fl = IT_MELTAGUN;
+		if (self.ammo_cells < MELTA_AMMO_COST)
 			am = 1;
 	}
 
@@ -1689,50 +1697,50 @@ void() CycleWeaponCommand =
 	{
 		am = 0;
 
-		if (self.weapon == IT_LIGHTNING)
+		if (self.weapon == IT_MELTAGUN)
 		{
 			self.weapon = IT_AXE;
 		}
 		else if (self.weapon == IT_AXE)
 		{
-			self.weapon = IT_SHOTGUN;
-			if (self.ammo_shells < 1)
+			self.weapon = IT_BOLTGUN;
+			if (self.ammo_nails < BOLTGUN_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_SHOTGUN)
+		else if (self.weapon == IT_BOLTGUN)
 		{
-			self.weapon = IT_SUPER_SHOTGUN;
-			if (self.ammo_shells < 2)
+			self.weapon = IT_SPACE_SHOTG;
+			if (self.ammo_shells < ASTSHOTG_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_SUPER_SHOTGUN)
+		else if (self.weapon == IT_SPACE_SHOTG)
 		{
-			self.weapon = IT_NAILGUN;
-			if (self.ammo_nails < 1)
+			self.weapon = IT_TEMPEST_BOLTER;
+			if (self.ammo_nails < TEMPEST_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_NAILGUN)
+		else if (self.weapon == IT_TEMPEST_BOLTER)
 		{
-			self.weapon = IT_SUPER_NAILGUN;
-			if (self.ammo_nails < 2)
+			self.weapon = IT_HVY_BOLTER;
+			if (self.ammo_rockets < HVYBOLT_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_SUPER_NAILGUN)
+		else if (self.weapon == IT_HVY_BOLTER)
 		{
-			self.weapon = IT_GRENADE_LAUNCHER;
-			if (self.ammo_rockets < 1)
+			self.weapon = IT_PLASMA_GUN;
+			if (self.ammo_rockets < PLASMA_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_GRENADE_LAUNCHER)
+		else if (self.weapon == IT_PLASMA_GUN)
 		{
 			self.weapon = IT_ROCKET_LAUNCHER;
-			if (self.ammo_rockets < 1)
+			if (self.ammo_rockets < ROCKET_AMMO_COST)
 				am = 1;
 		}
 		else if (self.weapon == IT_ROCKET_LAUNCHER)
 		{
-			self.weapon = IT_LIGHTNING;
-			if (self.ammo_cells < 1)
+			self.weapon = IT_MELTAGUN;
+			if (self.ammo_cells < MELTA_AMMO_COST)
 				am = 1;
 		}
 
@@ -1755,50 +1763,50 @@ void() CycleWeaponBack =
 	{
 		am = 0;
 
-		if (self.weapon == IT_SHOTGUN)
+		if (self.weapon == IT_BOLTGUN)
 		{
 			self.weapon = IT_AXE;
 		}
-		else if (self.weapon == IT_SUPER_SHOTGUN)
+		else if (self.weapon == IT_SPACE_SHOTG)
 		{
-			self.weapon = IT_SHOTGUN;
-			if (self.ammo_shells < 1)
+			self.weapon = IT_BOLTGUN;
+			if (self.ammo_nails < BOLTGUN_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_NAILGUN)
+		else if (self.weapon == IT_TEMPEST_BOLTER)
 		{
-			self.weapon = IT_SUPER_SHOTGUN;
-			if (self.ammo_shells < 2)
+			self.weapon = IT_SPACE_SHOTG;
+			if (self.ammo_shells < ASTSHOTG_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_SUPER_NAILGUN)
+		else if (self.weapon == IT_HVY_BOLTER)
 		{
-			self.weapon = IT_NAILGUN;
-			if (self.ammo_nails < 1)
+			self.weapon = IT_TEMPEST_BOLTER;
+			if (self.ammo_nails < TEMPEST_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_GRENADE_LAUNCHER)
+		else if (self.weapon == IT_PLASMA_GUN)
 		{
-			self.weapon = IT_SUPER_NAILGUN;
-			if (self.ammo_nails < 2)
+			self.weapon = IT_HVY_BOLTER;
+			if (self.ammo_rockets < HVYBOLT_AMMO_COST)
 				am = 1;
 		}
 		else if (self.weapon == IT_ROCKET_LAUNCHER)
 		{
-			self.weapon = IT_GRENADE_LAUNCHER;
-			if (self.ammo_rockets < 1)
+			self.weapon = IT_PLASMA_GUN;
+			if (self.ammo_cells < PLASMA_AMMO_COST)
 				am = 1;
 		}
-		else if (self.weapon == IT_LIGHTNING)
+		else if (self.weapon == IT_MELTAGUN)
 		{
 			self.weapon = IT_ROCKET_LAUNCHER;
-			if (self.ammo_rockets < 1)
+			if (self.ammo_rockets < ROCKET_AMMO_COST)
 				am = 1;
 		}
 		else if (self.weapon == IT_AXE)
 		{
-			self.weapon = IT_LIGHTNING;
-			if (self.ammo_cells < 1)
+			self.weapon = IT_MELTAGUN;
+			if (self.ammo_cells < MELTA_AMMO_COST)
 				am = 1;
 		}
 

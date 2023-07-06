@@ -100,16 +100,23 @@ float(entity e, float healamount, float ignore) T_Heal =
 {
 	if (e.health <= 0)
 		return 0;
-	if ((!ignore) && (e.health >= other.max_health))
-		return 0;
+	
 	healamount = ceil(healamount);
 
-	e.health = e.health + healamount;
-	if ((!ignore) && (e.health >= other.max_health))
-		e.health = other.max_health;
+	if(e.health >= PLAYER_HP)
+		return 0;
 
-	if (e.health > 250)
-		e.health = 250;
+	if(e.wounds >= PLAYER_WOUNDS)
+		return 0;
+	
+	if(e.wounds > PLAYER_WOUNDS - (healamount / 50))
+		return 0;
+	
+	e.wounds = e.wounds + healamount / 50;
+	e.health = e.health + healamount;
+
+	if (e.health > PLAYER_HP)
+		e.health = PLAYER_HP;
 	return 1;
 };
 
@@ -138,9 +145,7 @@ void() item_health =
 		precache_sound("items/r_item1.wav");
 		setmodel(self, "maps/b_bh10.bsp");
 		self.noise = "items/r_item1.wav";
-		self.healamount = 15;
-		self.wounds = 1;
-		self.healtype = 0;
+		self.healamount = 50;	//restore 1 wound
 	}
 	else
 	if (self.spawnflags & H_MEGA)
@@ -149,9 +154,7 @@ void() item_health =
 		precache_sound("items/r_item2.wav");
 		setmodel(self, "maps/b_bh100.bsp");
 		self.noise = "items/r_item2.wav";
-		self.healamount = 100;
-		self.wounds = 5;
-		self.healtype = 2;
+		self.healamount = 200;	//restore 4 wounds
 	}
 	else
 	{
@@ -159,9 +162,7 @@ void() item_health =
 		precache_sound("items/health1.wav");
 		setmodel(self, "maps/b_bh25.bsp");
 		self.noise = "items/health1.wav";
-		self.healamount = 25;
-		self.wounds = 3;
-		self.healtype = 1;
+		self.healamount = 100;	//restore 2 wounds
 	}
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
@@ -175,18 +176,8 @@ void() health_touch =
 	if (other.classname != "player")
 		return;
 
-	if (self.healtype == 2) // Megahealth?  Ignore max_health...
-	{
-		if (other.health >= 250)
-			return;
-		if (!T_Heal(other, self.healamount, 1))
-			return;
-	}
-	else
-	{
-		if (!T_Heal(other, self.healamount, 0))
-			return;
-	}
+	if (!T_Heal(other, self.healamount, 0))
+		return;
 
 	sprint(other, "You receive ");
 	s = ftos(self.healamount);
@@ -202,22 +193,22 @@ void() health_touch =
 	self.solid = SOLID_NOT;
 
 	// Megahealth = rot down the player's super health
-	if (self.healtype == 2)
+	/*if (self.healtype == 2)
 	{
 		other.items = other.items | IT_SUPERHEALTH;
 		self.nextthink = time + 5;
 		self.think = item_megahealth_rot;
 		self.owner = other;
 	}
-	else
+	else*/
+	//{
+	if (deathmatch != 2) // deathmatch 2 is the silly old rules
 	{
-		if (deathmatch != 2) // deathmatch 2 is the silly old rules
-		{
-			if (deathmatch)
-				self.nextthink = time + 20;
-			self.think = SUB_regen;
-		}
+		if (deathmatch)
+			self.nextthink = time + 20;
+		self.think = SUB_regen;
 	}
+	//}
 
 	activator = other;
 	SUB_UseTargets(); // fire all targets / killtargets
@@ -285,16 +276,18 @@ void() armor_touch =
 
 	if(bit == IT_ARMOR1){
 		self.toughness = self.toughness + 1;
-		sprint(other, "Armor MKII - Toughness + 1\n");
+		sprint(other, "Armor MKII\n");
+		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
 	if(bit == IT_ARMOR2){
 		self.armor_save = self.armor_save - 1;
-		sprint(other, "Armor MKIII - Armor Save + 1\n");
+		sprint(other, "Armor MKIII\n");
+		centerprint(other, "Armor Upgrade - Armor Save + 1");
 	}
 	if(bit == IT_ARMOR3){
-		self.armor_save = self.armor_save - 1;
 		self.invuln_save = self.invuln_save - 1;
-		sprint(other, "Armor MKIV - Armor Save + 1\n Invuln Save + 1\n");
+		sprint(other, "Armor MKIV - ");
+		centerprint(other, "Armor Upgrade - Invuln Save + 1\n Toughness + 1");
 	}
 	other.armorvalue = value;
 	other.items = other.items | bit;
@@ -378,15 +371,15 @@ float(float w) RankForWeapon =
 {
 	if (w == IT_LIGHTNING)
 		return 1;
-	if (w == IT_ROCKET_LAUNCHER)
+	if (w == IT_GRENADE_LAUNCHER)
 		return 2;
 	if (w == IT_SUPER_NAILGUN)
 		return 3;
-	if (w == IT_GRENADE_LAUNCHER)
+	if (w == IT_ROCKET_LAUNCHER)
 		return 4;
-	if (w == IT_SUPER_SHOTGUN)
-		return 5;
 	if (w == IT_NAILGUN)
+		return 5;
+	if (w == IT_SUPER_SHOTGUN)
 		return 6;
 	return 7;
 };

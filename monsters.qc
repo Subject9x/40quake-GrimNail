@@ -134,7 +134,7 @@ void() walkmonster_start_go =
 
 void() walkmonster_start =
 {
-	self.health_max = self.health;	//NOTE - 40Q mod.
+	self.max_health = self.health;	//NOTE - 40Q mod.
 
 // delay drop to floor to make sure all doors have been spawned
 // spread think times so they don't all happen at same time
@@ -190,7 +190,7 @@ void() flymonster_start_go =
 
 void() flymonster_start =
 {
-	self.health_max = self.health;
+	self.max_health = self.health;
 // spread think times so they don't all happen at same time
 	self.nextthink = self.nextthink + random()*0.5;
 	self.think = flymonster_start_go;

@@ -39,7 +39,6 @@
 #define MARK_TWIST 3
 
 //Mob base stats
-.float health_max;
 .float strength;
 .float toughness;
 .float armor_save;

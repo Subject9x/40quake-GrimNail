@@ -51,7 +51,7 @@ void() info_intermission =
 void() SetChangeParms =
 {
 // remove items
-	self.items -= self.items & (IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD);
+	self.items -= self.items & (IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD | IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3);
 
 // cap super health
 	if (self.health > 100)
@@ -60,16 +60,22 @@ void() SetChangeParms =
 		self.health = 50;
 	parm1 = self.items;
 	parm2 = self.health;
-	parm3 = self.armorvalue;
-	if (self.ammo_shells < 25)
-		parm4 = 25;
+	parm3 = 0;			//clear armor after every level
+
+	if (self.ammo_shells < 15)
+		parm4 = 15;
 	else
 		parm4 = self.ammo_shells;
-	parm5 = self.ammo_nails;
+	
+	if (self.ammo_nails < 25)
+		parm5 = 25;
+	else
+		parm5 = self.ammo_nails;
+
 	parm6 = self.ammo_rockets;
 	parm7 = self.ammo_cells;
 	parm8 = self.weapon;
-	parm9 = self.armortype * 100;
+	parm9 = 0;
 };
 
 void() SetNewParms =
@@ -77,12 +83,12 @@ void() SetNewParms =
 	parm1 = IT_SHOTGUN | IT_AXE;
 	parm2 = PLAYER_HP;
 	parm3 = 0;
-	parm4 = 25;
+	parm4 = 15;
 	parm5 = 50;
 	parm6 = 0;
 	parm7 = 0;
 	parm8 = 1;
-	parm9 = 0;
+	parm9 = 0;	//freebie
 };
 
 void() DecodeLevelParms =
@@ -101,7 +107,7 @@ void() DecodeLevelParms =
 	self.ammo_rockets = parm6;
 	self.ammo_cells = parm7;
 	self.weapon = parm8;
-	self.armortype = parm9 * 0.01;
+	self.armortype = 0;
 };
 
 /*
@@ -503,7 +509,7 @@ void() PutClientInServer =
 	//Mob base stats
 	self.flags = self.flags | FL_MOB;
 	self.health = PLAYER_HP;
-	self.health_max = PLAYER_HP;
+	self.max_health = PLAYER_HP;
 	self.strength = PLAYER_STR;
 	self.toughness = PLAYER_TOUGH;
 	self.armor_save = PLAYER_ARMOR_SV;
@@ -698,11 +704,11 @@ void() PlayerJump =
 	if (self.waterlevel >= 2)
 	{
 		if (self.watertype == CONTENT_WATER)
-			self.velocity_z = 100;
+			self.velocity_z = 150;	//100
 		else if (self.watertype == CONTENT_SLIME)
-			self.velocity_z = 80;
+			self.velocity_z = 100;	//80
 		else
-			self.velocity_z = 50;
+			self.velocity_z = 75;	//50
 
 // play swiming sound
 		if (self.swim_flag < time)
@@ -730,7 +736,7 @@ void() PlayerJump =
 	self.button2 = 0;
 // player jumping sound
 	sound(self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
-	self.velocity_z = self.velocity_z + 270;
+	self.velocity_z = self.velocity_z + 320;	//270
 };
 
 
@@ -844,7 +850,7 @@ void() CheckWaterJump =
 		if (trace_fraction == 1)
 		{ // open at eye level
 			self.flags = self.flags | FL_WATERJUMP;
-			self.velocity_z = 225;
+			self.velocity_z = 275;	//225
 			self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
 			self.teleport_time = time + 2; // safety net
 			return;
@@ -1080,7 +1086,11 @@ void() PlayerPostThink =
 			sound(self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
 		else if (self.jump_flag < -650)
 		{
-			T_Damage(self, world, world, 5);
+			WORLD_ENT.weapon_str = 2;
+			WORLD_ENT.weapon_ap = 0;
+			WORLD_ENT.weapon_dmg = 1;
+			T_Damage(self, WORLD_ENT, world, 5);
+
 			sound(self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
 			self.deathtype = "falling";
 		}
