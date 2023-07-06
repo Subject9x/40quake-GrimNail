@@ -18,7 +18,7 @@
 #define PLAYER_HP 800
 #define PLAYER_TOUGH 5
 #define PLAYER_STR 5
-#define PLAYER_ARMOR_SV 2
+#define PLAYER_ARMOR_SV 3
 #define PLAYER_INVULN 4
 #define PLAYER_WOUNDS 8
 
@@ -49,6 +49,8 @@
 #define SOLDIER_ARMOR_SV 5
 #define SOLDIER_INVULN 0
 #define SOLDIER_WOUNDS 1
+#define SOLDIER_PACK_SMALL 2
+#define SOLDIER_PACK_LT 3
 
 #define ENFORCE_HP 100
 #define ENFORCE_STR 3
@@ -56,6 +58,8 @@
 #define ENFORCE_ARMOR_SV 4
 #define ENFORCE_INVULN 0
 #define ENFORCE_WOUNDS 2
+#define ENFORCE_PACK_SMALL 4
+#define ENFORCE_PACK_LT 6
 
 #define KNIGHT_HP 50
 #define KNIGHT_STR 4
@@ -66,9 +70,9 @@
 
 #define WIZARD_HP 100
 #define WIZARD_STR 3
-#define WIZARD_TOUGH 5
+#define WIZARD_TOUGH 3
 #define WIZARD_ARMOR_SV 0
-#define WIZARD_INVULN 4
+#define WIZARD_INVULN 5
 #define WIZARD_WOUNDS 2
 
 #define OGRE_HP 200
@@ -77,6 +81,8 @@
 #define OGRE_ARMOR_SV 4
 #define OGRE_INVULN 0
 #define OGRE_WOUNDS 2
+#define OGRE_PACK_LT 5
+#define OGRE_PACK_HVY 10
 
 #define HKNIGHT_HP 100
 #define HKNIGHT_STR 5

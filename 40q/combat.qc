@@ -124,17 +124,27 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	float save;
 	float take;
 
+	float wepStr;
+	float wepAp;
+	float wepDmg;
+
 	if (!targ.takedamage)
 		return;
 
 // used by buttons and triggers to set activator for target firing
 	damage_attacker = attacker;
+	wepStr = inflictor.weapon_str;
+	wepAp = inflictor.weapon_ap;
+	wepDmg = inflictor.weapon_dmg;
 
 	//TODO - adjust quad to match new system
 // check for quad damage powerup on the attacker
-	//if (attacker.super_damage_finished > time)
-	//	damage = damage * 4;
-
+	if (attacker.super_damage_finished > time){
+		damage = damage * 4;
+		wepStr = wepStr * 2;
+		wepAp = wepAp - 1;
+		wepDmg = wepDmg + 1;
+	}
 
 //40Q - MECHANICS CHECK:-------------------------------------------------
 	if((targ.flags & FL_MOB) && (attacker.flags & FL_MOB))
@@ -151,17 +161,17 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		logFloat("STR", inflictor.weapon_str);	//debug
 
 		toWound = 4;
-		if(inflictor.weapon_str > targ.toughness)
+		if(wepStr > targ.toughness)
 		{
 			toWound = 3;
-			if(inflictor.weapon_str >= targ.toughness * 2){
+			if(wepStr >= targ.toughness * 2){
 				toWound = 2;
 			}
 		}
 		else
 		{
 			toWound = 5;
-			if(inflictor.weapon_str <= targ.toughness / 2){
+			if(wepStr <= targ.toughness / 2){
 				toWound = 6;
 			}
 		}
@@ -172,28 +182,28 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		if(roll >= toWound){
 			if(targ.armor_save || targ.invuln_save){
 				roll = floor(1.0 + (random() * 5.0));
-				armorSv = roll + inflictor.weapon_ap;
+				armorSv = roll + wepAp;
 
 				if(armorSv >= targ.armor_save){
 					//successful armor save.
-					take = inflictor.weapon_dmg * 1.5;
+					take = wepDmg * 1.5;
 					logFloat("ARMOR SAVE DMG", take);	//debug
 				}
 				else{
 					if(targ.invuln_save && roll >= targ.invuln_save){
 						//successful armor save.
-						take = inflictor.weapon_dmg * 1.5;
+						take = wepDmg * 1.5;
 						logFloat("INVULN SAVE DMG", take);	//debug
 					}
 					else{
 						//take wounds from weapon dmg
-						targ.wounds = targ.wounds - inflictor.weapon_dmg;
+						targ.wounds = targ.wounds - wepDmg;
 						if(targ.wounds <= 0 ){
 							take = targ.health_max * (1.0 + random() * 0.5);
 							logFloat("NO WOUNDS DEAD!", take);	//debug
 						}
 						else{
-							take = inflictor.weapon_dmg * 50;
+							take = wepDmg * 50;
 							logFloat("TAKE WOUND DAMAGE", take);	//debug
 						}
 					}
@@ -201,14 +211,14 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			}
 			else{
 				//no armor save, take pure damage
-				take = inflictor.weapon_dmg * 50;
+				take = wepDmg * 50;
 				logFloat("No-ARMOR Hit", take);	//debug
 			}
 
 		}
 		else{
 			//failed to wound, do chip damage.
-			take = inflictor.weapon_dmg * 2;
+			take = wepDmg * 2;
 			logFloat("No-Wound Chip", take);	//debug
 		}
 	}

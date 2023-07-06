@@ -47,6 +47,10 @@
 .float wounds;
 .float demon_mark;
 
+.float armor_save_set;
+.float toughness_set;
+.float strength_set;
+
 // Ranged weapon stats
 .float weapon_str;
 .float weapon_ap;

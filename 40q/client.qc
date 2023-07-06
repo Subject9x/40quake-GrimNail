@@ -510,6 +510,10 @@ void() PutClientInServer =
 	self.invuln_save = PLAYER_INVULN;
 	self.wounds = PLAYER_WOUNDS;
 
+	self.armor_save_set = self.armor_save;
+	self.toughness_set = self.toughness;
+	self.strength_set = self.strength;
+
 	// Augments Mob's base stats for melee attacks.
 	self.melee_str = CHAINAXE_STR + PLAYER_STR;
 	self.melee_ap = CHAINAXE_AP;

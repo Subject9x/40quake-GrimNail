@@ -325,6 +325,7 @@ void() W_FireSuperShotgun =
 {
 	vector dir;
 
+	
 
 	sound(self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);
 

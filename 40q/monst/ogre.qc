@@ -437,7 +437,8 @@ void() ogre_die2 = [ $death2, ogre_die3 ] {};
 void() ogre_die3 = [ $death3, ogre_die4 ]
 {
 	self.solid = SOLID_NOT;
-	self.ammo_rockets = 2;
+	self.ammo_nails = OGRE_PACK_LT;
+	self.ammo_rockets = OGRE_PACK_HVY;
 	DropBackpack();
 };
 void() ogre_die4 = [ $death4, ogre_die5 ] {};
@@ -457,7 +458,8 @@ void() ogre_bdie2 = [ $bdeath2, ogre_bdie3 ] { ai_forward(5); };
 void() ogre_bdie3 = [ $bdeath3, ogre_bdie4 ]
 {
 	self.solid = SOLID_NOT;
-	self.ammo_rockets = 2;
+	self.ammo_nails = OGRE_PACK_LT;
+	self.ammo_rockets = OGRE_PACK_HVY;
 	DropBackpack();
 };
 void() ogre_bdie4 = [ $bdeath4, ogre_bdie5 ] { ai_forward(1); };

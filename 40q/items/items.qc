@@ -266,28 +266,38 @@ void() armor_touch =
 
 	if (self.classname == "item_armor1")
 	{
-		type = 0.3;
-		value = 100;
+		value = 1;
 		bit = IT_ARMOR1;
 	}
 	if (self.classname == "item_armor2")
 	{
-		type = 0.6;
-		value = 150;
+		value = 2;
 		bit = IT_ARMOR2;
 	}
 	if (self.classname == "item_armorInv")
 	{
-		type = 0.8;
-		value = 200;
+		value = 3;
 		bit = IT_ARMOR3;
 	}
-	if (other.armortype*other.armorvalue >= type*value)
+	if((other.items & bit)){
 		return;
+	}
 
-	other.armortype = type;
+	if(bit == IT_ARMOR1){
+		self.toughness = self.toughness + 1;
+		sprint(other, "Armor MKII - Toughness + 1\n");
+	}
+	if(bit == IT_ARMOR2){
+		self.armor_save = self.armor_save - 1;
+		sprint(other, "Armor MKIII - Armor Save + 1\n");
+	}
+	if(bit == IT_ARMOR3){
+		self.armor_save = self.armor_save - 1;
+		self.invuln_save = self.invuln_save - 1;
+		sprint(other, "Armor MKIV - Armor Save + 1\n Invuln Save + 1\n");
+	}
 	other.armorvalue = value;
-	other.items = other.items - (other.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3)) + bit;
+	other.items = other.items | bit;
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;
@@ -295,7 +305,6 @@ void() armor_touch =
 		self.nextthink = time + 20;
 	self.think = SUB_regen;
 
-	sprint(other, "You got armor\n");
 // armor touch sound
 	sound(other, CHAN_ITEM, "items/armor1.wav", 1, ATTN_NORM);
 	stuffcmd(other, "bf\n");
@@ -443,7 +452,7 @@ void() weapon_touch =
 			return;
 		hadammo = other.ammo_rockets;
 		new = IT_SUPER_NAILGUN;
-		other.ammo_nails = other.ammo_nails + 30;
+		other.ammo_rockets = other.ammo_rockets + 30;
 	}
 	else if (self.classname == "weapon_supershotgun")
 	{
@@ -465,9 +474,9 @@ void() weapon_touch =
 	{
 		if (leave && (other.items & IT_GRENADE_LAUNCHER))
 			return;
-		hadammo = other.ammo_rockets;
+		hadammo = other.ammo_cells;
 		new = IT_GRENADE_LAUNCHER;
-		other.ammo_rockets = other.ammo_rockets + 5;
+		other.ammo_cells = other.ammo_cells + 5;
 	}
 	else if (self.classname == "weapon_lightning")
 	{
@@ -569,7 +578,7 @@ void() weapon_grenadelauncher =
 {
 	precache_model("progs/g_rock.mdl");
 	setmodel(self, "progs/g_rock.mdl");
-	self.weapon = 3;
+	self.weapon = IT_GRENADE_LAUNCHER;
 	self.netname = "Plasma Gun";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
@@ -583,7 +592,7 @@ void() weapon_rocketlauncher =
 {
 	precache_model("progs/g_rock2.mdl");
 	setmodel(self, "progs/g_rock2.mdl");
-	self.weapon = 3;
+	self.weapon = IT_ROCKET_LAUNCHER;
 	self.netname = "Rocket Launcher";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
@@ -598,7 +607,7 @@ void() weapon_lightning =
 {
 	precache_model("progs/g_light.mdl");
 	setmodel(self, "progs/g_light.mdl");
-	self.weapon = 3;
+	self.weapon = IT_LIGHTNING;
 	self.netname = "Meltagun";
 	self.touch = weapon_touch;
 	setsize(self, '-16 -16 0', '16 16 56');
@@ -635,20 +644,20 @@ void() ammo_touch =
 	if (self.weapon == IT_AMMO_SMALL)
 	{
 		if (other.ammo_shells < 100)
-			other.ammo_shells = other.ammo_shells + self.aflag / 2;
+			other.ammo_shells = other.ammo_shells + self.aflag;
 		
 		if (other.ammo_nails < 200)
-			other.ammo_nails = other.ammo_nails + self.aflag / 2;
+			other.ammo_nails = other.ammo_nails + self.aflag;
 	}
 
 // spikes
 	if (self.weapon == IT_AMMO_LT)
 	{
 		if (other.ammo_shells < 100)
-			other.ammo_shells = other.ammo_shells + self.aflag / 2;
+			other.ammo_shells = other.ammo_shells + self.aflag;
 		
 		if (other.ammo_nails < 200)
-			other.ammo_nails = other.ammo_nails + self.aflag / 2;
+			other.ammo_nails = other.ammo_nails + self.aflag;
 	}
 
 //	rockets
@@ -723,13 +732,13 @@ void() item_shells =
 	{
 		precache_model("maps/b_shell1.bsp");
 		setmodel(self, "maps/b_shell1.bsp");
-		self.aflag = 40;
+		self.aflag = 65;
 	}
 	else
 	{
 		precache_model("maps/b_shell0.bsp");
 		setmodel(self, "maps/b_shell0.bsp");
-		self.aflag = 20;
+		self.aflag = 40;
 	}
 	self.weapon = IT_AMMO_SMALL;
 	self.netname = "light ammo";
@@ -748,13 +757,13 @@ void() item_spikes =
 	{
 		precache_model("maps/b_nail1.bsp");
 		setmodel(self, "maps/b_nail1.bsp");
-		self.aflag = 50;
+		self.aflag = 100;
 	}
 	else
 	{
 		precache_model("maps/b_nail0.bsp");
 		setmodel(self, "maps/b_nail0.bsp");
-		self.aflag = 25;
+		self.aflag = 75;
 	}
 	self.weapon = IT_AMMO_LT;
 	self.netname = "bolter ammo";
@@ -774,14 +783,14 @@ void() item_rockets =
 		precache_model("maps/b_rock1.bsp");
 		setmodel(self, "maps/b_rock1.bsp");
 		//self.aflag = 10; //stock
-		self.aflag = 25; //stock
+		self.aflag = 50; //stock
 	}
 	else
 	{
 		precache_model("maps/b_rock0.bsp");
 		setmodel(self, "maps/b_rock0.bsp");
 		//self.aflag = 5; //stock
-		self.aflag = 10; //stock
+		self.aflag = 25; //stock
 	}
 	self.weapon = IT_AMMO_HVY;
 	self.netname = "heavy ammo";
@@ -842,7 +851,7 @@ void() item_weapon =
 			setmodel(self, "maps/b_shell0.bsp");
 			self.aflag = 20;
 		}
-		self.weapon = 1;
+		self.weapon = IT_AMMO_SMALL;
 		self.netname = "shells";
 	}
 
@@ -860,7 +869,7 @@ void() item_weapon =
 			setmodel(self, "maps/b_nail0.bsp");
 			self.aflag = 20;
 		}
-		self.weapon = 2;
+		self.weapon = IT_AMMO_LT;
 		self.netname = "spikes";
 	}
 
@@ -878,7 +887,7 @@ void() item_weapon =
 			setmodel(self, "maps/b_rock0.bsp");
 			self.aflag = 5;
 		}
-		self.weapon = 3;
+		self.weapon = IT_AMMO_HVY;
 		self.netname = "rockets";
 	}
 
@@ -1285,13 +1294,13 @@ void() BackpackTouch =
 	{
 		s = ftos(self.ammo_nails);
 		sprint(other, s);
-		sprint(other, " nails ");
+		sprint(other, " bolts ");
 	}
 	if (self.ammo_rockets)
 	{
 		s = ftos(self.ammo_rockets);
 		sprint(other, s);
-		sprint(other, " rockets  ");
+		sprint(other, " heavy ammo  ");
 	}
 	if (self.ammo_cells)
 	{
