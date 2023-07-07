@@ -167,3 +167,7 @@
 #define EXP_LRG_H_DMG 1
 #define EXP_LRG_H_STR 4
 #define EXP_LRG_H_AP -1
+
+#define FRE_BLL_DMG 1
+#define FRE_BLL_STR 5
+#define FRE_BLL_AP 0

@@ -192,6 +192,11 @@ void() misc_fireball =
 	precache_model("progs/lavaball.mdl");
 	self.classname = "fireball";
 	self.nextthink = time + (random() * 5);
+
+	self.weapon_str = FRE_BLL_STR;
+	self.weapon_ap = FRE_BLL_AP;
+	self.weapon_dmg = FRE_BLL_DMG;
+
 	self.think = fire_fly;
 	if (!self.speed)
 		self.speed = 1000;
@@ -215,6 +220,10 @@ void() fire_fly =
 	fireball.nextthink = time + 5;
 	fireball.think = SUB_Remove;
 	fireball.touch = fire_touch;
+
+	fireball.weapon_str = self.weapon_str;
+	fireball.weapon_ap = self.weapon_ap;
+	fireball.weapon_dmg =self.weapon_dmg; 
 
 	self.nextthink = time + (random() * 5) + 3;
 	self.think = fire_fly;
@@ -306,7 +315,7 @@ void() misc_explobox2 =
 	self.takedamage = DAMAGE_AIM;
 
 	self.toughness = 3;
-	
+
 	self.weapon_str = EXP_SML_STR;
 	self.weapon_ap = EXP_SML_AP;
 	self.weapon_dmg = EXP_SML_DMG;
