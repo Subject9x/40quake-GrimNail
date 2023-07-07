@@ -78,18 +78,18 @@
 #define OGRE_HP 200
 #define OGRE_STR 5
 #define OGRE_TOUGH 5
-#define OGRE_ARMOR_SV 4
+#define OGRE_ARMOR_SV 5
 #define OGRE_INVULN 0
-#define OGRE_WOUNDS 2
+#define OGRE_WOUNDS 3
 #define OGRE_PACK_LT 5
 #define OGRE_PACK_HVY 10
 
 #define HKNIGHT_HP 100
-#define HKNIGHT_STR 5
+#define HKNIGHT_STR 6
 #define HKNIGHT_TOUGH 4
 #define HKNIGHT_ARMOR_SV 3
-#define HKNIGHT_INVULN 6
-#define HKNIGHT_WOUNDS 2
+#define HKNIGHT_INVULN 7
+#define HKNIGHT_WOUNDS 0
 
 #define FIEND_HP 150
 #define FIEND_STR 4

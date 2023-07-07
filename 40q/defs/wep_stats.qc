@@ -123,9 +123,9 @@
 #define VORE_CLAW_STR 8
 #define VORE_CLAW_AP 0
 
-#define SHMBL_SPELL_DMG 2
+#define SHMBL_SPELL_DMG 1
 #define SHMBL_SPELL_STR 6
-#define SHMBL_SPELL_AP -2
+#define SHMBL_SPELL_AP -3
 
 #define SHMBL_CLAW_DMG 3
 #define SHMBL_CLAW_STR 8
