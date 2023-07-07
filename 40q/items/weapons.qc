@@ -40,6 +40,8 @@ void() W_Precache =
 	precache_sound("weapons/grenade.wav"); // grenade launcher
 	precache_sound("weapons/bounce.wav"); // grenade bounce
 	precache_sound("weapons/shotgn2.wav"); // super shotgun
+	precache_sound("ogre/ogsawatk.wav");
+	precache_model2("progs/v_spike.mdl");
 };
 
 float() crandom =
@@ -511,7 +513,7 @@ void() W_FirePlasma =
 // set missile speed
 
 	waterVel = 650;
-	if(self.waterlevel > 1)
+	if(self.waterlevel >= WATERLEVEL_HEAD)
 		waterVel = waterVel * 0.5;
 
 	makevectors(self.v_angle);
@@ -525,8 +527,6 @@ void() W_FirePlasma =
 // set missile duration
 	missile.nextthink = time + 3;
 	missile.think = SUB_Remove;
-
-	precache_model2("progs/v_spike.mdl");
 
 	setmodel(missile, "progs/v_spike.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
@@ -719,7 +719,7 @@ void() W_FireMeltaGun={
 	}
 	*/
 	range = MELTA_RANGE;
-	if(self.waterlevel > 1)
+	if(self.waterlevel >= WATERLEVEL_HEAD)
 		range = range * 0.5;
 
 	if (self.t_width < time)
@@ -1115,7 +1115,7 @@ void(vector org, vector dir) launch_bolt_rnd =
 	setorigin(newmis, org);
 
 	waterVel = 850;
-	if(self.waterlevel > 1)
+	if(self.waterlevel >= WATERLEVEL_HEAD)
 		waterVel = waterVel * 0.5;
 	
 	newmis.velocity = dir * waterVel;	//1000
@@ -1518,7 +1518,6 @@ void() W_Attack =
 	if (self.weapon == IT_AXE)
 	{
 		//sound(self, CHAN_WEAPON, "weapons/ax1.wav", 1, ATTN_NORM);
-		precache_sound("ogre/ogsawatk.wav");
 		sound(self, CHAN_WEAPON, "ogre/ogsawatk.wav", 1, ATTN_NORM);
 		r = random();
 		if (r < 0.25)

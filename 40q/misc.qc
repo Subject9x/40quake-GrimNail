@@ -262,6 +262,17 @@ void() misc_explobox =
 	self.th_die = barrel_explode;
 	self.takedamage = DAMAGE_AIM;
 
+	self.toughness = 3;
+
+	self.weapon_str = EXP_LRG_STR;
+	self.weapon_ap = EXP_LRG_AP;
+	self.weapon_dmg = EXP_LRG_DMG;
+	if(skill < 1){
+		self.weapon_str = EXP_LRG_H_STR;
+		self.weapon_ap = EXP_LRG_H_AP;
+		self.weapon_dmg = EXP_LRG_H_DMG;
+	}
+
 	self.origin_z = self.origin_z + 2;
 	oldz = self.origin_z;
 	droptofloor();
@@ -294,6 +305,17 @@ void() misc_explobox2 =
 	self.th_die = barrel_explode;
 	self.takedamage = DAMAGE_AIM;
 
+	self.toughness = 3;
+	
+	self.weapon_str = EXP_SML_STR;
+	self.weapon_ap = EXP_SML_AP;
+	self.weapon_dmg = EXP_SML_DMG;
+	if(skill < 1){
+		self.weapon_str = EXP_SML_H_STR;
+		self.weapon_ap = EXP_SML_H_AP;
+		self.weapon_dmg = EXP_SML_H_DMG;
+	}
+
 	self.origin_z = self.origin_z + 2;
 	oldz = self.origin_z;
 	droptofloor();
@@ -310,7 +332,6 @@ void() misc_explobox2 =
 
 float SPAWNFLAG_SUPERSPIKE = 1;
 float SPAWNFLAG_LASER = 2;
-
 void(vector org, vector vec) LaunchLaser;
 
 void() spikeshooter_use =
@@ -353,25 +374,26 @@ void() trap_spikeshooter =
 
 		precache_sound2 ("enforcer/enfire.wav");
 		precache_sound2 ("enforcer/enfstop.wav");
-		self.weapon_str = 4;
-		self.weapon_ap = 1;
-		self.weapon_dmg = 0.5;
+		
+		self.weapon_str = TRP_LAS_STR;
+		self.weapon_ap = TRP_LAS_AP;
+		self.weapon_dmg = TRP_LAS_DMG;
 		if(skill == 3){
-			self.weapon_str = 4;
-			self.weapon_ap = 2;
-			self.weapon_dmg = 0.5;
+			self.weapon_str = TRP_LAS_H_STR;
+			self.weapon_ap = TRP_LAS_H_AP;
+			self.weapon_dmg = TRP_LAS_H_DMG;
 		}
 	}
 	else
 	{
 		precache_sound("weapons/spike2.wav");
-		self.weapon_str = 3;
-		self.weapon_ap = 0;
-		self.weapon_dmg = 0.5;
+		self.weapon_str = TRP_SPK_STR;
+		self.weapon_ap = TRP_SPK_AP;
+		self.weapon_dmg = TRP_SPK_DMG;
 		if(skill == 3){
-			self.weapon_str = 3;
-			self.weapon_ap = 1;
-			self.weapon_dmg = 0.75;
+			self.weapon_str = TRP_SPK_H_STR;
+			self.weapon_ap = TRP_SPK_H_AP;
+			self.weapon_dmg = TRP_SPK_H_DMG;
 		}
 	}
 };

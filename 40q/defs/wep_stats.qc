@@ -28,7 +28,7 @@
 
 #define TEMPEST_DMG 1
 #define TEMPEST_STR 4
-#define TEMPEST_AP -1
+#define TEMPEST_AP 0
 #define TEMPEST_AMMO_COST 4
 #define TEMPEST_ROF 0.25
 
@@ -96,7 +96,7 @@
 #define CHAINSAW_AP -1
 
 #define GRENLNCH_DMG 1
-#define GRENLNCH_STR 3
+#define GRENLNCH_STR 4
 #define GRENLNCH_AP -1
 
 #define WIZ_SPELL_DMG 1
@@ -130,3 +130,40 @@
 #define SHMBL_CLAW_DMG 3
 #define SHMBL_CLAW_STR 8
 #define SHMBL_CLAW_AP -3
+
+/*
+    TRAP WEAPON STATS
+*/
+
+#define TRP_SPK_DMG 0.5
+#define TRP_SPK_STR 3
+#define TRP_SPK_AP 0
+
+#define TRP_SPK_H_DMG 0.5
+#define TRP_SPK_H_STR 3
+#define TRP_SPK_H_AP -1
+
+
+#define TRP_LAS_DMG 0.75
+#define TRP_LAS_STR 3
+#define TRP_LAS_AP 0
+
+#define TRP_LAS_H_DMG 1
+#define TRP_LAS_H_STR 4
+#define TRP_LAS_H_AP 0
+
+#define EXP_SML_DMG 1
+#define EXP_SML_STR 3
+#define EXP_SML_AP 0
+
+#define EXP_SML_H_DMG 1
+#define EXP_SML_H_STR 4
+#define EXP_SML_H_AP -1
+
+#define EXP_LRG_DMG 1
+#define EXP_LRG_STR 3
+#define EXP_LRG_AP 0
+
+#define EXP_LRG_H_DMG 1
+#define EXP_LRG_H_STR 4
+#define EXP_LRG_H_AP -1

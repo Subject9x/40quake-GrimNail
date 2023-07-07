@@ -113,6 +113,10 @@ void(vector org, vector vec) LaunchLaser =
 	newmis.nextthink = time + 5;
 	newmis.think = SUB_Remove;
 	newmis.touch = Laser_Touch;
+
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
 };
 
 

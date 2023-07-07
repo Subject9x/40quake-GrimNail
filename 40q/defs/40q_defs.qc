@@ -38,6 +38,11 @@
 #define MARK_ROT 2
 #define MARK_TWIST 3
 
+#define WATERLEVEL_NOT 0
+#define WATERLEVEL_LEGS 1
+#define WATERLEVEL_WAIST 2
+#define WATERLEVEL_HEAD 3
+
 //Mob base stats
 .float strength;
 .float toughness;

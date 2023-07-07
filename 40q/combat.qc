@@ -159,7 +159,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	}
 
 //40Q - MECHANICS CHECK:-------------------------------------------------
-	if((targ.flags & FL_MOB) && (attacker.flags & FL_MOB))
+	if((targ.toughness && inflictor.weapon_str))
 	{
 		float roll;
 		float toWound;
