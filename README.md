@@ -21,7 +21,15 @@ In the dark grimness of the retro-fps, 1...void...ranger must purge our dimensio
 + Mobs re-done to fit mechanics and themes, rebalanced too.
 
 ### Items
-+ WIP.
++ Armor I - +1 Toughness for player armor saves.
++ Armor II - +1 Armor save, improving odds of ignoring damage.
++ Armor III - +1 Invuln save, better survive heavy attacks.
++ Health - regain lost wounds.
++ Ammo - 4 types:
+  + Small - bolt rounds and shells.
+  + Bolter - bolt rounds.
+  + Heavy - ammo for Hvy Bolter and Rocket launcher.
+  + Cells - Plasma and Melta gun ammo.
 
 ### Credit
 + Source code based on the great https://github.com/shpuld/id1-quakec-cleaned
