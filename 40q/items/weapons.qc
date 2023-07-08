@@ -1735,7 +1735,7 @@ void() CycleWeaponCommand =
 		else if (self.weapon == IT_HVY_BOLTER)
 		{
 			self.weapon = IT_PLASMA_GUN;
-			if (self.ammo_rockets < PLASMA_AMMO_COST)
+			if (self.ammo_cells < PLASMA_AMMO_COST)
 				am = 1;
 		}
 		else if (self.weapon == IT_PLASMA_GUN)
