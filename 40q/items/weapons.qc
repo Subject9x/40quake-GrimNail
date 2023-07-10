@@ -328,8 +328,6 @@ void() W_FireSuperShotgun =
 {
 	vector dir;
 
-	
-
 	sound(self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);
 
 	self.punchangle_x = -2;
@@ -386,7 +384,7 @@ void() T_MissileTouch =
 	}
 
 	if (other.health)
-		T_Damage(other, self, self.owner, self.weapon_dmg * 50 );
+		T_Damage(other, self, self.owner, ROCKET_DMG);
 	
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
@@ -451,8 +449,6 @@ void() W_FireRocket =
 
 void() T_PlasmaTouch =
 {
-	float damg;
-
 	if (other == self.owner)
 		return; // don't explode on owner
 
@@ -461,12 +457,8 @@ void() T_PlasmaTouch =
 		remove(self);
 		return;
 	}
-
-	//damg = 100 + random()*20;
-	damg = PLASMA_DMG + random()*20;
-
 	if (other.health)
-		T_Damage(other, self, self.owner, damg );
+		T_Damage(other, self, self.owner, PLASMA_DMG );
 
 	
 	self.weapon_str = self.weapon_str * 0.5;
@@ -475,7 +467,7 @@ void() T_PlasmaTouch =
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
 
-	T_RadiusDamage(self, self.owner, 24, other);
+	T_RadiusDamage(self, self.owner, PLASMA_DMG * 0.33, other);
 
 //	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
@@ -1011,8 +1003,9 @@ void() stub_touch =
 
 	if (other.health)
 	{
-		SpawnBlood(org, self.velocity*0.2, 15);
-		T_Damage(other, self, self.owner, 15);
+		logFloat("self.weapon_dmg", self.weapon_dmg);	//debug
+		SpawnBlood(org, self.velocity*0.2, self.weapon_dmg);
+		T_Damage(other, self, self.owner, self.weapon_dmg);
 	}
 	else
 	{

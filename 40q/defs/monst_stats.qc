@@ -13,64 +13,73 @@
 #define MOB_HP_FIEND 300
 #define MOB_HP_VORE 400
 #define MOB_HP_SHAMBLER 600
+#define MOB_HP_SPAWN 80
 */
 
 #define PLAYER_HP 400
 #define PLAYER_TOUGH 4
 #define PLAYER_STR 4
+
 #define PLAYER_ARMOR_SV 4
 #define PLAYER_INVULN 6
 #define PLAYER_WOUNDS 8
 
-#define FISH_HP 50
+#define FISH_HP 25
 #define FISH_STR 2
 #define FISH_TOUGH 2 
+
 #define FISH_ARMOR_SV 6
 #define FISH_INVULN 0
 #define FISH_WOUNDS 1
 
-#define DOG_HP 100
+#define DOG_HP 25
 #define DOG_STR 3
 #define DOG_TOUGH 2
+
 #define DOG_ARMOR_SV 6
 #define DOG_INVULN 0
 #define DOG_WOUNDS 2
 
-#define ZOMBIE_HP 150
+#define ZOMBIE_HP 60
 #define ZOMBIE_STR 3
-#define ZOMBIE_TOUGH 4
+#define ZOMBIE_TOUGH 43
+
 #define ZOMBIE_ARMOR_SV 6
 #define ZOMBIE_INVULN 0
 #define ZOMBIE_WOUNDS 3
 
-#define SOLDIER_HP 50
-#define SOLDIER_STR 3
+#define SOLDIER_HP 30
+#define SOLDIER_STR 2
 #define SOLDIER_TOUGH 3
+
 #define SOLDIER_ARMOR_SV 5
 #define SOLDIER_INVULN 0
 #define SOLDIER_WOUNDS 1
 #define SOLDIER_PACK_SMALL 2
 #define SOLDIER_PACK_LT 3
 
-#define ENFORCE_HP 100
+#define ENFORCE_HP 80
 #define ENFORCE_STR 3
 #define ENFORCE_TOUGH 3
+
 #define ENFORCE_ARMOR_SV 4
 #define ENFORCE_INVULN 0
 #define ENFORCE_WOUNDS 2
 #define ENFORCE_PACK_SMALL 4
 #define ENFORCE_PACK_LT 6
 
-#define KNIGHT_HP 50
+#define KNIGHT_HP 75
 #define KNIGHT_STR 4
-#define KNIGHT_TOUGH 3
+#define KNIGHT_TOUGH 4
+
 #define KNIGHT_ARMOR_SV 4
 #define KNIGHT_INVULN 0
 #define KNIGHT_WOUNDS 1
 
-#define WIZARD_HP 100
+#define WIZARD_HP 80
 #define WIZARD_STR 3
 #define WIZARD_TOUGH 3
+
 #define WIZARD_ARMOR_SV 7
 #define WIZARD_INVULN 5
 #define WIZARD_WOUNDS 2
@@ -78,43 +87,49 @@
 #define OGRE_HP 200
 #define OGRE_STR 5
 #define OGRE_TOUGH 5
+
 #define OGRE_ARMOR_SV 5
 #define OGRE_INVULN 0
 #define OGRE_WOUNDS 3
 #define OGRE_PACK_LT 5
 #define OGRE_PACK_HVY 10
 
-#define HKNIGHT_HP 100
+#define HKNIGHT_HP 250
 #define HKNIGHT_STR 6
-#define HKNIGHT_TOUGH 4
+#define HKNIGHT_TOUGH 5
+
 #define HKNIGHT_ARMOR_SV 3
 #define HKNIGHT_INVULN 7
 #define HKNIGHT_WOUNDS 0
 
-#define FIEND_HP 150
+#define FIEND_HP 300
 #define FIEND_STR 4
 #define FIEND_TOUGH 4
+
 #define FIEND_ARMOR_SV 5
 #define FIEND_INVULN 6
 #define FIEND_WOUNDS 3
 
-#define SPAWN_HP 150
+#define SPAWN_HP 80
 #define SPAWN_STR 6
-#define SPAWN_TOUGH 5
+#define SPAWN_TOUGH 4
+
 #define SPAWN_ARMOR_SV 5
 #define SPAWN_INVULN 6
 #define SPAWN_WOUNDS 3
 
-#define VORE_HP 200
+#define VORE_HP 400
 #define VORE_STR 4
-#define VORE_TOUGH 4
+#define VORE_TOUGH 5
+
 #define VORE_ARMOR_SV 5
 #define VORE_INVULN 5
 #define VORE_WOUNDS 4
 
-#define SHAMBLER_HP 200
+#define SHAMBLER_HP 600
 #define SHAMBLER_STR 6
 #define SHAMBLER_TOUGH 7
+
 #define SHAMBLER_ARMOR_SV 3
 #define SHAMBLER_INVULN 4
 #define SHAMBLER_WOUNDS 4

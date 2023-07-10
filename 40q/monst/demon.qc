@@ -69,27 +69,27 @@ void() demon1_walk1 = [ $walk1, demon1_walk2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "demon/idle1.wav", 1, ATTN_IDLE);
-	ai_walk(8);
+	M_ai_mark_walk(8)
 };
-void() demon1_walk2 = [ $walk2, demon1_walk3 ] { ai_walk(6); };
-void() demon1_walk3 = [ $walk3, demon1_walk4 ] { ai_walk(6); };
-void() demon1_walk4 = [ $walk4, demon1_walk5 ] { ai_walk(7); };
-void() demon1_walk5 = [ $walk5, demon1_walk6 ] { ai_walk(4); };
-void() demon1_walk6 = [ $walk6, demon1_walk7 ] { ai_walk(6); };
-void() demon1_walk7 = [ $walk7, demon1_walk8 ] { ai_walk(10); };
-void() demon1_walk8 = [ $walk8, demon1_walk1 ] { ai_walk(10); };
+void() demon1_walk2 = [ $walk2, demon1_walk3 ] { M_ai_mark_walk(6) };
+void() demon1_walk3 = [ $walk3, demon1_walk4 ] { M_ai_mark_walk(6) };
+void() demon1_walk4 = [ $walk4, demon1_walk5 ] { M_ai_mark_walk(7) };
+void() demon1_walk5 = [ $walk5, demon1_walk6 ] { M_ai_mark_walk(4) };
+void() demon1_walk6 = [ $walk6, demon1_walk7 ] { M_ai_mark_walk(6) };
+void() demon1_walk7 = [ $walk7, demon1_walk8 ] { M_ai_mark_walk(10) };
+void() demon1_walk8 = [ $walk8, demon1_walk1 ] { M_ai_mark_walk(10) };
 
 void() demon1_run1 = [ $run1, demon1_run2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "demon/idle1.wav", 1, ATTN_IDLE);
-	ai_run(20);
+	M_ai_mark_run(20)
 };
-void() demon1_run2 = [ $run2, demon1_run3 ] { ai_run(15); };
-void() demon1_run3 = [ $run3, demon1_run4 ] { ai_run(36); };
-void() demon1_run4 = [ $run4, demon1_run5 ] { ai_run(20); };
-void() demon1_run5 = [ $run5, demon1_run6 ] { ai_run(15); };
-void() demon1_run6 = [ $run6, demon1_run1 ] { ai_run(36); };
+void() demon1_run2 = [ $run2, demon1_run3 ] { M_ai_mark_run(15) };
+void() demon1_run3 = [ $run3, demon1_run4 ] { M_ai_mark_run(36) };
+void() demon1_run4 = [ $run4, demon1_run5 ] { M_ai_mark_run(20) };
+void() demon1_run5 = [ $run5, demon1_run6 ] { M_ai_mark_run(15) };
+void() demon1_run6 = [ $run6, demon1_run1 ] { M_ai_mark_run(36) };
 
 void() demon1_jump1 = [ $leap1, demon1_jump2 ] { ai_face(); };
 void() demon1_jump2 = [ $leap2, demon1_jump3 ] { ai_face(); };
@@ -120,21 +120,21 @@ void() demon1_jump11 = [ $leap11, demon1_jump12 ] {};
 void() demon1_jump12 = [ $leap12, demon1_run1 ] {};
 
 
-void() demon1_atta1 = [ $attacka1, demon1_atta2 ] { ai_charge(4); };
-void() demon1_atta2 = [ $attacka2, demon1_atta3 ] { ai_charge(0); };
-void() demon1_atta3 = [ $attacka3, demon1_atta4 ] { ai_charge(0); };
-void() demon1_atta4 = [ $attacka4, demon1_atta5 ] { ai_charge(1); };
-void() demon1_atta5 = [ $attacka5, demon1_atta6 ] { ai_charge(2); Demon_Melee(200); };
-void() demon1_atta6 = [ $attacka6, demon1_atta7 ] { ai_charge(1); };
-void() demon1_atta7 = [ $attacka7, demon1_atta8 ] { ai_charge(6); };
-void() demon1_atta8 = [ $attacka8, demon1_atta9 ] { ai_charge(8); };
-void() demon1_atta9 = [ $attacka9, demon1_atta10 ] { ai_charge(4); };
-void() demon1_atta10 = [ $attacka10, demon1_atta11 ] { ai_charge(2); };
+void() demon1_atta1 = [ $attacka1, demon1_atta2 ] { M_ai_mark_charge(4) };
+void() demon1_atta2 = [ $attacka2, demon1_atta3 ] { M_ai_mark_charge(0) };
+void() demon1_atta3 = [ $attacka3, demon1_atta4 ] { M_ai_mark_charge(0) };
+void() demon1_atta4 = [ $attacka4, demon1_atta5 ] { M_ai_mark_charge(1) };
+void() demon1_atta5 = [ $attacka5, demon1_atta6 ] { M_ai_mark_charge(2) Demon_Melee(200); };
+void() demon1_atta6 = [ $attacka6, demon1_atta7 ] { M_ai_mark_charge(1) };
+void() demon1_atta7 = [ $attacka7, demon1_atta8 ] { M_ai_mark_charge(6) };
+void() demon1_atta8 = [ $attacka8, demon1_atta9 ] { M_ai_mark_charge(8) };
+void() demon1_atta9 = [ $attacka9, demon1_atta10 ] { M_ai_mark_charge(4) };
+void() demon1_atta10 = [ $attacka10, demon1_atta11 ] { M_ai_mark_charge(2) };
 void() demon1_atta11 = [ $attacka11, demon1_atta12 ] { Demon_Melee(-200); };
-void() demon1_atta12 = [ $attacka12, demon1_atta13 ] { ai_charge(5); };
-void() demon1_atta13 = [ $attacka13, demon1_atta14 ] { ai_charge(8); };
-void() demon1_atta14 = [ $attacka14, demon1_atta15 ] { ai_charge(4); };
-void() demon1_atta15 = [ $attacka15, demon1_run1 ] { ai_charge(4); };
+void() demon1_atta12 = [ $attacka12, demon1_atta13 ] { M_ai_mark_charge(5) };
+void() demon1_atta13 = [ $attacka13, demon1_atta14 ] { M_ai_mark_charge(8) };
+void() demon1_atta14 = [ $attacka14, demon1_atta15 ] { M_ai_mark_charge(4) };
+void() demon1_atta15 = [ $attacka15, demon1_run1 ] { M_ai_mark_charge(4) };
 
 void() demon1_pain1 = [ $pain1, demon1_pain2 ] {};
 void() demon1_pain2 = [ $pain2, demon1_pain3 ] {};
@@ -230,6 +230,7 @@ void() monster_demon1 =
 	self.th_pain = demon1_pain;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = FIEND_HP;
 	self.strength = FIEND_STR;
@@ -241,6 +242,9 @@ void() monster_demon1 =
 	self.weapon_str = FIEND_CLAW_STR + FIEND_STR;
 	self.weapon_ap = FIEND_CLAW_AP;
 	self.weapon_dmg = FIEND_CLAW_DMG;
+
+	M_ai_set_name("Demon", "Beast of Rot", "Fiendish Sensation", "Demon of Blood", "Horrible Pink")
+	M_ai_set_yaw(20)
 	//------------------------
 	
 	walkmonster_start();

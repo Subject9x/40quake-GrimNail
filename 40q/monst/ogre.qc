@@ -170,7 +170,7 @@ void(float side) chainsaw =
 	if (!CanDamage(self.enemy, self))
 		return;
 
-	ai_charge(10);
+	M_ai_mark_charge(10)
 
 	delta = self.enemy.origin - self.origin;
 
@@ -217,32 +217,32 @@ void() ogre_stand7 = [ $stand7, ogre_stand8 ] { ai_stand(); };
 void() ogre_stand8 = [ $stand8, ogre_stand9 ] { ai_stand(); };
 void() ogre_stand9 = [ $stand9, ogre_stand1 ] { ai_stand(); };
 
-void() ogre_walk1 = [ $walk1, ogre_walk2 ] { ai_walk(3); };
-void() ogre_walk2 = [ $walk2, ogre_walk3 ] { ai_walk(2); };
+void() ogre_walk1 = [ $walk1, ogre_walk2 ] { M_ai_mark_walk(3) };
+void() ogre_walk2 = [ $walk2, ogre_walk3 ] { M_ai_mark_walk(2) };
 void() ogre_walk3 = [ $walk3, ogre_walk4 ]
 {
-	ai_walk(2);
+	M_ai_mark_walk(2)
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "ogre/ogidle.wav", 1, ATTN_IDLE);
 };
-void() ogre_walk4 = [ $walk4, ogre_walk5 ] { ai_walk(2); };
-void() ogre_walk5 = [ $walk5, ogre_walk6 ] { ai_walk(2); };
+void() ogre_walk4 = [ $walk4, ogre_walk5 ] { M_ai_mark_walk(2) };
+void() ogre_walk5 = [ $walk5, ogre_walk6 ] { M_ai_mark_walk(2) };
 void() ogre_walk6 = [ $walk6, ogre_walk7 ]
 {
-	ai_walk(5);
+	M_ai_mark_walk(5)
 	if (random() < 0.1)
 		sound(self, CHAN_VOICE, "ogre/ogdrag.wav", 1, ATTN_IDLE);
 };
-void() ogre_walk7 = [ $walk7, ogre_walk8 ] { ai_walk(3); };
-void() ogre_walk8 = [ $walk8, ogre_walk9 ] { ai_walk(2); };
-void() ogre_walk9 = [ $walk9, ogre_walk10 ] { ai_walk(3); };
-void() ogre_walk10 = [ $walk10, ogre_walk11 ] { ai_walk(1); };
-void() ogre_walk11 = [ $walk11, ogre_walk12 ] { ai_walk(2); };
-void() ogre_walk12 = [ $walk12, ogre_walk13 ] { ai_walk(3); };
-void() ogre_walk13 = [ $walk13, ogre_walk14 ] { ai_walk(3); };
-void() ogre_walk14 = [ $walk14, ogre_walk15 ] { ai_walk(3); };
-void() ogre_walk15 = [ $walk15, ogre_walk16 ] { ai_walk(3); };
-void() ogre_walk16 = [ $walk16, ogre_walk1 ] { ai_walk(4); };
+void() ogre_walk7 = [ $walk7, ogre_walk8 ] { M_ai_mark_walk(3) };
+void() ogre_walk8 = [ $walk8, ogre_walk9 ] { M_ai_mark_walk(2) };
+void() ogre_walk9 = [ $walk9, ogre_walk10 ] { M_ai_mark_walk(3) };
+void() ogre_walk10 = [ $walk10, ogre_walk11 ] { M_ai_mark_walk(1) };
+void() ogre_walk11 = [ $walk11, ogre_walk12 ] { M_ai_mark_walk(2) };
+void() ogre_walk12 = [ $walk12, ogre_walk13 ] { M_ai_mark_walk(3) };
+void() ogre_walk13 = [ $walk13, ogre_walk14 ] { M_ai_mark_walk(3) };
+void() ogre_walk14 = [ $walk14, ogre_walk15 ] { M_ai_mark_walk(3) };
+void() ogre_walk15 = [ $walk15, ogre_walk16 ] { M_ai_mark_walk(3) };
+void() ogre_walk16 = [ $walk16, ogre_walk1 ] { M_ai_mark_walk(4) };
 
 void() ogre_run1 = [ $run1, ogre_run2 ]
 {
@@ -250,25 +250,25 @@ void() ogre_run1 = [ $run1, ogre_run2 ]
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "ogre/ogidle2.wav", 1, ATTN_IDLE);
 };
-void() ogre_run2 = [ $run2, ogre_run3 ] { ai_run(12); };
-void() ogre_run3 = [ $run3, ogre_run4 ] { ai_run(8); };
-void() ogre_run4 = [ $run4, ogre_run5 ] { ai_run(22); };
-void() ogre_run5 = [ $run5, ogre_run6 ] { ai_run(16); };
-void() ogre_run6 = [ $run6, ogre_run7 ] { ai_run(4); };
-void() ogre_run7 = [ $run7, ogre_run8 ] { ai_run(13); };
-void() ogre_run8 = [ $run8, ogre_run1 ] { ai_run(24); };
+void() ogre_run2 = [ $run2, ogre_run3 ] { M_ai_mark_run(12) };
+void() ogre_run3 = [ $run3, ogre_run4 ] { M_ai_mark_run(8) };
+void() ogre_run4 = [ $run4, ogre_run5 ] { M_ai_mark_run(22) };
+void() ogre_run5 = [ $run5, ogre_run6 ] { M_ai_mark_run(16) };
+void() ogre_run6 = [ $run6, ogre_run7 ] { M_ai_mark_run(4) };
+void() ogre_run7 = [ $run7, ogre_run8 ] { M_ai_mark_run(13) };
+void() ogre_run8 = [ $run8, ogre_run1 ] { M_ai_mark_run(24) };
 
 void() ogre_swing1 = [ $swing1, ogre_swing2 ]
 {
-	ai_charge(11);
+	M_ai_mark_charge(11);
 	sound(self, CHAN_WEAPON, "ogre/ogsawatk.wav", 1, ATTN_NORM);
 };
-void() ogre_swing2 = [ $swing2, ogre_swing3 ] { ai_charge(1); };
-void() ogre_swing3 = [ $swing3, ogre_swing4 ] { ai_charge(4); };
-void() ogre_swing4 = [ $swing4, ogre_swing5 ] { ai_charge(13); };
+void() ogre_swing2 = [ $swing2, ogre_swing3 ] { M_ai_mark_charge(1) };
+void() ogre_swing3 = [ $swing3, ogre_swing4 ] { M_ai_mark_charge(4) };
+void() ogre_swing4 = [ $swing4, ogre_swing5 ] { M_ai_mark_charge(13) };
 void() ogre_swing5 = [ $swing5, ogre_swing6 ]
 {
-	ai_charge(9);
+	M_ai_mark_charge(9)
 	chainsaw(0);
 	self.angles_y = self.angles_y + random()*25;
 };
@@ -302,34 +302,44 @@ void() ogre_swing11 = [ $swing11, ogre_swing12 ]
 	chainsaw(0);
 	self.angles_y = self.angles_y + random()* 25;
 };
-void() ogre_swing12 = [ $swing12, ogre_swing13 ] { ai_charge(3); };
-void() ogre_swing13 = [ $swing13, ogre_swing14 ] { ai_charge(8); };
-void() ogre_swing14 = [ $swing14, ogre_run1 ] { ai_charge(9); };
+void() ogre_swing12 = [ $swing12, ogre_swing13 ] { M_ai_mark_charge(3) };
+void() ogre_swing13 = [ $swing13, ogre_swing14 ] { M_ai_mark_charge(8) };
+void() ogre_swing14 = [ $swing14, ogre_run1 ] { M_ai_mark_charge(9) };
+
+//40Q - Ogre of Excess - Fast Swing ====================================================================================================
+void() ogre_swing_fast1 = [$swing1, ogre_swing_fast2]{ M_ai_mark_charge(11) sound(self, CHAN_WEAPON, "ogre/ogsawatk.wav", 1, ATTN_NORM);};
+void() ogre_swing_fast2 = [$swing2, ogre_swing_fast3]{ M_ai_mark_charge(1) };
+void() ogre_swing_fast3 = [$swing3, ogre_swing_fast4]{ M_ai_mark_charge(13) };
+void() ogre_swing_fast4 = [$swing4, ogre_swing_fast5]{ M_ai_mark_charge(9) chainsaw(0); self.angles_y = self.angles_y + random()*25;};
+void() ogre_swing_fast5 = [$swing5, ogre_swing_fast6]{ chainsaw(200); self.angles_y = self.angles_y + random()* 25;};
+void() ogre_swing_fast6 = [$swing6, ogre_swing_fast7]{ chainsaw(0); self.angles_y = self.angles_y + random()* 25;};
+void() ogre_swing_fast7 = [$swing7, ogre_run1]{	chainsaw(0); self.angles_y = self.angles_y + random()* 25;};
+//=====================================================================================================================================
 
 void() ogre_smash1 = [ $smash1, ogre_smash2 ]
 {
 	ai_charge(6);
 	sound(self, CHAN_WEAPON, "ogre/ogsawatk.wav", 1, ATTN_NORM);
 };
-void() ogre_smash2 = [ $smash2, ogre_smash3 ] { ai_charge(0); };
-void() ogre_smash3 = [ $smash3, ogre_smash4 ] { ai_charge(0); };
-void() ogre_smash4 = [ $smash4, ogre_smash5 ] { ai_charge(1); };
-void() ogre_smash5 = [ $smash5, ogre_smash6 ] { ai_charge(4); };
-void() ogre_smash6 = [ $smash6, ogre_smash7 ] { ai_charge(4); chainsaw(0); };
-void() ogre_smash7 = [ $smash7, ogre_smash8 ] { ai_charge(4); chainsaw(0); };
-void() ogre_smash8 = [ $smash8, ogre_smash9 ] { ai_charge(10); chainsaw(0); };
-void() ogre_smash9 = [ $smash9, ogre_smash10 ] { ai_charge(13); chainsaw(0); };
+void() ogre_smash2 = [ $smash2, ogre_smash3 ] { M_ai_mark_charge(0); };
+void() ogre_smash3 = [ $smash3, ogre_smash4 ] { M_ai_mark_charge(0); };
+void() ogre_smash4 = [ $smash4, ogre_smash5 ] { M_ai_mark_charge(1); };
+void() ogre_smash5 = [ $smash5, ogre_smash6 ] { M_ai_mark_charge(4); };
+void() ogre_smash6 = [ $smash6, ogre_smash7 ] { M_ai_mark_charge(4); chainsaw(0); };
+void() ogre_smash7 = [ $smash7, ogre_smash8 ] { M_ai_mark_charge(4); chainsaw(0); };
+void() ogre_smash8 = [ $smash8, ogre_smash9 ] { M_ai_mark_charge(10); chainsaw(0); };
+void() ogre_smash9 = [ $smash9, ogre_smash10 ] { M_ai_mark_charge(13); chainsaw(0); };
 void() ogre_smash10 = [ $smash10, ogre_smash11 ] { chainsaw(1); };
 void() ogre_smash11 = [ $smash11, ogre_smash12 ]
 {
-	ai_charge(2);
+	M_ai_mark_charge(2);
 	chainsaw(0);
 	// slight variation
 	self.nextthink = self.nextthink + random()*0.2;
 };
-void() ogre_smash12 = [ $smash12, ogre_smash13 ] { ai_charge(0); };
-void() ogre_smash13 = [ $smash13, ogre_smash14 ] { ai_charge(4); };
-void() ogre_smash14 = [ $smash14, ogre_run1 ] { ai_charge(12); };
+void() ogre_smash12 = [ $smash12, ogre_smash13 ] { M_ai_mark_charge(0); };
+void() ogre_smash13 = [ $smash13, ogre_smash14 ] { M_ai_mark_charge(4); };
+void() ogre_smash14 = [ $smash14, ogre_run1 ] { M_ai_mark_charge(12); };
 
 void() ogre_nail1 = [ $shoot1, ogre_nail2 ] { ai_face(); };
 void() ogre_nail2 = [ $shoot2, ogre_nail3 ] { ai_face(); };
@@ -493,10 +503,14 @@ void() ogre_die =
 
 void() ogre_melee =
 {
-	if (random() > 0.5)
+	if (random() > 0.5 || self.demon_mark == MARK_RAGE)
 		ogre_smash1();
-	else
-		ogre_swing1();
+	else{
+		if(self.demon_mark==MARK_EXCESS && random() > 0.25)
+			ogre_swing_fast1();
+		else
+			ogre_swing1();
+	}
 };
 
 
@@ -536,8 +550,9 @@ void() monster_ogre =
 	self.th_melee = ogre_melee;
 	self.th_missile = ogre_nail1;
 	self.th_pain = ogre_pain;
-
+	
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | (FL_DEMON | FL_MOB);
 	self.health = OGRE_HP;
 	self.strength = OGRE_STR;
@@ -553,7 +568,12 @@ void() monster_ogre =
 	self.weapon_str = GRENLNCH_STR;
 	self.weapon_ap = GRENLNCH_AP;
 	self.weapon_dmg = GRENLNCH_STR;
+	
+	M_ai_set_name("Ogre", "Rotted Ogre", "Obsessive Ogre", "Mad Ogre", "Twisted Ogre")
+	M_ai_set_yaw(20)
 	//------------------------
+
+
 
 	walkmonster_start();
 };

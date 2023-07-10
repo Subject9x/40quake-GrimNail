@@ -33,10 +33,10 @@
 #define FL_DEMON 8192
 #define FL_MOB 16384
 
-#define MARK_RAGE 1
-#define MARK_OBSESS 1
-#define MARK_ROT 2
-#define MARK_TWIST 3
+#define MARK_RAGE 4
+#define MARK_EXCESS 8
+#define MARK_DESPAIR 16
+#define MARK_TWIST 32
 
 #define WATERLEVEL_NOT 0
 #define WATERLEVEL_LEGS 1
@@ -50,10 +50,12 @@
 .float invuln_save;
 .float wounds;
 .float demon_mark;
+.float pain_time;	//pain_finished cooldown
 
 .float armor_save_set;
 .float toughness_set;
 .float strength_set;
+
 
 // Ranged weapon stats
 .float weapon_str;
@@ -64,6 +66,8 @@
 .float melee_str;
 .float melee_ap;
 .float melee_dmg;
+
+.float timer_shotgun_fire;
 
 // Assault waves
 void(string msg, vector v) logVec={

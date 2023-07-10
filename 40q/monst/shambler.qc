@@ -72,32 +72,32 @@ void() sham_stand15 = [ $stand15, sham_stand16 ] { ai_stand(); };
 void() sham_stand16 = [ $stand16, sham_stand17 ] { ai_stand(); };
 void() sham_stand17 = [ $stand17, sham_stand1 ] { ai_stand(); };
 
-void() sham_walk1 = [ $walk1, sham_walk2 ] { ai_walk(10); };
-void() sham_walk2 = [ $walk2, sham_walk3 ] { ai_walk(9); };
-void() sham_walk3 = [ $walk3, sham_walk4 ] { ai_walk(9); };
-void() sham_walk4 = [ $walk4, sham_walk5 ] { ai_walk(5); };
-void() sham_walk5 = [ $walk5, sham_walk6 ] { ai_walk(6); };
-void() sham_walk6 = [ $walk6, sham_walk7 ] { ai_walk(12); };
-void() sham_walk7 = [ $walk7, sham_walk8 ] { ai_walk(8); };
-void() sham_walk8 = [ $walk8, sham_walk9 ] { ai_walk(3); };
-void() sham_walk9 = [ $walk9, sham_walk10 ] { ai_walk(13); };
-void() sham_walk10 = [ $walk10, sham_walk11 ] { ai_walk(9); };
-void() sham_walk11 = [ $walk11, sham_walk12 ] { ai_walk(7); };
+void() sham_walk1 = [ $walk1, sham_walk2 ] { M_ai_mark_walk(10) };
+void() sham_walk2 = [ $walk2, sham_walk3 ] { M_ai_mark_walk(9) };
+void() sham_walk3 = [ $walk3, sham_walk4 ] { M_ai_mark_walk(9) };
+void() sham_walk4 = [ $walk4, sham_walk5 ] { M_ai_mark_walk(5) };
+void() sham_walk5 = [ $walk5, sham_walk6 ] { M_ai_mark_walk(6) };
+void() sham_walk6 = [ $walk6, sham_walk7 ] { M_ai_mark_walk(12) };
+void() sham_walk7 = [ $walk7, sham_walk8 ] { M_ai_mark_walk(8) };
+void() sham_walk8 = [ $walk8, sham_walk9 ] { M_ai_mark_walk(3) };
+void() sham_walk9 = [ $walk9, sham_walk10 ] { M_ai_mark_walk(13) };
+void() sham_walk10 = [ $walk10, sham_walk11 ] { M_ai_mark_walk(9) };
+void() sham_walk11 = [ $walk11, sham_walk12 ] { M_ai_mark_walk(7) };
 void() sham_walk12 = [ $walk12, sham_walk1 ]
 {
-	ai_walk(7);
+	M_ai_mark_walk(7)
 	if (random() > 0.8)
 		sound(self, CHAN_VOICE, "shambler/sidle.wav", 1, ATTN_IDLE);
 };
 
-void() sham_run1 = [ $run1, sham_run2 ] { ai_run(20); };
-void() sham_run2 = [ $run2, sham_run3 ] { ai_run(24); };
-void() sham_run3 = [ $run3, sham_run4 ] { ai_run(20); };
-void() sham_run4 = [ $run4, sham_run5 ] { ai_run(20); };
-void() sham_run5 = [ $run5, sham_run6 ] { ai_run(24); };
+void() sham_run1 = [ $run1, sham_run2 ] { M_ai_mark_run(20) };
+void() sham_run2 = [ $run2, sham_run3 ] { M_ai_mark_run(24) };
+void() sham_run3 = [ $run3, sham_run4 ] { M_ai_mark_run(20) };
+void() sham_run4 = [ $run4, sham_run5 ] { M_ai_mark_run(20) };
+void() sham_run5 = [ $run5, sham_run6 ] { M_ai_mark_run(24) };
 void() sham_run6 = [ $run6, sham_run1 ]
 {
-	ai_run(20);
+	M_ai_mark_run(20)
 	if (random() > 0.8)
 		sound(self, CHAN_VOICE, "shambler/sidle.wav", 1, ATTN_IDLE);
 };
@@ -105,16 +105,16 @@ void() sham_run6 = [ $run6, sham_run1 ]
 void() sham_smash1 = [ $smash1, sham_smash2 ]
 {
 	sound(self, CHAN_VOICE, "shambler/melee1.wav", 1, ATTN_NORM);
-	ai_charge(2);
+	M_ai_mark_charge(2)
 };
-void() sham_smash2 = [ $smash2, sham_smash3 ] { ai_charge(6); };
-void() sham_smash3 = [ $smash3, sham_smash4 ] { ai_charge(6); };
-void() sham_smash4 = [ $smash4, sham_smash5 ] { ai_charge(5); };
-void() sham_smash5 = [ $smash5, sham_smash6 ] { ai_charge(4); };
-void() sham_smash6 = [ $smash6, sham_smash7 ] { ai_charge(1); };
-void() sham_smash7 = [ $smash7, sham_smash8 ] { ai_charge(0); };
-void() sham_smash8 = [ $smash8, sham_smash9 ] { ai_charge(0); };
-void() sham_smash9 = [ $smash9, sham_smash10 ] { ai_charge(0); };
+void() sham_smash2 = [ $smash2, sham_smash3 ] { M_ai_mark_charge(6) };
+void() sham_smash3 = [ $smash3, sham_smash4 ] { M_ai_mark_charge(6) };
+void() sham_smash4 = [ $smash4, sham_smash5 ] { M_ai_mark_charge(5) };
+void() sham_smash5 = [ $smash5, sham_smash6 ] { M_ai_mark_charge(4) };
+void() sham_smash6 = [ $smash6, sham_smash7 ] { M_ai_mark_charge(1) };
+void() sham_smash7 = [ $smash7, sham_smash8 ] { M_ai_mark_charge(0) };
+void() sham_smash8 = [ $smash8, sham_smash9 ] { M_ai_mark_charge(0) };
+void() sham_smash9 = [ $smash9, sham_smash10 ] { M_ai_mark_charge(0) };
 void() sham_smash10 = [ $smash10, sham_smash11 ]
 {
 	vector delta;
@@ -150,8 +150,8 @@ void() sham_smash10 = [ $smash10, sham_smash11 ]
 	SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);
 	SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);
 };
-void() sham_smash11 = [ $smash11, sham_smash12 ] { ai_charge(5); };
-void() sham_smash12 = [ $smash12, sham_run1    ] { ai_charge(4); };
+void() sham_smash11 = [ $smash11, sham_smash12 ] { M_ai_mark_charge(5) };
+void() sham_smash12 = [ $smash12, sham_run1    ] { M_ai_mark_charge(4) };
 
 void() sham_swingr1;
 
@@ -197,13 +197,13 @@ void() sham_swingl1 = [ $swingl1, sham_swingl2 ]
 	sound(self, CHAN_VOICE, "shambler/melee2.wav", 1, ATTN_NORM);
 	ai_charge(5);
 };
-void() sham_swingl2 = [ $swingl2, sham_swingl3 ] { ai_charge(3); };
-void() sham_swingl3 = [ $swingl3, sham_swingl4 ] { ai_charge(7); };
-void() sham_swingl4 = [ $swingl4, sham_swingl5 ] { ai_charge(3); };
-void() sham_swingl5 = [ $swingl5, sham_swingl6 ] { ai_charge(7); };
-void() sham_swingl6 = [ $swingl6, sham_swingl7 ] { ai_charge(9); };
-void() sham_swingl7 = [ $swingl7, sham_swingl8 ] { ai_charge(5); ShamClaw(250); };
-void() sham_swingl8 = [ $swingl8, sham_swingl9 ] { ai_charge(4); };
+void() sham_swingl2 = [ $swingl2, sham_swingl3 ] { M_ai_mark_charge(3) };
+void() sham_swingl3 = [ $swingl3, sham_swingl4 ] { M_ai_mark_charge(7) };
+void() sham_swingl4 = [ $swingl4, sham_swingl5 ] { M_ai_mark_charge(3) };
+void() sham_swingl5 = [ $swingl5, sham_swingl6 ] { M_ai_mark_charge(7) };
+void() sham_swingl6 = [ $swingl6, sham_swingl7 ] { M_ai_mark_charge(9) };
+void() sham_swingl7 = [ $swingl7, sham_swingl8 ] { M_ai_mark_charge(5) ShamClaw(250); };
+void() sham_swingl8 = [ $swingl8, sham_swingl9 ] { M_ai_mark_charge(4) };
 void() sham_swingl9 = [ $swingl9, sham_run1  ]
 {
 	ai_charge(8);
@@ -216,17 +216,17 @@ void() sham_swingr1 = [ $swingr1, sham_swingr2 ]
 	sound(self, CHAN_VOICE, "shambler/melee1.wav", 1, ATTN_NORM);
 	ai_charge(1);
 };
-void() sham_swingr2 = [ $swingr2, sham_swingr3 ] { ai_charge(8); };
-void() sham_swingr3 = [ $swingr3, sham_swingr4 ] { ai_charge(14); };
-void() sham_swingr4 = [ $swingr4, sham_swingr5 ] { ai_charge(7); };
-void() sham_swingr5 = [ $swingr5, sham_swingr6 ] { ai_charge(3); };
-void() sham_swingr6 = [ $swingr6, sham_swingr7 ] { ai_charge(6); };
-void() sham_swingr7 = [ $swingr7, sham_swingr8 ] { ai_charge(6); ShamClaw(-250); };
-void() sham_swingr8 = [ $swingr8, sham_swingr9 ] { ai_charge(3); };
+void() sham_swingr2 = [ $swingr2, sham_swingr3 ] { M_ai_mark_charge(8) };
+void() sham_swingr3 = [ $swingr3, sham_swingr4 ] { M_ai_mark_charge(14) };
+void() sham_swingr4 = [ $swingr4, sham_swingr5 ] { M_ai_mark_charge(7) };
+void() sham_swingr5 = [ $swingr5, sham_swingr6 ] { M_ai_mark_charge(3) };
+void() sham_swingr6 = [ $swingr6, sham_swingr7 ] { M_ai_mark_charge(6) };
+void() sham_swingr7 = [ $swingr7, sham_swingr8 ] { M_ai_mark_charge(6) ShamClaw(-250); };
+void() sham_swingr8 = [ $swingr8, sham_swingr9 ] { M_ai_mark_charge(3) };
 void() sham_swingr9 = [ $swingr9, sham_run1  ]
 {
-	ai_charge(1);
-	ai_charge(10);
+	M_ai_mark_charge(1)
+	M_ai_mark_charge(10)
 	if (random()<0.5)
 		self.think = sham_swingl1;
 };
@@ -423,6 +423,7 @@ void() monster_shambler =
 	self.th_pain = sham_pain;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = SHAMBLER_HP;
 	self.strength = SHAMBLER_STR;
@@ -438,6 +439,9 @@ void() monster_shambler =
 	self.weapon_str = SHMBL_SPELL_STR;
 	self.weapon_ap = SHMBL_CLAW_DMG;
 	self.weapon_dmg = SHMBL_SPELL_DMG;
+
+	M_ai_set_name("Shambler", "Shambling Plaguehost", "Ravenous Shambler", "Blooded Shambler", "Master Shambler")
+	M_ai_set_yaw(20)
 	//------------------------
 	
 	walkmonster_start();

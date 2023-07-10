@@ -77,36 +77,36 @@ void() knight_walk1 = [ $walk1, knight_walk2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "knight/idle.wav", 1, ATTN_IDLE);
-	ai_walk(3);
+	M_ai_mark_walk(3)
 };
-void() knight_walk2 = [ $walk2, knight_walk3 ] { ai_walk(2); };
-void() knight_walk3 = [ $walk3, knight_walk4 ] { ai_walk(3); };
-void() knight_walk4 = [ $walk4, knight_walk5 ] { ai_walk(4); };
-void() knight_walk5 = [ $walk5, knight_walk6 ] { ai_walk(3); };
-void() knight_walk6 = [ $walk6, knight_walk7 ] { ai_walk(3); };
-void() knight_walk7 = [ $walk7, knight_walk8 ] { ai_walk(3); };
-void() knight_walk8 = [ $walk8, knight_walk9 ] { ai_walk(4); };
-void() knight_walk9 = [ $walk9, knight_walk10 ] { ai_walk(3); };
-void() knight_walk10 = [ $walk10, knight_walk11 ] { ai_walk(3); };
-void() knight_walk11 = [ $walk11, knight_walk12 ] { ai_walk(2); };
-void() knight_walk12 = [ $walk12, knight_walk13 ] { ai_walk(3); };
-void() knight_walk13 = [ $walk13, knight_walk14 ] { ai_walk(4); };
-void() knight_walk14 = [ $walk14, knight_walk1 ] { ai_walk(3); };
+void() knight_walk2 = [ $walk2, knight_walk3 ] { M_ai_mark_walk(2) };
+void() knight_walk3 = [ $walk3, knight_walk4 ] { M_ai_mark_walk(3) };
+void() knight_walk4 = [ $walk4, knight_walk5 ] { M_ai_mark_walk(4) };
+void() knight_walk5 = [ $walk5, knight_walk6 ] { M_ai_mark_walk(3) };
+void() knight_walk6 = [ $walk6, knight_walk7 ] { M_ai_mark_walk(3) };
+void() knight_walk7 = [ $walk7, knight_walk8 ] { M_ai_mark_walk(3) };
+void() knight_walk8 = [ $walk8, knight_walk9 ] { M_ai_mark_walk(4) };
+void() knight_walk9 = [ $walk9, knight_walk10 ] { M_ai_mark_walk(3) };
+void() knight_walk10 = [ $walk10, knight_walk11 ] { M_ai_mark_walk(3) };
+void() knight_walk11 = [ $walk11, knight_walk12 ] { M_ai_mark_walk(2) };
+void() knight_walk12 = [ $walk12, knight_walk13 ] { M_ai_mark_walk(3) };
+void() knight_walk13 = [ $walk13, knight_walk14 ] { M_ai_mark_walk(4) };
+void() knight_walk14 = [ $walk14, knight_walk1 ] { M_ai_mark_walk(3) };
 
 
 void() knight_run1 = [ $runb1, knight_run2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "knight/idle.wav", 1, ATTN_IDLE);
-	ai_run(16);
+	M_ai_mark_run(16)
 };
-void() knight_run2 = [ $runb2, knight_run3 ] { ai_run(20); };
-void() knight_run3 = [ $runb3, knight_run4 ] { ai_run(13); };
-void() knight_run4 = [ $runb4, knight_run5 ] { ai_run(7); };
-void() knight_run5 = [ $runb5, knight_run6 ] { ai_run(16); };
-void() knight_run6 = [ $runb6, knight_run7 ] { ai_run(20); };
-void() knight_run7 = [ $runb7, knight_run8 ] { ai_run(14); };
-void() knight_run8 = [ $runb8, knight_run1 ] { ai_run(6); };
+void() knight_run2 = [ $runb2, knight_run3 ] { M_ai_mark_run(20) };
+void() knight_run3 = [ $runb3, knight_run4 ] { M_ai_mark_run(13) };
+void() knight_run4 = [ $runb4, knight_run5 ] { M_ai_mark_run(7) };
+void() knight_run5 = [ $runb5, knight_run6 ] { M_ai_mark_run(16) };
+void() knight_run6 = [ $runb6, knight_run7 ] { M_ai_mark_run(20) };
+void() knight_run7 = [ $runb7, knight_run8 ] { M_ai_mark_run(14) };
+void() knight_run8 = [ $runb8, knight_run1 ] { M_ai_mark_run(6) };
 
 
 void() knight_runatk1 = [ $runattack1, knight_runatk2 ]
@@ -115,7 +115,7 @@ void() knight_runatk1 = [ $runattack1, knight_runatk2 ]
 		sound(self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
 	else
 		sound(self, CHAN_WEAPON, "knight/sword1.wav", 1, ATTN_NORM);
-	ai_charge(20);
+	M_ai_mark_charge(20)
 };
 void() knight_runatk2 = [ $runattack2, knight_runatk3 ] { ai_charge_side(); };
 void() knight_runatk3 = [ $runattack3, knight_runatk4 ] { ai_charge_side(); };
@@ -126,22 +126,22 @@ void() knight_runatk7 = [ $runattack7, knight_runatk8 ] { ai_melee_side(); };
 void() knight_runatk8 = [ $runattack8, knight_runatk9 ] { ai_melee_side(); };
 void() knight_runatk9 = [ $runattack9, knight_runatk10 ] { ai_melee_side(); };
 void() knight_runatk10 = [ $runattack10, knight_runatk11 ] { ai_charge_side(); };
-void() knight_runatk11 = [ $runattack11, knight_run1 ] { ai_charge(10); };
+void() knight_runatk11 = [ $runattack11, knight_run1 ] { M_ai_mark_charge(10) };
 
 void() knight_atk1 = [ $attackb1, knight_atk2 ]
 {
 	sound(self, CHAN_WEAPON, "knight/sword1.wav", 1, ATTN_NORM);
-	ai_charge(0);
+	M_ai_mark_charge(0)
 };
-void() knight_atk2 = [ $attackb2, knight_atk3 ] { ai_charge(7); };
-void() knight_atk3 = [ $attackb3, knight_atk4 ] { ai_charge(4); };
-void() knight_atk4 = [ $attackb4, knight_atk5 ] { ai_charge(0); };
-void() knight_atk5 = [ $attackb5, knight_atk6 ] { ai_charge(3); };
-void() knight_atk6 = [ $attackb6, knight_atk7 ] { ai_charge(4); ai_melee(); };
-void() knight_atk7 = [ $attackb7, knight_atk8 ] { ai_charge(1); ai_melee(); };
-void() knight_atk8 = [ $attackb8, knight_atk9 ] { ai_charge(3); ai_melee(); };
-void() knight_atk9 = [ $attackb9, knight_atk10 ] { ai_charge(1); };
-void() knight_atk10 = [ $attackb10, knight_run1 ] { ai_charge(5); };
+void() knight_atk2 = [ $attackb2, knight_atk3 ] { M_ai_mark_charge(7) };
+void() knight_atk3 = [ $attackb3, knight_atk4 ] { M_ai_mark_charge(4) };
+void() knight_atk4 = [ $attackb4, knight_atk5 ] { M_ai_mark_charge(0) };
+void() knight_atk5 = [ $attackb5, knight_atk6 ] { M_ai_mark_charge(3) };
+void() knight_atk6 = [ $attackb6, knight_atk7 ] { M_ai_mark_charge(4) ai_melee(); };
+void() knight_atk7 = [ $attackb7, knight_atk8 ] { M_ai_mark_charge(1) ai_melee(); };
+void() knight_atk8 = [ $attackb8, knight_atk9 ] { M_ai_mark_charge(3) ai_melee(); };
+void() knight_atk9 = [ $attackb9, knight_atk10 ] { M_ai_mark_charge(1) };
+void() knight_atk10 = [ $attackb10, knight_run1 ] { M_ai_mark_charge(5) };
 
 //void() knight_atk9 = [ $attack9, knight_atk10 ] {};
 //void() knight_atk10 = [ $attack10, knight_atk11 ] {};
@@ -178,12 +178,12 @@ void(entity attacker, float damage) knight_pain =
 	if (r < 0.85)
 	{
 		knight_pain1();
-		self.pain_finished = time + 1;
+		self.pain_finished = time + self.pain_time;
 	}
 	else
 	{
 		knight_painb1();
-		self.pain_finished = time + 1;
+		self.pain_finished = time + self.pain_time;
 	}
 
 };
@@ -285,7 +285,10 @@ void() monster_knight =
 	self.th_pain = knight_pain;
 	self.th_die = knight_die;
 
+	self.pain_time = 1;
+
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_MOB;
 	self.health = KNIGHT_HP;
 	self.strength = KNIGHT_STR;
@@ -297,6 +300,9 @@ void() monster_knight =
 	self.melee_str = KNIGHT_STR + SWORD_STR;
 	self.melee_ap = SWORD_AP;
 	self.melee_dmg = SWORD_DMG;
+
+	M_ai_set_name("Knight", "Plague Knight", "Perfected Knight", "Raging Knight", "Bizarre Knight")
+	M_ai_set_yaw(20)
 	//------------------------
 	
 	walkmonster_start();

@@ -58,21 +58,21 @@ void() tbaby_walk7 = [ $walk7, tbaby_walk8 ] { ai_turn(); };
 void() tbaby_walk8 = [ $walk8, tbaby_walk9 ] { ai_turn(); };
 void() tbaby_walk9 = [ $walk9, tbaby_walk10 ] { ai_turn(); };
 void() tbaby_walk10 = [ $walk10, tbaby_walk11 ] { ai_turn(); };
-void() tbaby_walk11 = [ $walk11, tbaby_walk12 ] { ai_walk(2); };
-void() tbaby_walk12 = [ $walk12, tbaby_walk13 ] { ai_walk(2); };
-void() tbaby_walk13 = [ $walk13, tbaby_walk14 ] { ai_walk(2); };
-void() tbaby_walk14 = [ $walk14, tbaby_walk15 ] { ai_walk(2); };
-void() tbaby_walk15 = [ $walk15, tbaby_walk16 ] { ai_walk(2); };
-void() tbaby_walk16 = [ $walk16, tbaby_walk17 ] { ai_walk(2); };
-void() tbaby_walk17 = [ $walk17, tbaby_walk18 ] { ai_walk(2); };
-void() tbaby_walk18 = [ $walk18, tbaby_walk19 ] { ai_walk(2); };
-void() tbaby_walk19 = [ $walk19, tbaby_walk20 ] { ai_walk(2); };
-void() tbaby_walk20 = [ $walk20, tbaby_walk21 ] { ai_walk(2); };
-void() tbaby_walk21 = [ $walk21, tbaby_walk22 ] { ai_walk(2); };
-void() tbaby_walk22 = [ $walk22, tbaby_walk23 ] { ai_walk(2); };
-void() tbaby_walk23 = [ $walk23, tbaby_walk24 ] { ai_walk(2); };
-void() tbaby_walk24 = [ $walk24, tbaby_walk25 ] { ai_walk(2); };
-void() tbaby_walk25 = [ $walk25, tbaby_walk1 ] { ai_walk(2); };
+void() tbaby_walk11 = [ $walk11, tbaby_walk12 ] { M_ai_mark_walk(2) };
+void() tbaby_walk12 = [ $walk12, tbaby_walk13 ] { M_ai_mark_walk(2) };
+void() tbaby_walk13 = [ $walk13, tbaby_walk14 ] { M_ai_mark_walk(2) };
+void() tbaby_walk14 = [ $walk14, tbaby_walk15 ] { M_ai_mark_walk(2) };
+void() tbaby_walk15 = [ $walk15, tbaby_walk16 ] { M_ai_mark_walk(2) };
+void() tbaby_walk16 = [ $walk16, tbaby_walk17 ] { M_ai_mark_walk(2) };
+void() tbaby_walk17 = [ $walk17, tbaby_walk18 ] { M_ai_mark_walk(2) };
+void() tbaby_walk18 = [ $walk18, tbaby_walk19 ] { M_ai_mark_walk(2) };
+void() tbaby_walk19 = [ $walk19, tbaby_walk20 ] { M_ai_mark_walk(2) };
+void() tbaby_walk20 = [ $walk20, tbaby_walk21 ] { M_ai_mark_walk(2) };
+void() tbaby_walk21 = [ $walk21, tbaby_walk22 ] { M_ai_mark_walk(2) };
+void() tbaby_walk22 = [ $walk22, tbaby_walk23 ] { M_ai_mark_walk(2) };
+void() tbaby_walk23 = [ $walk23, tbaby_walk24 ] { M_ai_mark_walk(2) };
+void() tbaby_walk24 = [ $walk24, tbaby_walk25 ] { M_ai_mark_walk(2) };
+void() tbaby_walk25 = [ $walk25, tbaby_walk1 ] { M_ai_mark_walk(2) };
 
 void() tbaby_run1 = [ $run1, tbaby_run2 ] { ai_face(); };
 void() tbaby_run2 = [ $run2, tbaby_run3 ] { ai_face(); };
@@ -84,21 +84,21 @@ void() tbaby_run7 = [ $run7, tbaby_run8 ] { ai_face(); };
 void() tbaby_run8 = [ $run8, tbaby_run9 ] { ai_face(); };
 void() tbaby_run9 = [ $run9, tbaby_run10 ] { ai_face(); };
 void() tbaby_run10 = [ $run10, tbaby_run11 ] { ai_face(); };
-void() tbaby_run11 = [ $run11, tbaby_run12 ] { ai_run(2); };
-void() tbaby_run12 = [ $run12, tbaby_run13 ] { ai_run(2); };
-void() tbaby_run13 = [ $run13, tbaby_run14 ] { ai_run(2); };
-void() tbaby_run14 = [ $run14, tbaby_run15 ] { ai_run(2); };
-void() tbaby_run15 = [ $run15, tbaby_run16 ] { ai_run(2); };
-void() tbaby_run16 = [ $run16, tbaby_run17 ] { ai_run(2); };
-void() tbaby_run17 = [ $run17, tbaby_run18 ] { ai_run(2); };
-void() tbaby_run18 = [ $run18, tbaby_run19 ] { ai_run(2); };
-void() tbaby_run19 = [ $run19, tbaby_run20 ] { ai_run(2); };
-void() tbaby_run20 = [ $run20, tbaby_run21 ] { ai_run(2); };
-void() tbaby_run21 = [ $run21, tbaby_run22 ] { ai_run(2); };
-void() tbaby_run22 = [ $run22, tbaby_run23 ] { ai_run(2); };
-void() tbaby_run23 = [ $run23, tbaby_run24 ] { ai_run(2); };
-void() tbaby_run24 = [ $run24, tbaby_run25 ] { ai_run(2); };
-void() tbaby_run25 = [ $run25, tbaby_run1 ] { ai_run(2); };
+void() tbaby_run11 = [ $run11, tbaby_run12 ] { M_ai_mark_run(2) };
+void() tbaby_run12 = [ $run12, tbaby_run13 ] { M_ai_mark_run(2) };
+void() tbaby_run13 = [ $run13, tbaby_run14 ] { M_ai_mark_run(2) };
+void() tbaby_run14 = [ $run14, tbaby_run15 ] { M_ai_mark_run(2) };
+void() tbaby_run15 = [ $run15, tbaby_run16 ] { M_ai_mark_run(2) };
+void() tbaby_run16 = [ $run16, tbaby_run17 ] { M_ai_mark_run(2) };
+void() tbaby_run17 = [ $run17, tbaby_run18 ] { M_ai_mark_run(2) };
+void() tbaby_run18 = [ $run18, tbaby_run19 ] { M_ai_mark_run(2) };
+void() tbaby_run19 = [ $run19, tbaby_run20 ] { M_ai_mark_run(2) };
+void() tbaby_run20 = [ $run20, tbaby_run21 ] { M_ai_mark_run(2) };
+void() tbaby_run21 = [ $run21, tbaby_run22 ] { M_ai_mark_run(2) };
+void() tbaby_run22 = [ $run22, tbaby_run23 ] { M_ai_mark_run(2) };
+void() tbaby_run23 = [ $run23, tbaby_run24 ] { M_ai_mark_run(2) };
+void() tbaby_run24 = [ $run24, tbaby_run25 ] { M_ai_mark_run(2) };
+void() tbaby_run25 = [ $run25, tbaby_run1 ] { M_ai_mark_run(2) };
 
 
 //============================================================================
@@ -235,6 +235,7 @@ void() monster_tarbaby =
 	self.th_die = tbaby_die1;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.strength = SPAWN_STR;
 	self.toughness = SPAWN_TOUGH;
@@ -245,6 +246,9 @@ void() monster_tarbaby =
 	self.weapon_str = SPAWN_SPLAT_STR;
 	self.weapon_ap = SPAWN_SPLAT_AP;
 	self.weapon_dmg = SPAWN_SPLAT_DMG;
+
+	
+	M_ai_set_yaw(20)
 	//------------------------
 	
 	walkmonster_start();

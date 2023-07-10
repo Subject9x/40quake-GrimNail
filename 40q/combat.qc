@@ -120,6 +120,79 @@ void(entity targ, entity attacker) Killed =
 	self = oself;
 };
 
+float(entity t, entity inflict, float dmg) tabletop_damage={
+
+	float wepStr;
+	float wepAp;
+	float wepDmg;
+
+	float roll;
+	float toWound;
+	float hits;
+	float armorSv;
+	float calcDmg;
+
+	wepStr = inflict.weapon_str;
+	wepAp = inflict.weapon_ap;
+	wepDmg = inflict.weapon_dmg;
+
+	toWound = 4;
+	if(wepStr > t.toughness)
+	{
+		toWound = 3;
+		if(wepStr >= t.toughness * 2){
+			toWound = 2;
+		}
+	}
+	else
+	{
+		toWound = 5;
+		if(wepStr <= t.toughness / 2){
+			toWound = 6;
+		}
+	}
+	roll = ceil(1.0 + (random() * 5.0));
+
+	if(roll >= toWound){
+		if(t.armor_save || t.invuln_save){
+			roll = ceil(1.0 + (random() * 5.0));
+			armorSv = roll + wepAp;
+
+			if(armorSv >= t.armor_save){
+				//successful armor save.
+				sfx_armor_save(t);
+				return 0.0;
+			}
+			else{
+				if(t.invuln_save && roll >= t.invuln_save){
+					//successful armor save.
+					sfx_armor_save(t);
+					return 0.0;
+				}
+				else{
+					//take wounds from weapon dmg
+					t.wounds = t.wounds - wepDmg;
+					if(t.wounds <= 0 ){
+						return t.max_health * (1.0 + random() * 0.5);
+					}
+					else{
+						return  wepDmg * 50;
+					}
+				}
+			}
+		}
+		else{
+			//no armor save, take pure damage
+			return wepDmg * 50;
+
+		}
+	}
+	else{
+		//failed to wound, do chip damage.
+		sfx_armor_save(t);
+		return 0.0;
+	}
+};
 
 /*
 ============
@@ -152,80 +225,69 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	//TODO - adjust quad to match new system
 // check for quad damage powerup on the attacker
 	if (attacker.super_damage_finished > time){
-		damage = damage * 4;
+		damage = damage * 2;
 		wepStr = wepStr * 2;
 		wepAp = wepAp - 1;
 		wepDmg = wepDmg + 1;
 	}
 
 //40Q - MECHANICS CHECK:-------------------------------------------------
-	if((targ.toughness && inflictor.weapon_str))
+	if(targ.toughness && inflictor.weapon_str)
 	{
-		float roll;
-		float toWound;
-		float hits;
-		float armorSv;
-		float calcDmg;
-
-		toWound = 4;
-		if(wepStr > targ.toughness)
-		{
-			toWound = 3;
-			if(wepStr >= targ.toughness * 2){
-				toWound = 2;
-			}
-		}
-		else
-		{
-			toWound = 5;
-			if(wepStr <= targ.toughness / 2){
-				toWound = 6;
-			}
-		}
-		roll = ceil(1.0 + (random() * 5.0));
-
-		if(roll >= toWound){
-			if(targ.armor_save || targ.invuln_save){
-				roll = ceil(1.0 + (random() * 5.0));
-				armorSv = roll + wepAp;
-
-				if(armorSv >= targ.armor_save){
-					//successful armor save.
-					take = 0;
-					sfx_armor_save(targ);
-				}
-				else{
-					if(targ.invuln_save && roll >= targ.invuln_save){
-						//successful armor save.
-						take = 0;
-						sfx_armor_save(targ);
-					}
-					else{
-						//take wounds from weapon dmg
-						targ.wounds = targ.wounds - wepDmg;
-						if(targ.wounds <= 0 ){
-							take = targ.max_health * (1.0 + random() * 0.5);
-						}
-						else{
-							take = wepDmg * 50;
-						}
-					}
-				}
-			}
-			else{
-				//no armor save, take pure damage
-				take = wepDmg * 50;
-			}
+		if(skill == 4){
+			take = tabletop_damage(targ, inflictor, damage); 
 		}
 		else{
-			//failed to wound, do chip damage.
-			take = 0;
-			sfx_armor_save(targ);
+			take = damage;	
+			if(wepStr > targ.toughness)
+			{
+				take = wepDmg * 1.33;
+				if(wepStr >= targ.toughness * 2){
+					take = wepDmg * 1.67;
+				}
+			}
+			else
+			{
+				take = wepDmg * 0.67;
+				if(wepStr <= targ.toughness / 2){
+					take = wepDmg * 0.33;
+				}
+			}
 		}
 	}
 	else{
 		take = damage;
 	}
+
+	//40Q ARMOR CALC
+	if(targ.armortype != 0){
+		save = ceil(damage * take/damage * 0.5);
+		take = take - save;
+		if(save){
+			targ.armorvalue = targ.armorvalue - save;
+			if(targ.armorvalue <= 0.0){
+				targ.armorvalue = 0;
+				targ.armortype = 0;
+				targ.toughness = targ.toughness_set;
+				targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
+			}
+			else{
+				if((targ.items & IT_ARMOR3) && targ.armorvalue < 151){
+					targ.items = targ.items - (targ.items &  IT_ARMOR3);
+					targ.toughness = targ.toughness - 1;
+				}
+				else if((targ.items & IT_ARMOR2) && targ.armorvalue < 101){
+					targ.items = targ.items - (targ.items &  IT_ARMOR2);
+					targ.toughness = targ.toughness - 1;
+				}
+				else if((targ.items & IT_ARMOR1) && targ.armorvalue < 50){
+					targ.items = targ.items - (targ.items &  IT_ARMOR1);
+					targ.toughness = targ.toughness - 1;
+				}
+			}
+		}
+	}
+
 //-----------------------------------------------------------------------
 
 
@@ -250,6 +312,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // FIXME: remove after combining shotgun blasts?
 	if (targ.flags & FL_CLIENT)
 	{
+
 		targ.dmg_take = targ.dmg_take + take;
 		targ.dmg_save = targ.dmg_save + save;
 		targ.dmg_inflictor = inflictor;

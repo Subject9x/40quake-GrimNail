@@ -49,35 +49,35 @@ void() shal_walk1 = [ $walk2, shal_walk2 ]
 		sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE);
 	ai_walk(6);
 };
-void() shal_walk2 = [ $walk3, shal_walk3 ] { ai_walk(4); };
-void() shal_walk3 = [ $walk4, shal_walk4 ] { ai_walk(0); };
-void() shal_walk4 = [ $walk5, shal_walk5 ] { ai_walk(0); };
-void() shal_walk5 = [ $walk6, shal_walk6 ] { ai_walk(0); };
-void() shal_walk6 = [ $walk7, shal_walk7 ] { ai_walk(0); };
-void() shal_walk7 = [ $walk8, shal_walk8 ] { ai_walk(5); };
-void() shal_walk8 = [ $walk9, shal_walk9 ] { ai_walk(6); };
-void() shal_walk9 = [ $walk10, shal_walk10 ] { ai_walk(5); };
-void() shal_walk10 = [ $walk11, shal_walk11 ] { ai_walk(0); };
-void() shal_walk11 = [ $walk12, shal_walk12 ] { ai_walk(4); };
-void() shal_walk12 = [ $walk1, shal_walk1 ] { ai_walk(5); };
+void() shal_walk2 = [ $walk3, shal_walk3 ] { M_ai_mark_walk(4) };
+void() shal_walk3 = [ $walk4, shal_walk4 ] { M_ai_mark_walk(0) };
+void() shal_walk4 = [ $walk5, shal_walk5 ] { M_ai_mark_walk(0) };
+void() shal_walk5 = [ $walk6, shal_walk6 ] { M_ai_mark_walk(0) };
+void() shal_walk6 = [ $walk7, shal_walk7 ] { M_ai_mark_walk(0) };
+void() shal_walk7 = [ $walk8, shal_walk8 ] { M_ai_mark_walk(5) };
+void() shal_walk8 = [ $walk9, shal_walk9 ] { M_ai_mark_walk(6) };
+void() shal_walk9 = [ $walk10, shal_walk10 ] { M_ai_mark_walk(5) };
+void() shal_walk10 = [ $walk11, shal_walk11 ] { M_ai_mark_walk(0) };
+void() shal_walk11 = [ $walk12, shal_walk12 ] { M_ai_mark_walk(4) };
+void() shal_walk12 = [ $walk1, shal_walk1 ] { M_ai_mark_walk(5) };
 
 void() shal_run1 = [ $walk2, shal_run2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE);
-	ai_run(6);
+	M_ai_mark_run(6)
 };
-void() shal_run2 = [ $walk3, shal_run3 ] { ai_run(4); };
-void() shal_run3 = [ $walk4, shal_run4 ] { ai_run(0); };
-void() shal_run4 = [ $walk5, shal_run5 ] { ai_run(0); };
-void() shal_run5 = [ $walk6, shal_run6 ] { ai_run(0); };
-void() shal_run6 = [ $walk7, shal_run7 ] { ai_run(0); };
-void() shal_run7 = [ $walk8, shal_run8 ] { ai_run(5); };
-void() shal_run8 = [ $walk9, shal_run9 ] { ai_run(6); };
-void() shal_run9 = [ $walk10, shal_run10 ] { ai_run(5); };
-void() shal_run10 = [ $walk11, shal_run11 ] { ai_run(0); };
-void() shal_run11 = [ $walk12, shal_run12 ] { ai_run(4); };
-void() shal_run12 = [ $walk1, shal_run1 ] { ai_run(5); };
+void() shal_run2 = [ $walk3, shal_run3 ] { M_ai_mark_run(4) };
+void() shal_run3 = [ $walk4, shal_run4 ] { M_ai_mark_run(0) };
+void() shal_run4 = [ $walk5, shal_run5 ] { M_ai_mark_run(0) };
+void() shal_run5 = [ $walk6, shal_run6 ] { M_ai_mark_run(0) };
+void() shal_run6 = [ $walk7, shal_run7 ] { M_ai_mark_run(0) };
+void() shal_run7 = [ $walk8, shal_run8 ] { M_ai_mark_run(5) };
+void() shal_run8 = [ $walk9, shal_run9 ] { M_ai_mark_run(6) };
+void() shal_run9 = [ $walk10, shal_run10 ] { M_ai_mark_run(5) };
+void() shal_run10 = [ $walk11, shal_run11 ] { M_ai_mark_run(0) };
+void() shal_run11 = [ $walk12, shal_run12 ] { M_ai_mark_run(4) };
+void() shal_run12 = [ $walk1, shal_run1 ] { M_ai_mark_run(5) };
 
 void() shal_attack1 = [ $attack1, shal_attack2 ]
 {
@@ -262,6 +262,7 @@ void() monster_shalrath =
 	self.th_missile = shal_attack1;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = VORE_HP;
 	self.strength = VORE_STR;
@@ -269,14 +270,17 @@ void() monster_shalrath =
 	self.armor_save = VORE_ARMOR_SV;
 	self.invuln_save = VORE_INVULN;
 	self.wounds = VORE_WOUNDS;
-
-	self.melee_str = VORE_CLAW_STR + VORE_STR;
-	self.melee_ap = VORE_CLAW_AP;
-	self.melee_dmg = VORE_CLAW_DMG;
-
+	
 	self.weapon_str = VORE_SPELL_STR;
 	self.weapon_ap = VORE_SPELL_AP;
 	self.weapon_dmg = VORE_SPELL_DMG;
+
+	if(self.demon_mark == MARK_RAGE){
+		self.demon_mark = 0;	//RAGE GOD DOESN'T LIKE MAGIC
+	}
+
+	M_ai_set_name("Shalrath", "Virulent Shalrath", "Excessive Shalrath", "NO", "Fateful Shalrath")
+	M_ai_set_yaw(20)
 	//------------------------
 
 	self.think = walkmonster_start;

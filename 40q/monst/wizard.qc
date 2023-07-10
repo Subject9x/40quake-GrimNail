@@ -311,48 +311,48 @@ void() wiz_stand8 = [ $hover8, wiz_stand1 ] { ai_stand(); };
 
 void() wiz_walk1 = [ $hover1, wiz_walk2 ]
 {
-	ai_walk(8);
+	M_ai_mark_walk(8)
 	Wiz_idlesound();
 };
-void() wiz_walk2 = [ $hover2, wiz_walk3 ] { ai_walk(8); };
-void() wiz_walk3 = [ $hover3, wiz_walk4 ] { ai_walk(8); };
-void() wiz_walk4 = [ $hover4, wiz_walk5 ] { ai_walk(8); };
-void() wiz_walk5 = [ $hover5, wiz_walk6 ] { ai_walk(8); };
-void() wiz_walk6 = [ $hover6, wiz_walk7 ] { ai_walk(8); };
-void() wiz_walk7 = [ $hover7, wiz_walk8 ] { ai_walk(8); };
-void() wiz_walk8 = [ $hover8, wiz_walk1 ] { ai_walk(8); };
+void() wiz_walk2 = [ $hover2, wiz_walk3 ] { M_ai_mark_walk(8) };
+void() wiz_walk3 = [ $hover3, wiz_walk4 ] { M_ai_mark_walk(8) };
+void() wiz_walk4 = [ $hover4, wiz_walk5 ] { M_ai_mark_walk(8) };
+void() wiz_walk5 = [ $hover5, wiz_walk6 ] { M_ai_mark_walk(8) };
+void() wiz_walk6 = [ $hover6, wiz_walk7 ] { M_ai_mark_walk(8) };
+void() wiz_walk7 = [ $hover7, wiz_walk8 ] { M_ai_mark_walk(8) };
+void() wiz_walk8 = [ $hover8, wiz_walk1 ] { M_ai_mark_walk(8) };
 
 void() wiz_side1 = [ $hover1, wiz_side2 ]
 {
-	ai_run(8);
+	M_ai_mark_run(8)
 	Wiz_idlesound();
 };
-void() wiz_side2 = [ $hover2, wiz_side3 ] { ai_run(8); };
-void() wiz_side3 = [ $hover3, wiz_side4 ] { ai_run(8); };
-void() wiz_side4 = [ $hover4, wiz_side5 ] { ai_run(8); };
-void() wiz_side5 = [ $hover5, wiz_side6 ] { ai_run(8); };
-void() wiz_side6 = [ $hover6, wiz_side7 ] { ai_run(8); };
-void() wiz_side7 = [ $hover7, wiz_side8 ] { ai_run(8); };
-void() wiz_side8 = [ $hover8, wiz_side1 ] { ai_run(8); };
+void() wiz_side2 = [ $hover2, wiz_side3 ] { M_ai_mark_run(8) };
+void() wiz_side3 = [ $hover3, wiz_side4 ] { M_ai_mark_run(8) };
+void() wiz_side4 = [ $hover4, wiz_side5 ] { M_ai_mark_run(8) };
+void() wiz_side5 = [ $hover5, wiz_side6 ] { M_ai_mark_run(8) };
+void() wiz_side6 = [ $hover6, wiz_side7 ] { M_ai_mark_run(8) };
+void() wiz_side7 = [ $hover7, wiz_side8 ] { M_ai_mark_run(8) };
+void() wiz_side8 = [ $hover8, wiz_side1 ] { M_ai_mark_run(8) };
 
 void() wiz_run1 = [ $fly1, wiz_run2 ]
 {
-	ai_run(16);
+	M_ai_mark_run(16)
 	Wiz_idlesound();
 };
-void() wiz_run2 = [ $fly2, wiz_run3 ] { ai_run(16); };
-void() wiz_run3 = [ $fly3, wiz_run4 ] { ai_run(16); };
-void() wiz_run4 = [ $fly4, wiz_run5 ] { ai_run(16); };
-void() wiz_run5 = [ $fly5, wiz_run6 ] { ai_run(16); };
-void() wiz_run6 = [ $fly6, wiz_run7 ] { ai_run(16); };
-void() wiz_run7 = [ $fly7, wiz_run8 ] { ai_run(16); };
-void() wiz_run8 = [ $fly8, wiz_run9 ] { ai_run(16); };
-void() wiz_run9 = [ $fly9, wiz_run10 ] { ai_run(16); };
-void() wiz_run10 = [ $fly10, wiz_run11 ] { ai_run(16); };
-void() wiz_run11 = [ $fly11, wiz_run12 ] { ai_run(16); };
-void() wiz_run12 = [ $fly12, wiz_run13 ] { ai_run(16); };
-void() wiz_run13 = [ $fly13, wiz_run14 ] { ai_run(16); };
-void() wiz_run14 = [ $fly14, wiz_run1 ] { ai_run(16); };
+void() wiz_run2 = [ $fly2, wiz_run3 ] { M_ai_mark_run(16) };
+void() wiz_run3 = [ $fly3, wiz_run4 ] { M_ai_mark_run(16) };
+void() wiz_run4 = [ $fly4, wiz_run5 ] { M_ai_mark_run(16) };
+void() wiz_run5 = [ $fly5, wiz_run6 ] { M_ai_mark_run(16) };
+void() wiz_run6 = [ $fly6, wiz_run7 ] { M_ai_mark_run(16) };
+void() wiz_run7 = [ $fly7, wiz_run8 ] { M_ai_mark_run(16) };
+void() wiz_run8 = [ $fly8, wiz_run9 ] { M_ai_mark_run(16) };
+void() wiz_run9 = [ $fly9, wiz_run10 ] { M_ai_mark_run(16) };
+void() wiz_run10 = [ $fly10, wiz_run11 ] { M_ai_mark_run(16) };
+void() wiz_run11 = [ $fly11, wiz_run12 ] { M_ai_mark_run(16) };
+void() wiz_run12 = [ $fly12, wiz_run13 ] { M_ai_mark_run(16) };
+void() wiz_run13 = [ $fly13, wiz_run14 ] { M_ai_mark_run(16) };
+void() wiz_run14 = [ $fly14, wiz_run1 ] { M_ai_mark_run(16) };
 
 void() wiz_fast1 = [ $magatt1, wiz_fast2 ] { ai_face(); Wiz_StartFast(); };
 void() wiz_fast2 = [ $magatt2, wiz_fast3 ] { ai_face(); };
@@ -406,6 +406,7 @@ void() wiz_die =
 void(entity attacker, float damage) Wiz_Pain =
 {
 	sound(self, CHAN_VOICE, "wizard/wpain.wav", 1, ATTN_NORM);
+	//TODO - mark buff here
 	if (random()*70 > damage)
 		return; // didn't flinch
 
@@ -454,6 +455,7 @@ void() monster_wizard =
 	self.th_die = wiz_die;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = WIZARD_HP;
 	self.strength = WIZARD_STR;
@@ -465,6 +467,13 @@ void() monster_wizard =
 	self.weapon_str = WIZ_SPELL_STR;
 	self.weapon_ap = WIZ_SPELL_AP;
 	self.weapon_dmg = WIZ_SPELL_DMG;
+	
+	if(self.demon_mark == MARK_RAGE){
+		self.demon_mark	 = 0;	//RAGE GOD DESPISES MAGIKS
+	}
+
+	M_ai_set_yaw(20)
+	M_ai_set_name("Wizard", "Plague Wizard", "Obsess Wizard", "Anger Wizard", "Scheming Wizard")
 	//------------------------
 
 	flymonster_start();

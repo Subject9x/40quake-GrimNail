@@ -106,8 +106,14 @@ void(vector org, vector vec) LaunchLaser =
 	setsize(newmis, '0 0 0', '0 0 0');
 
 	setorigin(newmis, org);
+	
+	if(self.demon_mark == MARK_RAGE){
+		newmis.velocity = vec * 750;
+	}
+	else{
+		newmis.velocity = vec * 600;
+	}
 
-	newmis.velocity = vec * 600;
 	newmis.angles = vectoangles(newmis.velocity);
 
 	newmis.nextthink = time + 5;
@@ -149,37 +155,37 @@ void() enf_walk1 = [ $walk1 , enf_walk2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "enforcer/idle1.wav", 1, ATTN_IDLE);
-	ai_walk(2);
+	M_ai_mark_walk(2)
 };
-void() enf_walk2 = [ $walk2 , enf_walk3 ] { ai_walk(4); };
-void() enf_walk3 = [ $walk3 , enf_walk4 ] { ai_walk(4); };
-void() enf_walk4 = [ $walk4 , enf_walk5 ] { ai_walk(3); };
-void() enf_walk5 = [ $walk5 , enf_walk6 ] { ai_walk(1); };
-void() enf_walk6 = [ $walk6 , enf_walk7 ] { ai_walk(2); };
-void() enf_walk7 = [ $walk7 , enf_walk8 ] { ai_walk(2); };
-void() enf_walk8 = [ $walk8 , enf_walk9 ] { ai_walk(1); };
-void() enf_walk9 = [ $walk9 , enf_walk10 ] { ai_walk(2); };
-void() enf_walk10 = [ $walk10, enf_walk11 ] { ai_walk(4); };
-void() enf_walk11 = [ $walk11, enf_walk12 ] { ai_walk(4); };
-void() enf_walk12 = [ $walk12, enf_walk13 ] { ai_walk(1); };
-void() enf_walk13 = [ $walk13, enf_walk14 ] { ai_walk(2); };
-void() enf_walk14 = [ $walk14, enf_walk15 ] { ai_walk(3); };
-void() enf_walk15 = [ $walk15, enf_walk16 ] { ai_walk(4); };
-void() enf_walk16 = [ $walk16, enf_walk1 ] { ai_walk(2); };
+void() enf_walk2 = [ $walk2 , enf_walk3 ] { M_ai_mark_walk(4) };
+void() enf_walk3 = [ $walk3 , enf_walk4 ] { M_ai_mark_walk(4) };
+void() enf_walk4 = [ $walk4 , enf_walk5 ] { M_ai_mark_walk(3) };
+void() enf_walk5 = [ $walk5 , enf_walk6 ] { M_ai_mark_walk(1) };
+void() enf_walk6 = [ $walk6 , enf_walk7 ] { M_ai_mark_walk(2) };
+void() enf_walk7 = [ $walk7 , enf_walk8 ] { M_ai_mark_walk(2) };
+void() enf_walk8 = [ $walk8 , enf_walk9 ] { M_ai_mark_walk(1) };
+void() enf_walk9 = [ $walk9 , enf_walk10 ] { M_ai_mark_walk(2) };
+void() enf_walk10 = [ $walk10, enf_walk11 ] { M_ai_mark_walk(4) };
+void() enf_walk11 = [ $walk11, enf_walk12 ] { M_ai_mark_walk(4) };
+void() enf_walk12 = [ $walk12, enf_walk13 ] { M_ai_mark_walk(1) };
+void() enf_walk13 = [ $walk13, enf_walk14 ] { M_ai_mark_walk(2) };
+void() enf_walk14 = [ $walk14, enf_walk15 ] { M_ai_mark_walk(3) };
+void() enf_walk15 = [ $walk15, enf_walk16 ] { M_ai_mark_walk(4) };
+void() enf_walk16 = [ $walk16, enf_walk1 ] { M_ai_mark_walk(2) };
 
 void() enf_run1 = [ $run1  , enf_run2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "enforcer/idle1.wav", 1, ATTN_IDLE);
-	ai_run(18);
+	M_ai_mark_run(18)
 };
-void() enf_run2 = [ $run2  , enf_run3 ] { ai_run(14); };
-void() enf_run3 = [ $run3  , enf_run4 ] { ai_run(7); };
-void() enf_run4 = [ $run4  , enf_run5 ] { ai_run(12); };
-void() enf_run5 = [ $run5  , enf_run6 ] { ai_run(14); };
-void() enf_run6 = [ $run6  , enf_run7 ] { ai_run(14); };
-void() enf_run7 = [ $run7  , enf_run8 ] { ai_run(7); };
-void() enf_run8 = [ $run8  , enf_run1 ] { ai_run(11); };
+void() enf_run2 = [ $run2  , enf_run3 ] { M_ai_mark_run(14) };
+void() enf_run3 = [ $run3  , enf_run4 ] { M_ai_mark_run(7) };
+void() enf_run4 = [ $run4  , enf_run5 ] { M_ai_mark_run(12) };
+void() enf_run5 = [ $run5  , enf_run6 ] { M_ai_mark_run(14) };
+void() enf_run6 = [ $run6  , enf_run7 ] { M_ai_mark_run(14) };
+void() enf_run7 = [ $run7  , enf_run8 ] { M_ai_mark_run(7) };
+void() enf_run8 = [ $run8  , enf_run1 ] { M_ai_mark_run(11) };
 
 void() enf_atk1 = [ $attack1, enf_atk2 ] { ai_face(); };
 void() enf_atk2 = [ $attack2, enf_atk3 ] { ai_face(); };
@@ -413,6 +419,7 @@ void() monster_enforcer =
 	self.th_missile = enf_atk1;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_MOB;
 	self.health = ENFORCE_HP;
 	self.strength = ENFORCE_STR;
@@ -424,6 +431,9 @@ void() monster_enforcer =
 	self.weapon_str = HVYSTUB_STR;
 	self.weapon_ap = HVYSTUB_AP;
 	self.weapon_dmg = HVYSTUB_DMG;
+
+	M_ai_set_name("Enforcer", "Infected Enforcer", "Hedonist Enforcer", "Anger Prophet", "Twisted Enforcer")
+	M_ai_set_yaw(20)
 	//------------------------
 
 	walkmonster_start();

@@ -101,51 +101,51 @@ void() zombie_cruc4 = [ $cruc_4, zombie_cruc5 ] { self.nextthink = time + 0.1 + 
 void() zombie_cruc5 = [ $cruc_5, zombie_cruc6 ] { self.nextthink = time + 0.1 + random()*0.1; };
 void() zombie_cruc6 = [ $cruc_6, zombie_cruc1 ] { self.nextthink = time + 0.1 + random()*0.1; };
 
-void() zombie_walk1 = [ $walk1, zombie_walk2 ] { ai_walk(0); };
-void() zombie_walk2 = [ $walk2, zombie_walk3 ] { ai_walk(2); };
-void() zombie_walk3 = [ $walk3, zombie_walk4 ] { ai_walk(3); };
-void() zombie_walk4 = [ $walk4, zombie_walk5 ] { ai_walk(2); };
-void() zombie_walk5 = [ $walk5, zombie_walk6 ] { ai_walk(1); };
-void() zombie_walk6 = [ $walk6, zombie_walk7 ] { ai_walk(0); };
-void() zombie_walk7 = [ $walk7, zombie_walk8 ] { ai_walk(0); };
-void() zombie_walk8 = [ $walk8, zombie_walk9 ] { ai_walk(0); };
-void() zombie_walk9 = [ $walk9, zombie_walk10 ] { ai_walk(0); };
-void() zombie_walk10 = [ $walk10, zombie_walk11 ] { ai_walk(0); };
-void() zombie_walk11 = [ $walk11, zombie_walk12 ] { ai_walk(2); };
-void() zombie_walk12 = [ $walk12, zombie_walk13 ] { ai_walk(2); };
-void() zombie_walk13 = [ $walk13, zombie_walk14 ] { ai_walk(1); };
-void() zombie_walk14 = [ $walk14, zombie_walk15 ] { ai_walk(0); };
-void() zombie_walk15 = [ $walk15, zombie_walk16 ] { ai_walk(0); };
-void() zombie_walk16 = [ $walk16, zombie_walk17 ] { ai_walk(0); };
-void() zombie_walk17 = [ $walk17, zombie_walk18 ] { ai_walk(0); };
-void() zombie_walk18 = [ $walk18, zombie_walk19 ] { ai_walk(0); };
+void() zombie_walk1 = [ $walk1, zombie_walk2 ] { M_ai_mark_walk(0) };
+void() zombie_walk2 = [ $walk2, zombie_walk3 ] { M_ai_mark_walk(2) };
+void() zombie_walk3 = [ $walk3, zombie_walk4 ] { M_ai_mark_walk(3) };
+void() zombie_walk4 = [ $walk4, zombie_walk5 ] { M_ai_mark_walk(2) };
+void() zombie_walk5 = [ $walk5, zombie_walk6 ] { M_ai_mark_walk(1) };
+void() zombie_walk6 = [ $walk6, zombie_walk7 ] { M_ai_mark_walk(0) };
+void() zombie_walk7 = [ $walk7, zombie_walk8 ] { M_ai_mark_walk(0) };
+void() zombie_walk8 = [ $walk8, zombie_walk9 ] { M_ai_mark_walk(0) };
+void() zombie_walk9 = [ $walk9, zombie_walk10 ] { M_ai_mark_walk(0) };
+void() zombie_walk10 = [ $walk10, zombie_walk11 ] { M_ai_mark_walk(0) };
+void() zombie_walk11 = [ $walk11, zombie_walk12 ] { M_ai_mark_walk(2) };
+void() zombie_walk12 = [ $walk12, zombie_walk13 ] { M_ai_mark_walk(2) };
+void() zombie_walk13 = [ $walk13, zombie_walk14 ] { M_ai_mark_walk(1) };
+void() zombie_walk14 = [ $walk14, zombie_walk15 ] { M_ai_mark_walk(0) };
+void() zombie_walk15 = [ $walk15, zombie_walk16 ] { M_ai_mark_walk(0) };
+void() zombie_walk16 = [ $walk16, zombie_walk17 ] { M_ai_mark_walk(0) };
+void() zombie_walk17 = [ $walk17, zombie_walk18 ] { M_ai_mark_walk(0) };
+void() zombie_walk18 = [ $walk18, zombie_walk19 ] { M_ai_mark_walk(0) };
 void() zombie_walk19 = [ $walk19, zombie_walk1 ]
 {
-	ai_walk(0);
+	M_ai_mark_walk(0)
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "zombie/z_idle.wav", 1, ATTN_IDLE);
 };
 
-void() zombie_run1 = [ $run1, zombie_run2 ] { ai_run(1); self.inpain = 0; };
-void() zombie_run2 = [ $run2, zombie_run3 ] { ai_run(1); };
-void() zombie_run3 = [ $run3, zombie_run4 ] { ai_run(0); };
-void() zombie_run4 = [ $run4, zombie_run5 ] { ai_run(1); };
-void() zombie_run5 = [ $run5, zombie_run6 ] { ai_run(2); };
-void() zombie_run6 = [ $run6, zombie_run7 ] { ai_run(3); };
-void() zombie_run7 = [ $run7, zombie_run8 ] { ai_run(4); };
-void() zombie_run8 = [ $run8, zombie_run9 ] { ai_run(4); };
-void() zombie_run9 = [ $run9, zombie_run10 ] { ai_run(2); };
-void() zombie_run10 = [ $run10, zombie_run11 ] { ai_run(0); };
-void() zombie_run11 = [ $run11, zombie_run12 ] { ai_run(0); };
-void() zombie_run12 = [ $run12, zombie_run13 ] { ai_run(0); };
-void() zombie_run13 = [ $run13, zombie_run14 ] { ai_run(2); };
-void() zombie_run14 = [ $run14, zombie_run15 ] { ai_run(4); };
-void() zombie_run15 = [ $run15, zombie_run16 ] { ai_run(6); };
-void() zombie_run16 = [ $run16, zombie_run17 ] { ai_run(7); };
-void() zombie_run17 = [ $run17, zombie_run18 ] { ai_run(3); };
+void() zombie_run1 = [ $run1, zombie_run2 ] { M_ai_mark_run(1) self.inpain = 0; };
+void() zombie_run2 = [ $run2, zombie_run3 ] { M_ai_mark_run(1) };
+void() zombie_run3 = [ $run3, zombie_run4 ] { M_ai_mark_run(0) };
+void() zombie_run4 = [ $run4, zombie_run5 ] { M_ai_mark_run(1) };
+void() zombie_run5 = [ $run5, zombie_run6 ] { M_ai_mark_run(2) };
+void() zombie_run6 = [ $run6, zombie_run7 ] { M_ai_mark_run(3) };
+void() zombie_run7 = [ $run7, zombie_run8 ] { M_ai_mark_run(4) };
+void() zombie_run8 = [ $run8, zombie_run9 ] { M_ai_mark_run(4) };
+void() zombie_run9 = [ $run9, zombie_run10 ] { M_ai_mark_run(2) };
+void() zombie_run10 = [ $run10, zombie_run11 ] { M_ai_mark_run(0) };
+void() zombie_run11 = [ $run11, zombie_run12 ] { M_ai_mark_run(0) };
+void() zombie_run12 = [ $run12, zombie_run13 ] { M_ai_mark_run(0) };
+void() zombie_run13 = [ $run13, zombie_run14 ] { M_ai_mark_run(2) };
+void() zombie_run14 = [ $run14, zombie_run15 ] { M_ai_mark_run(4) };
+void() zombie_run15 = [ $run15, zombie_run16 ] { M_ai_mark_run(6) };
+void() zombie_run16 = [ $run16, zombie_run17 ] { M_ai_mark_run(7) };
+void() zombie_run17 = [ $run17, zombie_run18 ] { M_ai_mark_run(3) };
 void() zombie_run18 = [ $run18, zombie_run1 ]
 {
-	ai_run(8);
+	M_ai_mark_run(8)
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "zombie/z_idle.wav", 1, ATTN_IDLE);
 	if (random() > 0.8)
@@ -469,7 +469,7 @@ void(entity attacker, float take) zombie_pain =
 	if (self.inpain)
 	{
 // if hit again in next gre seconds while not in pain frames, definately drop
-		self.pain_finished = time + 3;
+		self.pain_finished = time + self.pain_time;
 		return; // currently going through an animation, don't change
 	}
 
@@ -539,6 +539,7 @@ void() monster_zombie =
 	self.th_missile = zombie_missile;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_MOB;
 	self.health = ZOMBIE_HP;
 	self.strength = ZOMBIE_STR;
@@ -550,6 +551,11 @@ void() monster_zombie =
 	self.weapon_str = ZOMB_CHUNK_STR;
 	self.weapon_ap = ZOMB_CHUNK_AP;
 	self.weapon_dmg = ZOMB_CHUNK_DMG;
+	
+	self.pain_time = 3;
+
+	M_ai_set_yaw(20)
+	M_ai_set_name("Zombie", "Plague Zombie", "Perfect Zombie", "Rage Zombie", "Twisted Zombie")
 	//------------------------
 
 	if (self.spawnflags & SPAWN_CRUCIFIED)

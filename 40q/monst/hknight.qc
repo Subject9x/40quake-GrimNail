@@ -151,43 +151,43 @@ void() hknight_stand9 = [ $stand9, hknight_stand1 ] { ai_stand(); };
 void() hknight_walk1 = [ $walk1, hknight_walk2 ]
 {
 	hk_idle_sound();
-	ai_walk(2);
+	M_ai_mark_walk(2)
 };
-void() hknight_walk2 = [ $walk2, hknight_walk3 ] { ai_walk(5); };
-void() hknight_walk3 = [ $walk3, hknight_walk4 ] { ai_walk(5); };
-void() hknight_walk4 = [ $walk4, hknight_walk5 ] { ai_walk(4); };
-void() hknight_walk5 = [ $walk5, hknight_walk6 ] { ai_walk(4); };
-void() hknight_walk6 = [ $walk6, hknight_walk7 ] { ai_walk(2); };
-void() hknight_walk7 = [ $walk7, hknight_walk8 ] { ai_walk(2); };
-void() hknight_walk8 = [ $walk8, hknight_walk9 ] { ai_walk(3); };
-void() hknight_walk9 = [ $walk9, hknight_walk10 ] { ai_walk(3); };
-void() hknight_walk10 = [ $walk10, hknight_walk11 ] { ai_walk(4); };
-void() hknight_walk11 = [ $walk11, hknight_walk12 ] { ai_walk(3); };
-void() hknight_walk12 = [ $walk12, hknight_walk13 ] { ai_walk(4); };
-void() hknight_walk13 = [ $walk13, hknight_walk14 ] { ai_walk(6); };
-void() hknight_walk14 = [ $walk14, hknight_walk15 ] { ai_walk(2); };
-void() hknight_walk15 = [ $walk15, hknight_walk16 ] { ai_walk(2); };
-void() hknight_walk16 = [ $walk16, hknight_walk17 ] { ai_walk(4); };
-void() hknight_walk17 = [ $walk17, hknight_walk18 ] { ai_walk(3); };
-void() hknight_walk18 = [ $walk18, hknight_walk19 ] { ai_walk(3); };
-void() hknight_walk19 = [ $walk19, hknight_walk20 ] { ai_walk(3); };
-void() hknight_walk20 = [ $walk20, hknight_walk1 ] { ai_walk(2); };
+void() hknight_walk2 = [ $walk2, hknight_walk3 ] { M_ai_mark_walk(5) };
+void() hknight_walk3 = [ $walk3, hknight_walk4 ] { M_ai_mark_walk(5) };
+void() hknight_walk4 = [ $walk4, hknight_walk5 ] { M_ai_mark_walk(4) };
+void() hknight_walk5 = [ $walk5, hknight_walk6 ] { M_ai_mark_walk(4) };
+void() hknight_walk6 = [ $walk6, hknight_walk7 ] { M_ai_mark_walk(2) };
+void() hknight_walk7 = [ $walk7, hknight_walk8 ] { M_ai_mark_walk(2) };
+void() hknight_walk8 = [ $walk8, hknight_walk9 ] { M_ai_mark_walk(3) };
+void() hknight_walk9 = [ $walk9, hknight_walk10 ] { M_ai_mark_walk(3) };
+void() hknight_walk10 = [ $walk10, hknight_walk11 ] { M_ai_mark_walk(4) };
+void() hknight_walk11 = [ $walk11, hknight_walk12 ] { M_ai_mark_walk(3) };
+void() hknight_walk12 = [ $walk12, hknight_walk13 ] { M_ai_mark_walk(4) };
+void() hknight_walk13 = [ $walk13, hknight_walk14 ] { M_ai_mark_walk(6) };
+void() hknight_walk14 = [ $walk14, hknight_walk15 ] { M_ai_mark_walk(2) };
+void() hknight_walk15 = [ $walk15, hknight_walk16 ] { M_ai_mark_walk(2) };
+void() hknight_walk16 = [ $walk16, hknight_walk17 ] { M_ai_mark_walk(4) };
+void() hknight_walk17 = [ $walk17, hknight_walk18 ] { M_ai_mark_walk(3) };
+void() hknight_walk18 = [ $walk18, hknight_walk19 ] { M_ai_mark_walk(3) };
+void() hknight_walk19 = [ $walk19, hknight_walk20 ] { M_ai_mark_walk(3) };
+void() hknight_walk20 = [ $walk20, hknight_walk1 ] { M_ai_mark_walk(2) };
 
 //===========================================================================
 
 void() hknight_run1 = [ $run1, hknight_run2 ]
 {
 	hk_idle_sound();
-	ai_run(20);
+	M_ai_mark_run(20)
 	CheckForCharge();
 };
-void() hknight_run2 = [ $run2, hknight_run3 ] { ai_run(25); };
-void() hknight_run3 = [ $run3, hknight_run4 ] { ai_run(18); };
-void() hknight_run4 = [ $run4, hknight_run5 ] { ai_run(16); };
-void() hknight_run5 = [ $run5, hknight_run6 ] { ai_run(14); };
-void() hknight_run6 = [ $run6, hknight_run7 ] { ai_run(25); };
-void() hknight_run7 = [ $run7, hknight_run8 ] { ai_run(21); };
-void() hknight_run8 = [ $run8, hknight_run1 ] { ai_run(13); };
+void() hknight_run2 = [ $run2, hknight_run3 ] { M_ai_mark_run(25) };
+void() hknight_run3 = [ $run3, hknight_run4 ] { M_ai_mark_run(18) };
+void() hknight_run4 = [ $run4, hknight_run5 ] { M_ai_mark_run(16) };
+void() hknight_run5 = [ $run5, hknight_run6 ] { M_ai_mark_run(14) };
+void() hknight_run6 = [ $run6, hknight_run7 ] { M_ai_mark_run(25) };
+void() hknight_run7 = [ $run7, hknight_run8 ] { M_ai_mark_run(21) };
+void() hknight_run8 = [ $run8, hknight_run1 ] { M_ai_mark_run(13) };
 
 //============================================================================
 
@@ -297,88 +297,88 @@ void() hknight_magicc11 = [ $magicc11, hknight_run1 ] { hknight_shot(3); };
 
 //===========================================================================
 
-void() hknight_char_a1 = [ $char_a1, hknight_char_a2 ] { ai_charge(20); };
-void() hknight_char_a2 = [ $char_a2, hknight_char_a3 ] { ai_charge(25); };
-void() hknight_char_a3 = [ $char_a3, hknight_char_a4 ] { ai_charge(18); };
-void() hknight_char_a4 = [ $char_a4, hknight_char_a5 ] { ai_charge(16); };
-void() hknight_char_a5 = [ $char_a5, hknight_char_a6 ] { ai_charge(14); };
-void() hknight_char_a6 = [ $char_a6, hknight_char_a7 ] { ai_charge(20); ai_melee(); };
-void() hknight_char_a7 = [ $char_a7, hknight_char_a8 ] { ai_charge(21); ai_melee(); };
-void() hknight_char_a8 = [ $char_a8, hknight_char_a9 ] { ai_charge(13); ai_melee(); };
-void() hknight_char_a9 = [ $char_a9, hknight_char_a10 ] { ai_charge(20); ai_melee(); };
-void() hknight_char_a10 = [ $char_a10, hknight_char_a11 ] { ai_charge(20); ai_melee(); };
-void() hknight_char_a11 = [ $char_a11, hknight_char_a12 ] { ai_charge(18); ai_melee(); };
-void() hknight_char_a12 = [ $char_a12, hknight_char_a13 ] { ai_charge(16); };
-void() hknight_char_a13 = [ $char_a13, hknight_char_a14 ] { ai_charge(14); };
-void() hknight_char_a14 = [ $char_a14, hknight_char_a15 ] { ai_charge(25); };
-void() hknight_char_a15 = [ $char_a15, hknight_char_a16 ] { ai_charge(21); };
-void() hknight_char_a16 = [ $char_a16, hknight_run1 ] { ai_charge(13); };
+void() hknight_char_a1 = [ $char_a1, hknight_char_a2 ] { M_ai_mark_charge(20) };
+void() hknight_char_a2 = [ $char_a2, hknight_char_a3 ] { M_ai_mark_charge(25) };
+void() hknight_char_a3 = [ $char_a3, hknight_char_a4 ] { M_ai_mark_charge(18) };
+void() hknight_char_a4 = [ $char_a4, hknight_char_a5 ] { M_ai_mark_charge(16) };
+void() hknight_char_a5 = [ $char_a5, hknight_char_a6 ] { M_ai_mark_charge(14) };
+void() hknight_char_a6 = [ $char_a6, hknight_char_a7 ] { M_ai_mark_charge(20) ai_melee(); };
+void() hknight_char_a7 = [ $char_a7, hknight_char_a8 ] { M_ai_mark_charge(21) ai_melee(); };
+void() hknight_char_a8 = [ $char_a8, hknight_char_a9 ] { M_ai_mark_charge(13) ai_melee(); };
+void() hknight_char_a9 = [ $char_a9, hknight_char_a10 ] { M_ai_mark_charge(20) ai_melee(); };
+void() hknight_char_a10 = [ $char_a10, hknight_char_a11 ] { M_ai_mark_charge(20) ai_melee(); };
+void() hknight_char_a11 = [ $char_a11, hknight_char_a12 ] { M_ai_mark_charge(18) ai_melee(); };
+void() hknight_char_a12 = [ $char_a12, hknight_char_a13 ] { M_ai_mark_charge(16) };
+void() hknight_char_a13 = [ $char_a13, hknight_char_a14 ] { M_ai_mark_charge(14) };
+void() hknight_char_a14 = [ $char_a14, hknight_char_a15 ] { M_ai_mark_charge(25) };
+void() hknight_char_a15 = [ $char_a15, hknight_char_a16 ] { M_ai_mark_charge(21) };
+void() hknight_char_a16 = [ $char_a16, hknight_run1 ] { M_ai_mark_charge(13) };
 
 //===========================================================================
 
 void() hknight_char_b1 = [ $char_b1, hknight_char_b2 ]
 {
 	CheckContinueCharge();
-	ai_charge(23);
+	M_ai_mark_charge(23)
 	ai_melee();
 };
-void() hknight_char_b2 = [ $char_b2, hknight_char_b3 ] { ai_charge(17); ai_melee(); };
-void() hknight_char_b3 = [ $char_b3, hknight_char_b4 ] { ai_charge(12); ai_melee(); };
-void() hknight_char_b4 = [ $char_b4, hknight_char_b5 ] { ai_charge(22); ai_melee(); };
-void() hknight_char_b5 = [ $char_b5, hknight_char_b6 ] { ai_charge(18); ai_melee(); };
-void() hknight_char_b6 = [ $char_b6, hknight_char_b1 ] { ai_charge(8); ai_melee(); };
+void() hknight_char_b2 = [ $char_b2, hknight_char_b3 ] { M_ai_mark_charge(17) ai_melee(); };
+void() hknight_char_b3 = [ $char_b3, hknight_char_b4 ] { M_ai_mark_charge(12) ai_melee(); };
+void() hknight_char_b4 = [ $char_b4, hknight_char_b5 ] { M_ai_mark_charge(22) ai_melee(); };
+void() hknight_char_b5 = [ $char_b5, hknight_char_b6 ] { M_ai_mark_charge(18) ai_melee(); };
+void() hknight_char_b6 = [ $char_b6, hknight_char_b1 ] { M_ai_mark_charge(8) ai_melee(); };
 
 //===========================================================================
 
-void() hknight_slice1 = [ $slice1, hknight_slice2 ] { ai_charge(9); };
-void() hknight_slice2 = [ $slice2, hknight_slice3 ] { ai_charge(6); };
-void() hknight_slice3 = [ $slice3, hknight_slice4 ] { ai_charge(13); };
-void() hknight_slice4 = [ $slice4, hknight_slice5 ] { ai_charge(4); };
-void() hknight_slice5 = [ $slice5, hknight_slice6 ] { ai_charge(7); ai_melee(); };
-void() hknight_slice6 = [ $slice6, hknight_slice7 ] { ai_charge(15); ai_melee(); };
-void() hknight_slice7 = [ $slice7, hknight_slice8 ] { ai_charge(8); ai_melee(); };
-void() hknight_slice8 = [ $slice8, hknight_slice9 ] { ai_charge(2); ai_melee(); };
+void() hknight_slice1 = [ $slice1, hknight_slice2 ] { M_ai_mark_charge(9) };
+void() hknight_slice2 = [ $slice2, hknight_slice3 ] { M_ai_mark_charge(6) };
+void() hknight_slice3 = [ $slice3, hknight_slice4 ] { M_ai_mark_charge(13) };
+void() hknight_slice4 = [ $slice4, hknight_slice5 ] { M_ai_mark_charge(4) };
+void() hknight_slice5 = [ $slice5, hknight_slice6 ] { M_ai_mark_charge(7) ai_melee(); };
+void() hknight_slice6 = [ $slice6, hknight_slice7 ] { M_ai_mark_charge(15) ai_melee(); };
+void() hknight_slice7 = [ $slice7, hknight_slice8 ] { M_ai_mark_charge(8) ai_melee(); };
+void() hknight_slice8 = [ $slice8, hknight_slice9 ] { M_ai_mark_charge(2) ai_melee(); };
 void() hknight_slice9 = [ $slice9, hknight_slice10 ] { ai_melee(); };
-void() hknight_slice10 = [ $slice10, hknight_run1 ] { ai_charge(3); };
+void() hknight_slice10 = [ $slice10, hknight_run1 ] { M_ai_mark_charge(3) };
 
 //===========================================================================
 
-void() hknight_smash1 = [ $smash1, hknight_smash2 ] { ai_charge(1); };
-void() hknight_smash2 = [ $smash2, hknight_smash3 ] { ai_charge(13); };
-void() hknight_smash3 = [ $smash3, hknight_smash4 ] { ai_charge(9); };
-void() hknight_smash4 = [ $smash4, hknight_smash5 ] { ai_charge(11); };
-void() hknight_smash5 = [ $smash5, hknight_smash6 ] { ai_charge(10); ai_melee(); };
-void() hknight_smash6 = [ $smash6, hknight_smash7 ] { ai_charge(7); ai_melee(); };
-void() hknight_smash7 = [ $smash7, hknight_smash8 ] { ai_charge(12); ai_melee(); };
-void() hknight_smash8 = [ $smash8, hknight_smash9 ] { ai_charge(2); ai_melee(); };
-void() hknight_smash9 = [ $smash9, hknight_smash10 ] { ai_charge(3); ai_melee(); };
-void() hknight_smash10 = [ $smash10, hknight_smash11 ] { ai_charge(0); };
-void() hknight_smash11 = [ $smash11, hknight_run1 ] { ai_charge(0); };
+void() hknight_smash1 = [ $smash1, hknight_smash2 ] { M_ai_mark_charge(1) };
+void() hknight_smash2 = [ $smash2, hknight_smash3 ] { M_ai_mark_charge(13) };
+void() hknight_smash3 = [ $smash3, hknight_smash4 ] { M_ai_mark_charge(9) };
+void() hknight_smash4 = [ $smash4, hknight_smash5 ] { M_ai_mark_charge(11) };
+void() hknight_smash5 = [ $smash5, hknight_smash6 ] { M_ai_mark_charge(10) ai_melee(); };
+void() hknight_smash6 = [ $smash6, hknight_smash7 ] { M_ai_mark_charge(7) ai_melee(); };
+void() hknight_smash7 = [ $smash7, hknight_smash8 ] { M_ai_mark_charge(12) ai_melee(); };
+void() hknight_smash8 = [ $smash8, hknight_smash9 ] { M_ai_mark_charge(2) ai_melee(); };
+void() hknight_smash9 = [ $smash9, hknight_smash10 ] { M_ai_mark_charge(3) ai_melee(); };
+void() hknight_smash10 = [ $smash10, hknight_smash11 ] { M_ai_mark_charge(0) };
+void() hknight_smash11 = [ $smash11, hknight_run1 ] { M_ai_mark_charge(0) };
 
 //============================================================================
 
-void() hknight_watk1 = [ $w_attack1, hknight_watk2 ] { ai_charge(2); };
-void() hknight_watk2 = [ $w_attack2, hknight_watk3 ] { ai_charge(0); };
-void() hknight_watk3 = [ $w_attack3, hknight_watk4 ] { ai_charge(0); };
+void() hknight_watk1 = [ $w_attack1, hknight_watk2 ] { M_ai_mark_charge(2) };
+void() hknight_watk2 = [ $w_attack2, hknight_watk3 ] { M_ai_mark_charge(0) };
+void() hknight_watk3 = [ $w_attack3, hknight_watk4 ] { M_ai_mark_charge(0) };
 void() hknight_watk4 = [ $w_attack4, hknight_watk5 ] { ai_melee(); };
 void() hknight_watk5 = [ $w_attack5, hknight_watk6 ] { ai_melee(); };
 void() hknight_watk6 = [ $w_attack6, hknight_watk7 ] { ai_melee(); };
-void() hknight_watk7 = [ $w_attack7, hknight_watk8 ] { ai_charge(1); };
-void() hknight_watk8 = [ $w_attack8, hknight_watk9 ] { ai_charge(4); };
-void() hknight_watk9 = [ $w_attack9, hknight_watk10 ] { ai_charge(5); };
-void() hknight_watk10 = [ $w_attack10, hknight_watk11 ] { ai_charge(3); ai_melee(); };
-void() hknight_watk11 = [ $w_attack11, hknight_watk12 ] { ai_charge(2); ai_melee(); };
-void() hknight_watk12 = [ $w_attack12, hknight_watk13 ] { ai_charge(2); ai_melee(); };
-void() hknight_watk13 = [ $w_attack13, hknight_watk14 ] { ai_charge(0); };
-void() hknight_watk14 = [ $w_attack14, hknight_watk15 ] { ai_charge(0); };
-void() hknight_watk15 = [ $w_attack15, hknight_watk16 ] { ai_charge(0); };
-void() hknight_watk16 = [ $w_attack16, hknight_watk17 ] { ai_charge(1); };
-void() hknight_watk17 = [ $w_attack17, hknight_watk18 ] { ai_charge(1); ai_melee(); };
-void() hknight_watk18 = [ $w_attack18, hknight_watk19 ] { ai_charge(3); ai_melee(); };
-void() hknight_watk19 = [ $w_attack19, hknight_watk20 ] { ai_charge(4); ai_melee(); };
-void() hknight_watk20 = [ $w_attack20, hknight_watk21 ] { ai_charge(6); };
-void() hknight_watk21 = [ $w_attack21, hknight_watk22 ] { ai_charge(7); };
-void() hknight_watk22 = [ $w_attack22, hknight_run1 ] { ai_charge(3); };
+void() hknight_watk7 = [ $w_attack7, hknight_watk8 ] { M_ai_mark_charge(1) };
+void() hknight_watk8 = [ $w_attack8, hknight_watk9 ] { M_ai_mark_charge(4) };
+void() hknight_watk9 = [ $w_attack9, hknight_watk10 ] { M_ai_mark_charge(5) };
+void() hknight_watk10 = [ $w_attack10, hknight_watk11 ] { M_ai_mark_charge(3) ai_melee(); };
+void() hknight_watk11 = [ $w_attack11, hknight_watk12 ] { M_ai_mark_charge(2) ai_melee(); };
+void() hknight_watk12 = [ $w_attack12, hknight_watk13 ] { M_ai_mark_charge(2) ai_melee(); };
+void() hknight_watk13 = [ $w_attack13, hknight_watk14 ] { M_ai_mark_charge(0) };
+void() hknight_watk14 = [ $w_attack14, hknight_watk15 ] { M_ai_mark_charge(0) };
+void() hknight_watk15 = [ $w_attack15, hknight_watk16 ] { M_ai_mark_charge(0) };
+void() hknight_watk16 = [ $w_attack16, hknight_watk17 ] { M_ai_mark_charge(1) };
+void() hknight_watk17 = [ $w_attack17, hknight_watk18 ] { M_ai_mark_charge(1) ai_melee(); };
+void() hknight_watk18 = [ $w_attack18, hknight_watk19 ] { M_ai_mark_charge(3) ai_melee(); };
+void() hknight_watk19 = [ $w_attack19, hknight_watk20 ] { M_ai_mark_charge(4) ai_melee(); };
+void() hknight_watk20 = [ $w_attack20, hknight_watk21 ] { M_ai_mark_charge(6) };
+void() hknight_watk21 = [ $w_attack21, hknight_watk22 ] { M_ai_mark_charge(7) };
+void() hknight_watk22 = [ $w_attack22, hknight_run1 ] { M_ai_mark_charge(3) };
 
 //============================================================================
 
@@ -464,11 +464,14 @@ void() monster_hell_knight =
 	self.th_walk = hknight_walk1;
 	self.th_run = hknight_run1;
 	self.th_melee = hknight_melee;
-	self.th_missile = hknight_magicc1;
+	
+	//self.th_missile = hknight_magicc1;	SEE DEMON MARKS BELOW
+
 	self.th_pain = hknight_pain;
 	self.th_die = hknight_die;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_MOB;
 	self.health = HKNIGHT_HP;
 	self.strength = HKNIGHT_STR;
@@ -484,6 +487,9 @@ void() monster_hell_knight =
 	self.weapon_str = KNIGHT_SPELL_STR;
 	self.weapon_ap = KNIGHT_SPELL_AP;
 	self.weapon_dmg = KNIGHT_SPELL_DMG;
+
+	M_ai_set_name("Hell Knight", "Baron of Bile", "Sensuous Lord", "Sword of Hate", "Nefarious Captain")
+	M_ai_set_yaw(20)
 	//------------------------
 
 	walkmonster_start();

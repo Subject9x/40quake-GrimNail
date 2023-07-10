@@ -76,45 +76,45 @@ void() army_walk1 = [ $prowl_1, army_walk2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
-	ai_walk(1);
+	M_ai_mark_walk(1)
 };
-void() army_walk2 = [ $prowl_2, army_walk3 ] { ai_walk(1); };
-void() army_walk3 = [ $prowl_3, army_walk4 ] { ai_walk(1); };
-void() army_walk4 = [ $prowl_4, army_walk5 ] { ai_walk(1); };
-void() army_walk5 = [ $prowl_5, army_walk6 ] { ai_walk(2); };
-void() army_walk6 = [ $prowl_6, army_walk7 ] { ai_walk(3); };
-void() army_walk7 = [ $prowl_7, army_walk8 ] { ai_walk(4); };
-void() army_walk8 = [ $prowl_8, army_walk9 ] { ai_walk(4); };
-void() army_walk9 = [ $prowl_9, army_walk10 ] { ai_walk(2); };
-void() army_walk10 = [ $prowl_10, army_walk11 ] { ai_walk(2); };
-void() army_walk11 = [ $prowl_11, army_walk12 ] { ai_walk(2); };
-void() army_walk12 = [ $prowl_12, army_walk13 ] { ai_walk(1); };
-void() army_walk13 = [ $prowl_13, army_walk14 ] { ai_walk(0); };
-void() army_walk14 = [ $prowl_14, army_walk15 ] { ai_walk(1); };
-void() army_walk15 = [ $prowl_15, army_walk16 ] { ai_walk(1); };
-void() army_walk16 = [ $prowl_16, army_walk17 ] { ai_walk(1); };
-void() army_walk17 = [ $prowl_17, army_walk18 ] { ai_walk(3); };
-void() army_walk18 = [ $prowl_18, army_walk19 ] { ai_walk(3); };
-void() army_walk19 = [ $prowl_19, army_walk20 ] { ai_walk(3); };
-void() army_walk20 = [ $prowl_20, army_walk21 ] { ai_walk(3); };
-void() army_walk21 = [ $prowl_21, army_walk22 ] { ai_walk(2); };
-void() army_walk22 = [ $prowl_22, army_walk23 ] { ai_walk(1); };
-void() army_walk23 = [ $prowl_23, army_walk24 ] { ai_walk(1); };
-void() army_walk24 = [ $prowl_24, army_walk1 ] { ai_walk(1); };
+void() army_walk2 = [ $prowl_2, army_walk3 ] { M_ai_mark_walk(1) };
+void() army_walk3 = [ $prowl_3, army_walk4 ] { M_ai_mark_walk(1) };
+void() army_walk4 = [ $prowl_4, army_walk5 ] { M_ai_mark_walk(1) };
+void() army_walk5 = [ $prowl_5, army_walk6 ] { M_ai_mark_walk(2) };
+void() army_walk6 = [ $prowl_6, army_walk7 ] { M_ai_mark_walk(3) };
+void() army_walk7 = [ $prowl_7, army_walk8 ] { M_ai_mark_walk(4) };
+void() army_walk8 = [ $prowl_8, army_walk9 ] { M_ai_mark_walk(4) };
+void() army_walk9 = [ $prowl_9, army_walk10 ] { M_ai_mark_walk(2) };
+void() army_walk10 = [ $prowl_10, army_walk11 ] { M_ai_mark_walk(2) };
+void() army_walk11 = [ $prowl_11, army_walk12 ] { M_ai_mark_walk(2) };
+void() army_walk12 = [ $prowl_12, army_walk13 ] { M_ai_mark_walk(1) };
+void() army_walk13 = [ $prowl_13, army_walk14 ] { M_ai_mark_walk(0) };
+void() army_walk14 = [ $prowl_14, army_walk15 ] { M_ai_mark_walk(1) };
+void() army_walk15 = [ $prowl_15, army_walk16 ] { M_ai_mark_walk(1) };
+void() army_walk16 = [ $prowl_16, army_walk17 ] { M_ai_mark_walk(1) };
+void() army_walk17 = [ $prowl_17, army_walk18 ] { M_ai_mark_walk(3) };
+void() army_walk18 = [ $prowl_18, army_walk19 ] { M_ai_mark_walk(3) };
+void() army_walk19 = [ $prowl_19, army_walk20 ] { M_ai_mark_walk(3) };
+void() army_walk20 = [ $prowl_20, army_walk21 ] { M_ai_mark_walk(3) };
+void() army_walk21 = [ $prowl_21, army_walk22 ] { M_ai_mark_walk(2) };
+void() army_walk22 = [ $prowl_22, army_walk23 ] { M_ai_mark_walk(1) };
+void() army_walk23 = [ $prowl_23, army_walk24 ] { M_ai_mark_walk(1) };
+void() army_walk24 = [ $prowl_24, army_walk1 ] { M_ai_mark_walk(1) };
 
 void() army_run1 = [ $run1, army_run2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "soldier/idle.wav", 1, ATTN_IDLE);
-	ai_run(11);
+	M_ai_mark_run(11)
 };
-void() army_run2 = [ $run2, army_run3 ] { ai_run(15); };
-void() army_run3 = [ $run3, army_run4 ] { ai_run(10); };
-void() army_run4 = [ $run4, army_run5 ] { ai_run(10); };
-void() army_run5 = [ $run5, army_run6 ] { ai_run(8); };
-void() army_run6 = [ $run6, army_run7 ] { ai_run(15); };
-void() army_run7 = [ $run7, army_run8 ] { ai_run(10); };
-void() army_run8 = [ $run8, army_run1 ] { ai_run(8); };
+void() army_run2 = [ $run2, army_run3 ] { M_ai_mark_run(15) };
+void() army_run3 = [ $run3, army_run4 ] { M_ai_mark_run(10) };
+void() army_run4 = [ $run4, army_run5 ] { M_ai_mark_run(10) };
+void() army_run5 = [ $run5, army_run6 ] { M_ai_mark_run(8) };
+void() army_run6 = [ $run6, army_run7 ] { M_ai_mark_run(15) };
+void() army_run7 = [ $run7, army_run8 ] { M_ai_mark_run(10) };
+void() army_run8 = [ $run8, army_run1 ] { M_ai_mark_run(8) };
 
 void() army_atk1 = [ $shoot1, army_atk2 ] { ai_face(); };
 void() army_atk2 = [ $shoot2, army_atk3 ] { ai_face(); };
@@ -177,6 +177,7 @@ void(entity attacker, float damage) army_pain =
 
 	r = random();
 
+	//TODO - mark buff here
 	if (r < 0.2)
 	{
 		self.pain_finished = time + 0.6;
@@ -319,6 +320,7 @@ void() monster_army =
 	self.th_die = army_die;
 
 	//40Q stats----------------
+	M_ai_assign_mark()
 	self.flags = self.flags | FL_MOB;
 	self.health = SOLDIER_HP;
 	self.strength = SOLDIER_STR;
@@ -330,6 +332,9 @@ void() monster_army =
 	self.weapon_dmg = AUTOGUN_DMG;
 	self.weapon_str = AUTOGUN_STR;
 	self.weapon_ap = AUTOGUN_AP;
+	
+	M_ai_set_name("Cultist", "Rot Cultist", "Envy Cultist", "Raging Cultist", "Pawn Cultist")
+	M_ai_set_yaw(20)
 	//------------------------
 	
 	walkmonster_start();

@@ -25,6 +25,8 @@ plats.qc
 
 40q/misc.qc
 
+40q/defs/monst_defs.qc
+
 40q/monst/ogre.qc
 40q/monst/demon.qc
 40q/monst/shambler.qc

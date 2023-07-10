@@ -211,7 +211,7 @@ ai_melee
 void() ai_melee =
 {
 	vector delta;
-	float ldmg;
+	//float ldmg;
 	vector oWep;
 
 	if (!self.enemy)
@@ -222,14 +222,14 @@ void() ai_melee =
 	if (vlen(delta) > 60)
 		return;
 
-	ldmg = (random() + random() + random()) * 3;
+	//ldmg = (random() + random() + random()) * 3;
 
 	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 	self.weapon_str = self.melee_str + self.strength;
 	self.weapon_ap = self.melee_ap;
 	self.weapon_dmg = self.melee_dmg;
 
-	T_Damage(self.enemy, self, self, ldmg);
+	T_Damage(self.enemy, self, self, self.weapon_dmg);
 
 	self.weapon_str = oWep_x;
 	self.weapon_ap = oWep_y;
@@ -239,7 +239,7 @@ void() ai_melee =
 void() ai_melee_side =
 {
 	vector delta;
-	float ldmg;
+	//float ldmg;
 	vector oWep;
 
 	if (!self.enemy)
@@ -253,14 +253,15 @@ void() ai_melee_side =
 		return;
 	if (!CanDamage(self.enemy, self))
 		return;
-	ldmg = (random() + random() + random()) * 3;
+	
+		//ldmg = (random() + random() + random()) * 3;
 
 	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 	self.weapon_str = self.melee_str + self.strength;
 	self.weapon_ap = self.melee_ap;
 	self.weapon_dmg = self.melee_dmg;
 
-	T_Damage(self.enemy, self, self, ldmg);
+	T_Damage(self.enemy, self, self, self.weapon_dmg);
 
 	self.weapon_str = oWep_x;
 	self.weapon_ap = oWep_y;

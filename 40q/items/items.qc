@@ -260,25 +260,30 @@ void() armor_touch =
 		return;
 	
 	if(self.armortype == IT_ARMOR1){
-		other.toughness = self.toughness + 1;
+		other.toughness = other.toughness + 1;
 		value = 100;
 		sprint(other, "Armor MKII\n");
 		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
 	if(self.armortype == IT_ARMOR2){
-		other.armor_save = self.armor_save - 1;
-		value = 200;
+		//other.armor_save = self.armor_save - 1;
+		other.toughness = other.toughness + 1;
+		value = 150;
 		sprint(other, "Armor MKIII\n");
-		centerprint(other, "Armor Upgrade - Armor Save + 1");
+		//centerprint(other, "Armor Upgrade - Armor Save + 1");
+		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
 	if(self.armortype == IT_ARMOR3){
-		other.invuln_save = self.invuln_save - 1;
-		value = 300;
-		sprint(other, "Armor MKIV - ");
-		centerprint(other, "Armor Upgrade - Invuln Save + 1\n Toughness + 1");
+		//other.invuln_save = self.invuln_save - 1;
+		other.toughness = other.toughness + 1;
+		value = 200;
+		sprint(other, "Armor MKIV \n");
+		//centerprint(other, "Armor Upgrade - Invuln Save + 1\n Toughness + 1");
+		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
 	if(value > other.armorvalue)
 		other.armorvalue = value;
+		other.armortype = self.armortype;
 
 	other.items = other.items | self.armortype;
 
