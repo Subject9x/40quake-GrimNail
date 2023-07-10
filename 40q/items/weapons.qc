@@ -41,7 +41,10 @@ void() W_Precache =
 	precache_sound("weapons/bounce.wav"); // grenade bounce
 	precache_sound("weapons/shotgn2.wav"); // super shotgun
 	precache_sound("ogre/ogsawatk.wav");
+	precache_sound("enforcer/enfire.wav");
+
 	precache_model2("progs/v_spike.mdl");
+
 };
 
 float() crandom =
@@ -80,7 +83,7 @@ void() W_FireAxe =
 		self.weapon_ap = self.melee_ap;
 		self.weapon_dmg = self.melee_dmg;
 	
-		T_Damage(trace_ent, self, self, 20);
+		T_Damage(trace_ent, self, self, self.melee_dmg);
 	
 		self.weapon_str = oWep_x;
 		self.weapon_ap = oWep_y;
@@ -458,7 +461,7 @@ void() T_PlasmaTouch =
 		return;
 	}
 	if (other.health)
-		T_Damage(other, self, self.owner, PLASMA_DMG );
+		T_Damage(other, self, self.owner, self.weapon_dmg );
 
 	
 	self.weapon_str = self.weapon_str * 0.5;
@@ -467,13 +470,13 @@ void() T_PlasmaTouch =
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
 
-	T_RadiusDamage(self, self.owner, PLASMA_DMG * 0.33, other);
+	T_RadiusDamage(self, self.owner, self.weapon_dmg * 0.33, other);
 
 //	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+	WriteByte(MSG_BROADCAST, TE_TAREXPLOSION);
 	WriteCoord(MSG_BROADCAST, self.origin_x);
 	WriteCoord(MSG_BROADCAST, self.origin_y);
 	WriteCoord(MSG_BROADCAST, self.origin_z);
@@ -493,7 +496,7 @@ void() W_FirePlasma =
 
 	self.currentammo = self.ammo_cells = self.ammo_cells - PLASMA_AMMO_COST;
 
-	sound(self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
+	sound(self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
 
 	self.punchangle_x = -0.4;	//-2
 
@@ -1003,7 +1006,6 @@ void() stub_touch =
 
 	if (other.health)
 	{
-		logFloat("self.weapon_dmg", self.weapon_dmg);	//debug
 		SpawnBlood(org, self.velocity*0.2, self.weapon_dmg);
 		T_Damage(other, self, self.owner, self.weapon_dmg);
 	}
@@ -1040,9 +1042,16 @@ void(vector org, vector vec, float hvy) launch_stub =
 	setorigin(newmis, org);
 
 	newmis.velocity = vec * 600;
+	if(hvy){
+		newmis.velocity = vec * 450;
+	}
 	newmis.angles = vectoangles(newmis.velocity);
 
 	newmis.nextthink = time + 5;
+	if(self.demon_mark == MARK_EXCESS){
+		newmis.nextthink = time + 7;
+	}
+	
 	newmis.think = SUB_Remove;
 	newmis.touch = stub_touch;
 
@@ -1056,25 +1065,37 @@ void(vector org, vector vec, float hvy) launch_stub =
 void() W_FireAutogun =
 {
 	vector org;
+	vector dir;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	makevectors(self.angles);
 
 	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
 
-	launch_stub(org, self.enemy.origin - self.origin, FALSE);
+	dir = self.enemy.origin - self.origin;
+	if(self.demon_mark == MARK_EXCESS){
+		dir = dir + normalize(self.enemy.velocity);
+	}
+
+	launch_stub(org, dir, FALSE);
 };
 
 void() W_FireHvyStub =
 {
 	vector org;
+	vector dir;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	makevectors(self.angles);
 
 	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
 
-	launch_stub(org, self.enemy.origin - self.origin, TRUE);
+	dir = self.enemy.origin - self.origin;
+	if(self.demon_mark == MARK_EXCESS){
+		dir = dir + normalize(self.enemy.velocity);
+	}
+
+	launch_stub(org, dir, TRUE);
 };
 
 
@@ -1239,11 +1260,11 @@ void() bolt_touch =
 	if (other.takedamage)
 	{
 		if((self.items & IT_BOLTGUN)){
-			spawn_touchblood(9);
+			spawn_touchblood(BOLTGUN_DMG);
 			T_Damage(other, self, self.owner, BOLTGUN_DMG);
 		}
 		else{
-			spawn_touchblood(9);
+			spawn_touchblood(TEMPEST_DMG);
 			T_Damage(other, self, self.owner, TEMPEST_DMG);
 		}
 	}
@@ -1276,7 +1297,7 @@ void() heavy_bolter_touch =
 // hit something that bleeds
 	if (other.takedamage)
 	{
-		spawn_touchblood(18);
+		spawn_touchblood(HVYBOLT_DMG);
 		T_Damage(other, self, self.owner, HVYBOLT_DMG);
 	}
 	else

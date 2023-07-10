@@ -171,7 +171,17 @@ void() ShalMissile =
 	setsize(missile, '0 0 0', '0 0 0');
 
 	missile.origin = self.origin + '0 0 10';
-	missile.velocity = dir * 350;	//400
+	
+	if(self.demon_mark == MARK_EXCESS)
+		missile.velocity = dir * 475;
+	else if(self.demon_mark == MARK_TWIST)
+		missile.velocity = dir * 600;
+	else if(self.demon_mark == MARK_DESPAIR)
+		missile.velocity = dir * 300;
+	else
+		missile.velocity = dir * 400;
+
+
 	missile.avelocity = '300 300 300';
 	missile.nextthink = flytime + time;
 	missile.think = ShalHome;
@@ -193,10 +203,11 @@ void() ShalHome =
 		return;
 	}
 	dir = normalize(vtemp - self.origin);
-	if (skill == 3)
-		self.velocity = dir * 300;	//350
+	if (skill >= 3 || self.demon_mark == MARK_EXCESS)
+		self.velocity = dir * 350;	//350
 	else
-		self.velocity = dir * 200;	//250
+		self.velocity = dir * 250;	//250
+	
 	self.nextthink = time + 0.2;
 	self.think = ShalHome;
 };
@@ -207,10 +218,14 @@ void() ShalMissileTouch =
 		return; // don't explode on owner
 
 	if (other.classname == "monster_zombie")
-		T_Damage(other, self, self, 110);
+		T_Damage(other, self, self, self.weapon_dmg);
 
 	
-	T_RadiusDamage(self, self.owner, 40, world);
+	if(self.demon_mark == MARK_TWIST)
+		T_RadiusDamage(self, self.owner, self.weapon_dmg * 0.75, world);
+	else
+		T_RadiusDamage(self, self.owner, self.weapon_dmg * 0.5, world);
+
 	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -278,7 +293,7 @@ void() monster_shalrath =
 	if(self.demon_mark == MARK_RAGE){
 		self.demon_mark = 0;	//RAGE GOD DOESN'T LIKE MAGIC
 	}
-
+	M_ai_mark_stat()
 	M_ai_set_name("Shalrath", "Virulent Shalrath", "Excessive Shalrath", "NO", "Fateful Shalrath")
 	M_ai_set_yaw(20)
 	//------------------------

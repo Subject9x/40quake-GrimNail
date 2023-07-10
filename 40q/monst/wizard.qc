@@ -225,15 +225,31 @@ void() Wiz_FastFire =
 		self.owner.effects = self.owner.effects | EF_MUZZLEFLASH;
 
 		makevectors(self.enemy.angles);
-		dst = self.enemy.origin - 13*self.movedir;
+		
+		if(self.demon_mark == MARK_TWIST)
+			dst = self.enemy.origin - 6*self.movedir;
+		else
+			dst = self.enemy.origin - 13*self.movedir;
 
 		vec = normalize(dst - self.origin);
 		sound(self, CHAN_WEAPON, "wizard/wattack.wav", 1, ATTN_NORM);
+		
 		launch_spike(self.origin, vec);
-		newmis.velocity = vec*600;
+		
+		if(self.demon_mark == MARK_EXCESS)
+			newmis.velocity = vec*725;
+		else if(self.demon_mark == MARK_DESPAIR)
+			newmis.velocity = vec*500;
+		else
+			newmis.velocity = vec*600;
+		
 		newmis.owner = self.owner;
 		newmis.classname = "wizspike";
-		setmodel(newmis, "progs/w_spike.mdl");
+		
+		if(self.demon_mark == MARK_TWIST)
+			setmodel(newmis, "progs/k_spike.mdl");
+		else
+			setmodel(newmis, "progs/w_spike.mdl");
 		setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 
 		newmis.weapon_str = self.weapon_str;
@@ -431,6 +447,8 @@ void() monster_wizard =
 	precache_model("progs/wizard.mdl");
 	precache_model("progs/h_wizard.mdl");
 	precache_model("progs/w_spike.mdl");
+	precache_model("progs/k_spike.mdl");
+
 
 	precache_sound("wizard/hit.wav"); // used by c code
 	precache_sound("wizard/wattack.wav");
@@ -471,7 +489,7 @@ void() monster_wizard =
 	if(self.demon_mark == MARK_RAGE){
 		self.demon_mark	 = 0;	//RAGE GOD DESPISES MAGIKS
 	}
-
+	M_ai_mark_stat()
 	M_ai_set_yaw(20)
 	M_ai_set_name("Wizard", "Plague Wizard", "Obsess Wizard", "Anger Wizard", "Scheming Wizard")
 	//------------------------

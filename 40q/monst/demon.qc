@@ -101,7 +101,19 @@ void() demon1_jump4 = [ $leap4, demon1_jump5 ]
 	self.touch = Demon_JumpTouch;
 	makevectors(self.angles);
 	self.origin_z = self.origin_z + 1;
-	self.velocity = v_forward * 600 + '0 0 250';
+	
+	if(self.demon_mark == MARK_DESPAIR)
+		self.velocity = v_forward * 250 + '0 0 350';
+	else if(self.demon_mark == MARK_RAGE)
+		self.velocity = v_forward * 750 + '0 0 100';
+	else if(self.demon_mark == MARK_EXCESS)
+		self.velocity = v_forward * 450 + '0 0 200';
+	else if(self.demon_mark == MARK_TWIST)
+		self.velocity = v_forward * 600 + '0 0 250';
+	else
+		self.velocity = v_forward * 500 + '0 0 500';
+	
+	
 	if (self.flags & FL_ONGROUND)
 		self.flags = self.flags - FL_ONGROUND;
 };
@@ -151,12 +163,22 @@ void(entity attacker, float damage) demon1_pain =
 	if (self.pain_finished > time)
 		return;
 
-	self.pain_finished = time + 1;
-		sound(self, CHAN_VOICE, "demon/dpain1.wav", 1, ATTN_NORM);
+	if(self.demon_mark == MARK_RAGE)
+		self.pain_finished = time + 0.33;
+	else
+		self.pain_finished = time + 1;
+	
+	sound(self, CHAN_VOICE, "demon/dpain1.wav", 1, ATTN_NORM);
 
 	if (random()*200 > damage)
 		return; // didn't flinch
-
+	if(self.demon_mark == MARK_DESPAIR)
+		if (100+random()*100 > damage)
+			return; // didn't flinch
+	else
+		if (random()*200 > damage)
+			return; // didn't flinch
+	
 	demon1_pain1();
 };
 
@@ -242,7 +264,8 @@ void() monster_demon1 =
 	self.weapon_str = FIEND_CLAW_STR + FIEND_STR;
 	self.weapon_ap = FIEND_CLAW_AP;
 	self.weapon_dmg = FIEND_CLAW_DMG;
-
+	
+	M_ai_mark_stat()
 	M_ai_set_name("Demon", "Beast of Rot", "Fiendish Sensation", "Demon of Blood", "Horrible Pink")
 	M_ai_set_yaw(20)
 	//------------------------
@@ -350,7 +373,7 @@ void(float side) Demon_Melee =
 		return;
 
 	sound(self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
-	ldmg = 10 + 5*random();
+	ldmg = self.weapon_dmg + 5*random();
 	T_Damage(self.enemy, self, self, ldmg);
 
 	makevectors(self.angles);
@@ -369,7 +392,7 @@ void() Demon_JumpTouch =
 	{
 		if (vlen(self.velocity) > 400)
 		{
-			ldmg = 40 + 10*random();
+			ldmg = self.weapon_dmg * 1.67 + 10*random();
 			T_Damage(other, self, self, ldmg);
 		}
 	}

@@ -128,7 +128,7 @@ void() army_atk5 = [ $shoot5, army_atk6 ]
 };
 void() army_atk6 = [ $shoot6, army_atk7 ] { ai_face(); };
 void() army_atk7 = [ $shoot7, army_atk8 ] { ai_face(); SUB_CheckRefire(army_atk1); };
-void() army_atk8 = [ $shoot8, army_atk9 ] { ai_face(); };
+void() army_atk8 = [ $shoot8, army_atk9 ] { ai_face(); if(self.demon_mark==MARK_TWIST){if(random()> 0.49){army_fire();self.effects = self.effects | EF_MUZZLEFLASH;}} };
 void() army_atk9 = [ $shoot9, army_run1 ] { ai_face(); };
 
 
@@ -176,23 +176,31 @@ void(entity attacker, float damage) army_pain =
 		return;
 
 	r = random();
-
-	//TODO - mark buff here
+	
 	if (r < 0.2)
 	{
 		self.pain_finished = time + 0.6;
+		if(self.demon_mark == MARK_EXCESS){
+			self.pain_finished = time + 0.3;
+		}
 		army_pain1();
 		sound(self, CHAN_VOICE, "soldier/pain1.wav", 1, ATTN_NORM);
 	}
 	else if (r < 0.6)
 	{
 		self.pain_finished = time + 1.1;
+		if(self.demon_mark == MARK_EXCESS){
+			self.pain_finished = time + 0.75;
+		}
 		army_painb1();
 		sound(self, CHAN_VOICE, "soldier/pain2.wav", 1, ATTN_NORM);
 	}
 	else
 	{
 		self.pain_finished = time + 1.1;
+		if(self.demon_mark == MARK_EXCESS){
+			self.pain_finished = time + 0.75;
+		}
 		army_painc1();
 		sound(self, CHAN_VOICE, "soldier/pain2.wav", 1, ATTN_NORM);
 	}
@@ -321,6 +329,7 @@ void() monster_army =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
 	self.flags = self.flags | FL_MOB;
 	self.health = SOLDIER_HP;
 	self.strength = SOLDIER_STR;
@@ -333,6 +342,7 @@ void() monster_army =
 	self.weapon_str = AUTOGUN_STR;
 	self.weapon_ap = AUTOGUN_AP;
 	
+	M_ai_mark_stat()
 	M_ai_set_name("Cultist", "Rot Cultist", "Envy Cultist", "Raging Cultist", "Pawn Cultist")
 	M_ai_set_yaw(20)
 	//------------------------

@@ -17,8 +17,8 @@
 #define BOLTGUN_DMG 15
 #define BOLTGUN_STR 4
 #define BOLTGUN_AP -1
-#define BOLTGUN_AMMO_COST 2
-#define BOLTGUN_ROF 0.6
+#define BOLTGUN_AMMO_COST 1
+#define BOLTGUN_ROF 0.55
 
 #define ASTSHOTG_DMG 5
 #define ASTSHOTG_STR 3
@@ -26,26 +26,26 @@
 #define ASTSHOTG_AMMO_COST 2
 #define ASTSHOTG_ROF 0.75
 
-#define TEMPEST_DMG 7
+#define TEMPEST_DMG 10
 #define TEMPEST_STR 3
 #define TEMPEST_AP -1
-#define TEMPEST_AMMO_COST 4
-#define TEMPEST_ROF 0.25
+#define TEMPEST_AMMO_COST 2
+#define TEMPEST_ROF 0.15
 
-#define HVYBOLT_DMG 30
-#define HVYBOLT_STR 7
+#define HVYBOLT_DMG 40
+#define HVYBOLT_STR 6
 #define HVYBOLT_AP -2
-#define HVYBOLT_AMMO_COST 2
-#define HVYBOLT_ROF 0.4
+#define HVYBOLT_AMMO_COST 1
+#define HVYBOLT_ROF 0.25
 
-#define PLASMA_DMG 60
+#define PLASMA_DMG 55
 #define PLASMA_STR 7
 #define PLASMA_AP -3
 #define PLASMA_AMMO_COST 2
 #define PLASMA_ROF 0.6
 
-#define ROCKET_DMG 25
-#define ROCKET_STR 4
+#define ROCKET_DMG 30
+#define ROCKET_STR 3
 #define ROCKET_AP 0
 #define ROCKET_AMMO_COST 5
 #define ROCKET_ROF 0.6
@@ -83,15 +83,15 @@
 #define HVYSTUB_STR 4
 #define HVYSTUB_AP -1
 
-#define SWORD_DMG 25
+#define SWORD_DMG 4
 #define SWORD_STR 1
 #define SWORD_AP -1
 
-#define PWR_SWORD_DMG 50
+#define PWR_SWORD_DMG 8
 #define PWR_SWORD_STR 2
 #define PWR_SWORD_AP -2
 
-#define CHAINSAW_DMG 200
+#define CHAINSAW_DMG 5
 #define CHAINSAW_STR 0
 #define CHAINSAW_AP -1
 
@@ -107,7 +107,7 @@
 #define KNIGHT_SPELL_STR 5
 #define KNIGHT_SPELL_AP 0
 
-#define FIEND_CLAW_DMG 33
+#define FIEND_CLAW_DMG 25
 #define FIEND_CLAW_STR 0 
 #define FIEND_CLAW_AP -3
 

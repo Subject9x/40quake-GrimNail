@@ -70,24 +70,34 @@ $frame pull1 pull2 pull3 pull4 pull5 pull6 pull7 pull8 pull9 pull10 pull11
 
 void() OgreGrenadeExplode =
 {
-	self.owner.weapon_str = GRENLNCH_STR;
-	self.owner.weapon_ap = GRENLNCH_AP;
-	self.owner.weapon_dmg = GRENLNCH_DMG;
-	
-	T_RadiusDamage(self, self.owner, 40, world);
-	sound(self, CHAN_VOICE, "weapons/r_exp3.wav", 1, ATTN_NORM);
-
-	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord(MSG_BROADCAST, self.origin_x);
-	WriteCoord(MSG_BROADCAST, self.origin_y);
-	WriteCoord(MSG_BROADCAST, self.origin_z);
-
+	if((other.flags & FL_CLIENT) || (other.flags & FL_MONSTER))
+		T_Damage(other, self, self.owner, self.weapon_dmg);
+	else
+		T_RadiusDamage(self, self.owner, self.weapon_dmg + 40, world);
+		
 	self.velocity = '0 0 0';
 	self.touch = SUB_Null;
-	setmodel(self, "progs/s_explod.spr");
+	
 	self.solid = SOLID_NOT;
-	s_explode1();
+	if(self.demon_mark == MARK_DESPAIR){
+		sound(self, CHAN_VOICE, "zombie/z_hit.wav", 1, ATTN_NORM); // bounce sound
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_WIZSPIKE);
+		WriteCoord(MSG_BROADCAST, self.origin_x);
+		WriteCoord(MSG_BROADCAST, self.origin_y);
+		WriteCoord(MSG_BROADCAST, self.origin_z);
+		remove(self);
+	}
+	else{
+		sound(self, CHAN_VOICE, "weapons/r_exp3.wav", 1, ATTN_NORM);
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+		WriteCoord(MSG_BROADCAST, self.origin_x);
+		WriteCoord(MSG_BROADCAST, self.origin_y);
+		WriteCoord(MSG_BROADCAST, self.origin_z);
+		setmodel(self, "progs/s_explod.spr");
+		s_explode1();
+	}
 };
 
 void() OgreGrenadeTouch =
@@ -99,7 +109,15 @@ void() OgreGrenadeTouch =
 		OgreGrenadeExplode();
 		return;
 	}
-	sound(self, CHAN_VOICE, "weapons/bounce.wav", 1, ATTN_NORM); // bounce sound
+
+	if(self.demon_mark == MARK_DESPAIR){
+		sound(self, CHAN_VOICE, "zombie/z_miss.wav", 1, ATTN_NORM); // bounce sound
+	}
+	else{
+		sound(self, CHAN_VOICE, "weapons/bounce.wav", 1, ATTN_NORM); // bounce sound
+	}
+
+	
 	if (self.velocity == '0 0 0')
 		self.avelocity = '0 0 0';
 };
@@ -119,8 +137,14 @@ void() OgreFireGrenade =
 
 	missile = spawn();
 	missile.owner = self;
+	
 	missile.movetype = MOVETYPE_BOUNCE;
+	if(self.demon_mark == MARK_TWIST || self.demon_mark == MARK_DESPAIR){
+		missile.movetype = MOVETYPE_TOSS;
+	}
+	
 	missile.solid = SOLID_BBOX;
+	missile.demon_mark = self.demon_mark;
 
 	missile.weapon_str = self.weapon_str;
 	missile.weapon_ap = self.weapon_ap;
@@ -131,20 +155,41 @@ void() OgreFireGrenade =
 	makevectors(self.angles);
 
 	missile.velocity = normalize(self.enemy.origin - self.origin);
-	missile.velocity = missile.velocity * 600;
-	missile.velocity_z = 200;
-
+	
 	missile.avelocity = '300 300 300';
-
+	if(self.demon_mark == MARK_EXCESS){
+		missile.velocity = missile.velocity * 600;
+		missile.velocity_z = 200;
+	}
+	if(self.demon_mark == MARK_DESPAIR){
+		missile.velocity = missile.velocity * 500;
+		missile.velocity_z = 250;
+		missile.avelocity = '225 250 225';
+	}
+	else{
+		missile.velocity = missile.velocity * 700;
+		missile.velocity_z = 150;
+	}
 	missile.angles = vectoangles(missile.velocity);
 
 	missile.touch = OgreGrenadeTouch;
-
-// set missile duration
-	missile.nextthink = time + 2.5;
 	missile.think = OgreGrenadeExplode;
 
+	// set missile duration
 	setmodel(missile, "progs/grenade.mdl");
+	if(self.demon_mark == MARK_TWIST){
+		missile.nextthink = time + 1.5;
+		setmodel(missile, "progs/s_light.spr");
+	}
+	else{
+		missile.nextthink = time + 2.5;
+	}
+
+	if(self.demon_mark == MARK_DESPAIR){
+		setmodel(missile, "progs/zom_gib.mdl");
+	}
+
+
 	setsize(missile, '0 0 0', '0 0 0');
 	setorigin(missile, self.origin);
 };
@@ -185,7 +230,7 @@ void(float side) chainsaw =
 	self.weapon_ap = self.melee_ap;
 	self.weapon_dmg = self.melee_dmg;
 
-	T_Damage(self.enemy, self, self, ldmg);
+	T_Damage(self.enemy, self, self, self.weapon_dmg);
 
 	self.weapon_str = oWep_x;
 	self.weapon_ap = oWep_y;
@@ -418,12 +463,22 @@ void(entity attacker, float damage) ogre_pain =
 	if (r < 0.25)
 	{
 		ogre_pain1();
-		self.pain_finished = time + 1;
+		if(self.demon_mark == MARK_EXCESS){
+			self.pain_finished = time + 0.5;
+		}
+		else{
+			self.pain_finished = time + 1;
+		}
 	}
 	else if (r < 0.5)
 	{
 		ogre_painb1();
-		self.pain_finished = time + 1;
+		if(self.demon_mark == MARK_EXCESS){
+			self.pain_finished = time + 0.5;
+		}
+		else{
+			self.pain_finished = time + 1;
+		}
 	}
 	else if (r < 0.75)
 	{
@@ -432,13 +487,17 @@ void(entity attacker, float damage) ogre_pain =
 	}
 	else if (r < 0.88)
 	{
-		ogre_paind1();
-		self.pain_finished = time + 2;
+		if(self.demon_mark != MARK_RAGE){
+			ogre_paind1();
+			self.pain_finished = time + 2;
+		}
 	}
 	else
 	{
-		ogre_paine1();
-		self.pain_finished = time + 2;
+		if(self.demon_mark != MARK_RAGE){
+			ogre_paine1();
+			self.pain_finished = time + 2;
+		}
 	}
 };
 
@@ -527,6 +586,8 @@ void() monster_ogre =
 	precache_model("progs/ogre.mdl");
 	precache_model("progs/h_ogre.mdl");
 	precache_model("progs/grenade.mdl");
+	precache_model("progs/zom_gib.mdl");
+	precache_model("progs/s_light.spr");
 
 	precache_sound("ogre/ogdrag.wav");
 	precache_sound("ogre/ogdth.wav");
@@ -535,6 +596,8 @@ void() monster_ogre =
 	precache_sound("ogre/ogpain1.wav");
 	precache_sound("ogre/ogsawatk.wav");
 	precache_sound("ogre/ogwake.wav");
+	precache_sound("zombie/z_miss.wav");
+	precache_sound("zombie/z_hit.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -553,6 +616,7 @@ void() monster_ogre =
 	
 	//40Q stats----------------
 	M_ai_assign_mark()
+
 	self.flags = self.flags | (FL_DEMON | FL_MOB);
 	self.health = OGRE_HP;
 	self.strength = OGRE_STR;
@@ -569,8 +633,14 @@ void() monster_ogre =
 	self.weapon_ap = GRENLNCH_AP;
 	self.weapon_dmg = GRENLNCH_STR;
 	
+	M_ai_mark_stat()
 	M_ai_set_name("Ogre", "Rotted Ogre", "Obsessive Ogre", "Mad Ogre", "Twisted Ogre")
 	M_ai_set_yaw(20)
+
+	if(self.demon_mark == MARK_DESPAIR){
+		self.toughness = self.toughness + 1;
+	}
+	self.toughness_set = self.toughness;
 	//------------------------
 
 

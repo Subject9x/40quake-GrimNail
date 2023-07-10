@@ -195,10 +195,10 @@ void() ai_charge_side =
 	ChangeYaw();
 
 	makevectors(self.angles);
-	dtemp = self.enemy.origin - 30*v_right;
+	dtemp = self.enemy.origin - self.ai_side_charge_angle*v_right;
 	heading = vectoyaw(dtemp - self.origin);
 
-	walkmove(heading, 20);
+	walkmove(heading, self.ai_side_charge);
 };
 
 

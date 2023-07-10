@@ -182,6 +182,10 @@ void(entity attacker, float damage) knight_pain =
 	}
 	else
 	{
+		if(self.demon_mark == MARK_RAGE){
+			if(r < 0.2)
+				return;
+		}
 		knight_painb1();
 		self.pain_finished = time + self.pain_time;
 	}
@@ -289,6 +293,7 @@ void() monster_knight =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
 	self.flags = self.flags | FL_MOB;
 	self.health = KNIGHT_HP;
 	self.strength = KNIGHT_STR;
@@ -301,8 +306,26 @@ void() monster_knight =
 	self.melee_ap = SWORD_AP;
 	self.melee_dmg = SWORD_DMG;
 
+	M_ai_mark_stat()
 	M_ai_set_name("Knight", "Plague Knight", "Perfected Knight", "Raging Knight", "Bizarre Knight")
 	M_ai_set_yaw(20)
+
+	self.ai_side_charge = 20;
+	self.ai_side_charge_angle = 30;
+
+	if(self.demon_mark == MARK_EXCESS){
+		self.ai_side_charge = 20;
+		self.ai_side_charge_angle = 20;
+	}
+	if(self.demon_mark == MARK_RAGE){
+		self.ai_side_charge = 40;
+		self.ai_side_charge_angle = 15;
+	}
+	if(self.demon_mark == MARK_DESPAIR){
+		self.ai_side_charge = 15;
+	}
+	
+
 	//------------------------
 	
 	walkmonster_start();

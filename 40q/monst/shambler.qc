@@ -163,19 +163,20 @@ void(float side) ShamClaw =
 
 	if (!self.enemy)
 		return;
-	ai_charge(10);
+	
+	M_ai_mark_charge(10);
 
 	delta = self.enemy.origin - self.origin;
 
 	if (vlen(delta) > 100)
 		return;
 
-	ldmg = (random() + random() + random()) * 20;
-	
 	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 	self.weapon_str = self.melee_str + self.strength;
 	self.weapon_ap = self.melee_ap;
 	self.weapon_dmg = self.melee_dmg;
+
+	ldmg = (random() + random() + random()) * self.weapon_dmg;
 
 	T_Damage(self.enemy, self, self, ldmg);
 
@@ -195,7 +196,7 @@ void(float side) ShamClaw =
 void() sham_swingl1 = [ $swingl1, sham_swingl2 ]
 {
 	sound(self, CHAN_VOICE, "shambler/melee2.wav", 1, ATTN_NORM);
-	ai_charge(5);
+	M_ai_mark_charge(5);
 };
 void() sham_swingl2 = [ $swingl2, sham_swingl3 ] { M_ai_mark_charge(3) };
 void() sham_swingl3 = [ $swingl3, sham_swingl4 ] { M_ai_mark_charge(7) };
@@ -206,7 +207,7 @@ void() sham_swingl7 = [ $swingl7, sham_swingl8 ] { M_ai_mark_charge(5) ShamClaw(
 void() sham_swingl8 = [ $swingl8, sham_swingl9 ] { M_ai_mark_charge(4) };
 void() sham_swingl9 = [ $swingl9, sham_run1  ]
 {
-	ai_charge(8);
+	M_ai_mark_charge(8);
 	if (random()<0.5)
 		self.think = sham_swingr1;
 };
@@ -214,7 +215,7 @@ void() sham_swingl9 = [ $swingl9, sham_run1  ]
 void() sham_swingr1 = [ $swingr1, sham_swingr2 ]
 {
 	sound(self, CHAN_VOICE, "shambler/melee1.wav", 1, ATTN_NORM);
-	ai_charge(1);
+	M_ai_mark_charge(1);
 };
 void() sham_swingr2 = [ $swingr2, sham_swingr3 ] { M_ai_mark_charge(8) };
 void() sham_swingr3 = [ $swingr3, sham_swingr4 ] { M_ai_mark_charge(14) };
@@ -227,7 +228,7 @@ void() sham_swingr9 = [ $swingr9, sham_run1  ]
 {
 	M_ai_mark_charge(1)
 	M_ai_mark_charge(10)
-	if (random()<0.5)
+	if (random()<0.5 || self.demon_mark == MARK_EXCESS)
 		self.think = sham_swingl1;
 };
 
@@ -236,7 +237,7 @@ void() sham_melee =
 	float chance;
 
 	chance = random();
-	if (chance > 0.6 || self.health == 600)
+	if ((chance > 0.6 || self.health == 600) || self.demon_mark == MARK_RAGE)
 		sham_smash1();
 	else if (chance > 0.3)
 		sham_swingr1();
@@ -250,6 +251,7 @@ void() sham_melee =
 void() CastLightning =
 {
 	vector org, dir;
+	float range;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 
@@ -260,7 +262,13 @@ void() CastLightning =
 	dir = self.enemy.origin + '0 0 16' - org;
 	dir = normalize(dir);
 
-	traceline(org, self.origin + dir*600, TRUE, self);
+	range = 600;
+	if(self.demon_mark == MARK_DESPAIR)
+		range = 400;
+	else if(self.demon_mark == MARK_TWIST)
+		range = 750;
+
+	traceline(org, self.origin + dir*range, TRUE, self);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_LIGHTNING1);
@@ -272,7 +280,7 @@ void() CastLightning =
 	WriteCoord(MSG_BROADCAST, trace_endpos_y);
 	WriteCoord(MSG_BROADCAST, trace_endpos_z);
 
-	LightningDamage(org, trace_endpos, self, 10);
+	LightningDamage(org, trace_endpos, self, self.weapon_dmg);
 };
 
 void() sham_magic1 = [ $magic1, sham_magic2 ]
@@ -338,12 +346,24 @@ void(entity attacker, float damage) sham_pain =
 	if (self.health <= 0)
 		return; // allready dying, don't go into pain frame
 
-	if (random()*400 > damage)
+	if(self.demon_mark == MARK_DESPAIR)
+		if (250 + random()*150 > damage)
 		return; // didn't flinch
+	else
+		if (random()*400 > damage)
+			return; // didn't flinch
 
 	if (self.pain_finished > time)
 		return;
-	self.pain_finished = time + 2;
+	
+	if(self.demon_mark == MARK_RAGE)
+		self.pain_finished = time + 0.01;
+	else if(self.demon_mark == MARK_EXCESS)
+		self.pain_finished = time + 4;
+	else if(self.demon_mark == MARK_TWIST)
+		self.pain_finished = time + 0.5;
+	else
+		self.pain_finished = time + 2;
 
 	sham_pain1();
 };
@@ -419,7 +439,6 @@ void() monster_shambler =
 	self.th_run = sham_run1;
 	self.th_die = sham_die;
 	self.th_melee = sham_melee;
-	self.th_missile = sham_magic1;
 	self.th_pain = sham_pain;
 
 	//40Q stats----------------
@@ -440,6 +459,11 @@ void() monster_shambler =
 	self.weapon_ap = SHMBL_CLAW_DMG;
 	self.weapon_dmg = SHMBL_SPELL_DMG;
 
+	//RAGE GOD NO MAGIKS
+	if(self.demon_mark != MARK_RAGE)
+		self.th_missile = sham_magic1;
+
+	M_ai_mark_stat()
 	M_ai_set_name("Shambler", "Shambling Plaguehost", "Ravenous Shambler", "Blooded Shambler", "Master Shambler")
 	M_ai_set_yaw(20)
 	//------------------------

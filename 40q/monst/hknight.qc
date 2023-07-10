@@ -91,10 +91,20 @@ void(float offset) hknight_shot =
 	vec_z = 0 - vec_z + (random() - 0.5)*0.1;
 
 	launch_spike(org, vec);
+
 	newmis.classname = "knightspike";
 	setmodel(newmis, "progs/k_spike.mdl");
 	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
-	newmis.velocity = vec*300;
+	
+	if(self.demon_mark == MARK_TWIST)
+		newmis.velocity = vec*350;
+	else if(self.demon_mark == MARK_EXCESS)
+		newmis.velocity = vec*400;
+	else if(self.demon_mark == MARK_DESPAIR)
+		newmis.velocity = vec*250;
+	else
+		newmis.velocity = vec*300;
+	
 	sound(self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 
 	newmis.weapon_str = self.weapon_str;
@@ -398,14 +408,31 @@ void(entity attacker, float damage) hknight_pain =
 	if (time - self.pain_finished > 5)
 	{ // allways go into pain frame if it has been a while
 		hknight_pain1();
-		self.pain_finished = time + 1;
+		if(self.demon_mark == MARK_RAGE)
+			self.pain_finished = time + 0.25;
+		else if(self.demon_mark == MARK_EXCESS)
+			self.pain_finished = time + 0.5;
+		else
+			self.pain_finished = time + 1;
 		return;
 	}
 
 	if ((random()*30 > damage))
 		return; // didn't flinch
 
-	self.pain_finished = time + 1;
+	if(self.demon_mark == MARK_DESPAIR)
+		if ((25 + random()*35 > damage))
+			return; // didn't flinch
+	else
+		if ((random()*30 > damage))
+			return; // didn't flinch
+
+	if(self.demon_mark == MARK_RAGE)
+		self.pain_finished = time + 0.25;
+	else if(self.demon_mark == MARK_EXCESS)
+		self.pain_finished = time + 0.5;
+	else
+		self.pain_finished = time + 1;
 	hknight_pain1();
 };
 
@@ -472,6 +499,7 @@ void() monster_hell_knight =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
 	self.flags = self.flags | FL_MOB;
 	self.health = HKNIGHT_HP;
 	self.strength = HKNIGHT_STR;
@@ -488,6 +516,7 @@ void() monster_hell_knight =
 	self.weapon_ap = KNIGHT_SPELL_AP;
 	self.weapon_dmg = KNIGHT_SPELL_DMG;
 
+	M_ai_mark_stat()
 	M_ai_set_name("Hell Knight", "Baron of Bile", "Sensuous Lord", "Sword of Hate", "Nefarious Captain")
 	M_ai_set_yaw(20)
 	//------------------------

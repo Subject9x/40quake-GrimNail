@@ -52,6 +52,10 @@
 .float demon_mark;
 .float pain_time;	//pain_finished cooldown
 
+.float ai_side_charge;
+.float ai_side_charge_angle;
+
+
 .float armor_save_set;
 .float toughness_set;
 .float strength_set;

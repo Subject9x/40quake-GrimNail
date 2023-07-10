@@ -275,10 +275,12 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 				if((targ.items & IT_ARMOR3) && targ.armorvalue < 151){
 					targ.items = targ.items - (targ.items &  IT_ARMOR3);
 					targ.toughness = targ.toughness - 1;
+					targ.melee_str = targ.melee_str - 1;
 				}
 				else if((targ.items & IT_ARMOR2) && targ.armorvalue < 101){
 					targ.items = targ.items - (targ.items &  IT_ARMOR2);
 					targ.toughness = targ.toughness - 1;
+					targ.melee_str = targ.melee_str - 1;
 				}
 				else if((targ.items & IT_ARMOR1) && targ.armorvalue < 50){
 					targ.items = targ.items - (targ.items &  IT_ARMOR1);

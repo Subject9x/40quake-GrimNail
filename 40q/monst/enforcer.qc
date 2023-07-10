@@ -55,7 +55,7 @@ $frame paind1 paind2 paind3 paind4 paind5 paind6 paind7 paind8
 $frame paind9 paind10 paind11 paind12 paind13 paind14 paind15 paind16
 $frame paind17 paind18 paind19
 
-
+//UNUSED ATM
 void() Laser_Touch =
 {
 	vector org;
@@ -89,6 +89,7 @@ void() Laser_Touch =
 	remove(self);
 };
 
+//UNUSED ATM
 void(vector org, vector vec) LaunchLaser =
 {
 	if (self.classname == "monster_enforcer")
@@ -293,11 +294,17 @@ void(entity attacker, float damage) enf_pain =
 	if (r < 0.2)
 	{
 		self.pain_finished = time + 1;
+		if(self.demon_mark == MARK_EXCESS)
+			self.pain_finished = time + 0.5;
+		
 		enf_paina1();
 	}
 	else if (r < 0.4)
 	{
 		self.pain_finished = time + 1;
+		if(self.demon_mark == MARK_EXCESS)
+			self.pain_finished = time + 0.5;
+		
 		enf_painb1();
 	}
 	else if (r < 0.7)
@@ -307,8 +314,13 @@ void(entity attacker, float damage) enf_pain =
 	}
 	else
 	{
-		self.pain_finished = time + 2;
-		enf_paind1();
+		if(self.demon_mark != MARK_RAGE){
+			self.pain_finished = time + 2;
+			if(self.demon_mark == MARK_TWIST)
+				self.pain_finished = time + 1;
+			
+			enf_paind1();
+		}
 	}
 };
 
@@ -420,6 +432,7 @@ void() monster_enforcer =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
 	self.flags = self.flags | FL_MOB;
 	self.health = ENFORCE_HP;
 	self.strength = ENFORCE_STR;
@@ -431,7 +444,8 @@ void() monster_enforcer =
 	self.weapon_str = HVYSTUB_STR;
 	self.weapon_ap = HVYSTUB_AP;
 	self.weapon_dmg = HVYSTUB_DMG;
-
+	
+	M_ai_mark_stat()
 	M_ai_set_name("Enforcer", "Infected Enforcer", "Hedonist Enforcer", "Anger Prophet", "Twisted Enforcer")
 	M_ai_set_yaw(20)
 	//------------------------

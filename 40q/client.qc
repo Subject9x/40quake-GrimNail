@@ -1277,38 +1277,120 @@ void(entity targ, entity attacker) ClientObituary =
 
 			if (attacker.flags & FL_MONSTER)
 			{
-				if (attacker.classname == "monster_army")
-					bprint(" was shot by a Grunt\n");
+				if (attacker.classname == "monster_army"){
+					bprint(" was shot by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
 				if (attacker.classname == "monster_demon1")
+				{
 					bprint(" was eviscerated by a Fiend\n");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
+				
 				if (attacker.classname == "monster_dog")
+				{
 					bprint(" was mauled by a Rottweiler\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_dragon")
+				{
 					bprint(" was fried by a Dragon\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_enforcer")
-					bprint(" was blasted by an Enforcer\n");
+				{
+					bprint(" was blasted by an ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_fish")
+				{
 					bprint(" was fed to the Rotfish\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_hell_knight")
-					bprint(" was slain by a Death Knight\n");
+				{
+					bprint(" was slain by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_knight")
-					bprint(" was slashed by a Knight\n");
+				{
+					bprint(" was slashed by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_ogre")
-					bprint(" was destroyed by an Ogre\n");
+				{
+					bprint(" was destroyed by an ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_oldone")
+				{
 					bprint(" became one with Shub-Niggurath\n");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_shalrath")
-					bprint(" was exploded by a Vore\n");
+				{
+					bprint(" was exploded by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_shambler")
-					bprint(" was smashed by a Shambler\n");
+				{
+					bprint(" was smashed by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_tarbaby")
-					bprint(" was slimed by a Spawn\n");
-				// if (attacker.classname == "monster_vomit")
+				{
+					bprint(" was slimed by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
+					// if (attacker.classname == "monster_vomit")
 				//	bprint(" was vomited on by a Vomitus\n");
 				if (attacker.classname == "monster_wizard")
-					bprint(" was scragged by a Scrag\n");
+				{
+					bprint(" was scragged by a ");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
+				
 				if (attacker.classname == "monster_zombie")
+				{
 					bprint(" joins the Zombies\n");
+					bprint(attacker.netname);
+					bprint("\n");
+					return;
+				}
 
 				return;
 			}

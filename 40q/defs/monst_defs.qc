@@ -65,7 +65,16 @@ else{
 */
 #define M_ai_set_yaw(y) if(self.demon_mark==MARK_DESPAIR){self.yaw_speed=y-7;}else if(self.demon_mark==MARK_EXCESS){self.yaw_speed=y+10;}else if(self.demon_mark==MARK_RAGE){self.yaw_speed=y-4;}else if(self.demon_mark==MARK_TWIST){self.yaw_speed=y+14;}
 
+/*
 
+*/
 #define M_ai_set_name(name, desp, obses, rage, twist) if(self.demon_mark==MARK_DESPAIR){self.netname = desp;}else if(self.demon_mark==MARK_EXCESS){self.netname = obses;}else if(self.demon_mark==MARK_RAGE){self.netname = rage;}else if(self.demon_mark==MARK_TWIST){self.netname = twist;}else{self.netname = name;}
 
-
+/*
+    SET MARK STATS
+        Despair : health + 15%
+        Rage: melee str + 1
+        Excess: weapon DMG + 10%
+        Twist : weapon str + 1
+*/
+#define M_ai_mark_stat() if(self.demon_mark==MARK_DESPAIR){self.health = self.health * 1.15;self.max_health = self.health;}else if(self.demon_mark==MARK_EXCESS){self.weapon_dmg = self.weapon_dmg * 1.1;}else if(self.demon_mark==MARK_RAGE){self.melee_str = self.melee_str + 1;}else if(self.demon_mark==MARK_TWIST){self.weapon_str = self.weapon_str + 1;}

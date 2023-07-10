@@ -114,7 +114,11 @@ void() Tar_JumpTouch =
 	{
 		if (vlen(self.velocity) > 400)
 		{
-			ldmg = 10 + 10*random();
+			if(self.demon_mark == MARK_RAGE)
+				ldmg = 15 + 20*random();
+			else
+				ldmg = 10 + 10*random();
+			
 			T_Damage(other, self, self, ldmg);
 			sound(self, CHAN_WEAPON, "blob/hit1.wav", 1, ATTN_NORM);
 		}
@@ -171,8 +175,18 @@ void() tbaby_jump5 = [ $jump5, tbaby_jump6 ]
 	self.touch = Tar_JumpTouch;
 	makevectors(self.angles);
 	self.origin_z = self.origin_z + 1;
-	self.velocity = v_forward * 600 + '0 0 200';
-	self.velocity_z = self.velocity_z + random()*150;
+	
+	if(self.demon_mark == MARK_DESPAIR)
+	{
+		self.velocity = v_forward * 450 + '0 0 300';
+		self.velocity_z = self.velocity_z + random()*150;
+	}
+	else
+	{
+		self.velocity = v_forward * 600 + '0 0 200';
+		self.velocity_z = self.velocity_z + random()*150;
+	}
+
 	if (self.flags & FL_ONGROUND)
 		self.flags = self.flags - FL_ONGROUND;
 	self.cnt = 0;
@@ -247,7 +261,7 @@ void() monster_tarbaby =
 	self.weapon_ap = SPAWN_SPLAT_AP;
 	self.weapon_dmg = SPAWN_SPLAT_DMG;
 
-	
+	M_ai_mark_stat()
 	M_ai_set_yaw(20)
 	//------------------------
 	

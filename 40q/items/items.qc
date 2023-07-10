@@ -106,15 +106,18 @@ float(entity e, float healamount, float ignore) T_Heal =
 	if(e.health >= PLAYER_HP)
 		return 0;
 
-	if(e.wounds >= PLAYER_WOUNDS)
-		return 0;
+	if(skill == 4){
+		if(e.wounds >= PLAYER_WOUNDS)
+			return 0;
+		if(e.wounds > PLAYER_WOUNDS - (healamount / 50))
+			return 0;
+		
+		e.wounds = e.wounds + healamount / 50;
+	}
 	
-	if(e.wounds > PLAYER_WOUNDS - (healamount / 50))
-		return 0;
+	if(e.max_health - e.health >= healamount)
+		e.health = e.health + healamount;
 	
-	e.wounds = e.wounds + healamount / 50;
-	e.health = e.health + healamount;
-
 	if (e.health > PLAYER_HP)
 		e.health = PLAYER_HP;
 	return 1;
@@ -145,16 +148,23 @@ void() item_health =
 		precache_sound("items/r_item1.wav");
 		setmodel(self, "maps/b_bh10.bsp");
 		self.noise = "items/r_item1.wav";
-		self.healamount = 50;	//restore 1 wound
+		if(skill == 4)
+			self.healamount = 50;	//restore 1 wound
+		else
+			self.healamount = 15;	//restore 1 wound
+
 	}
-	else
-	if (self.spawnflags & H_MEGA)
+	else if (self.spawnflags & H_MEGA)
 	{
 		precache_model("maps/b_bh100.bsp");
 		precache_sound("items/r_item2.wav");
 		setmodel(self, "maps/b_bh100.bsp");
 		self.noise = "items/r_item2.wav";
-		self.healamount = 200;	//restore 4 wounds
+		if(skill == 4)
+			self.healamount = 200;	//restore 4 wounds
+		else
+			self.healamount = 50;	//restore 1 wound
+
 	}
 	else
 	{
@@ -162,7 +172,10 @@ void() item_health =
 		precache_sound("items/health1.wav");
 		setmodel(self, "maps/b_bh25.bsp");
 		self.noise = "items/health1.wav";
-		self.healamount = 100;	//restore 2 wounds
+		if(skill == 4)
+			self.healamount = 100;	//restore 2 wounds
+		else
+			self.healamount = 25;	//restore 1 wound
 	}
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
@@ -268,18 +281,18 @@ void() armor_touch =
 	if(self.armortype == IT_ARMOR2){
 		//other.armor_save = self.armor_save - 1;
 		other.toughness = other.toughness + 1;
+		other.melee_str = other.melee_str + 1;
 		value = 150;
 		sprint(other, "Armor MKIII\n");
-		//centerprint(other, "Armor Upgrade - Armor Save + 1");
-		centerprint(other, "Armor Upgrade - Toughness + 1");
+		centerprint(other, "Armor Upgrade - Toughness + 1\nStrength + 1");
 	}
 	if(self.armortype == IT_ARMOR3){
 		//other.invuln_save = self.invuln_save - 1;
 		other.toughness = other.toughness + 1;
+		other.melee_str = other.melee_str + 1;
 		value = 200;
 		sprint(other, "Armor MKIV \n");
-		//centerprint(other, "Armor Upgrade - Invuln Save + 1\n Toughness + 1");
-		centerprint(other, "Armor Upgrade - Toughness + 1");
+		centerprint(other, "Armor Upgrade - Toughness + 1\nStrength + 1");
 	}
 	if(value > other.armorvalue)
 		other.armorvalue = value;
