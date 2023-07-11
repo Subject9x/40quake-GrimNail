@@ -412,6 +412,7 @@ void() monster_dog =
 	self.melee_str = DOG_BITE_STR;
 	self.melee_ap = DOG_BITE_AP;
 	self.melee_dmg = DOG_BITE_DMG;
+	self.axe_extra_dmg = TRUE;
 	//------------------------
 
 	walkmonster_start();

@@ -9,10 +9,11 @@
 #define DMG_MELTA 12
 */
 
-#define CHAINAXE_DMG 15
+#define CHAINAXE_DMG 10
 #define CHAINAXE_STR 0  //+1
-#define CHAINAXE_AP 0
-#define CHAINAXE_ROF 0.85
+#define CHAINAXE_AP -1
+#define CHAINAXE_ROF 0.5
+#define CHAINAXE_HIT_TIME 0.75
 
 #define BOLTGUN_DMG 17
 #define BOLTGUN_STR 4
@@ -81,7 +82,7 @@
 
 #define HVYSTUB_DMG 15
 #define HVYSTUB_STR 4
-#define HVYSTUB_AP -1
+#define HVYSTUB_AP 0
 
 #define SWORD_DMG 4
 #define SWORD_STR 1

@@ -343,6 +343,7 @@ void() monster_army =
 	self.weapon_dmg = AUTOGUN_DMG;
 	self.weapon_str = AUTOGUN_STR;
 	self.weapon_ap = AUTOGUN_AP;
+	self.axe_extra_dmg = TRUE;
 	
 	M_ai_mark_stat()
 	M_ai_set_name("Cultist", "Rot Cultist", "Envy Cultist", "Raging Cultist", "Pawn Cultist")

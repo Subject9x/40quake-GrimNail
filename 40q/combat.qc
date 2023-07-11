@@ -240,6 +240,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			take = tabletop_damage(targ, inflictor, damage); 
 		}
 		else{
+			if(targ.axe_extra_dmg && targ.axhitme){
+				wepDmg = wepDmg * 2;
+			}
 			if(wepAp != 0){
 				trgTough = trgTough + wepAp;
 				if(trgTough < 0)
@@ -394,16 +397,21 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			}
 		}
 	}
-	//---------------------------------------------------------------------------
-	
-	self.flags = self.flags | FL_DEMON;
+	//--------------------------------------------------------------------------
 
 	if (self.th_pain)
 	{
-		self.th_pain(attacker, take);
-	// nightmare mode monsters don't go into pain frames often
-		if (skill == 3)
-			self.pain_finished = time + 5;
+		if((self.flags & FL_MONSTER))
+			if(self.axhitme)
+			{
+				self.nextthink = time + 0.2;	
+			}
+		else
+			self.th_pain(attacker, take);
+		// nightmare mode monsters don't go into pain frames often
+			if (skill == 3)
+				self.pain_finished = time + 5;
+			self.axhitme - FALSE;	
 	}
 
 	self = oldself;

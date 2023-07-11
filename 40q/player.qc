@@ -18,7 +18,6 @@
 */
 
 void() bubble_bob;
-
 /*
 ==============================================================================
 
@@ -97,6 +96,7 @@ $frame axattc1 axattc2 axattc3 axattc4 axattc5 axattc6
 
 $frame axattd1 axattd2 axattd3 axattd4 axattd5 axattd6
 
+#define M_player_axe(frm, wepfrm, th1, th2) self.weaponframe = wepfrm;W_FireAxe();self.frame = frm;if(self.axe_ent && time < self.axe_hit_time){self.think = th1;self.attack_finished = time + 0.1;}else{self.think = th2;}self.nextthink = time + 0.1;
 
 /*
 ==============================================================================
@@ -105,6 +105,10 @@ PLAYER
 */
 
 void() player_run;
+void() player_axe3;	
+void() player_axeb3;
+void() player_axed3;
+void() player_axec3; 
 
 void() player_stand1 = [ $axstnd1, player_stand1 ]
 {
@@ -161,6 +165,13 @@ void() player_shot1 = [ $shotatt1, player_shot2 ]
 {
 	self.weaponframe = 1;
 	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	if (!self.button0)
+	{
+		player_run();
+		return;
+	}
+
 };
 void() player_shot2 = [ $shotatt2, player_shot3 ] { self.weaponframe = 2; };
 void() player_shot3 = [ $shotatt3, player_shot4 ] { self.weaponframe = 3; };
@@ -168,25 +179,52 @@ void() player_shot4 = [ $shotatt4, player_shot5 ] { self.weaponframe = 4; };
 void() player_shot5 = [ $shotatt5, player_shot6 ] { self.weaponframe = 5; };
 void() player_shot6 = [ $shotatt6, player_run ] { self.weaponframe = 6; };
 
+//PLAYER AXE1-------------------------------------------------------------------------------
 void() player_axe1 = [ $axatt1, player_axe2 ] { self.weaponframe = 1; };
-void() player_axe2 = [ $axatt2, player_axe3 ] { self.weaponframe = 2; W_FireAxe();};
-void() player_axe3 = [ $axatt3, player_axe4 ] { self.weaponframe = 3; W_FireAxe(); };
-void() player_axe4 = [ $axatt4, player_run ] { self.weaponframe = 4; W_FireAxe();};
+void() player_axe2 = 
+{
+	float f;
+	f = $axatt2;
+	M_player_axe(f, 2, player_axe2, player_axe3)
 
+};
+void() player_axe3 = [ $axatt3, player_axe4 ] { self.weaponframe = 3; };
+void() player_axe4 = [ $axatt4, player_run ] { self.weaponframe = 4; };
+//=============================================================================================
+
+//PLAYER AXE B-------------------------------------------------------------------------------
 void() player_axeb1 = [ $axattb1, player_axeb2 ] { self.weaponframe = 5; };
-void() player_axeb2 = [ $axattb2, player_axeb3 ] { self.weaponframe = 6; W_FireAxe();};
-void() player_axeb3 = [ $axattb3, player_axeb4 ] { self.weaponframe = 7; W_FireAxe(); };
-void() player_axeb4 = [ $axattb4, player_run ] { self.weaponframe = 8; W_FireAxe();};
+void() player_axeb2 =
+{
+	float f;
+	f = $axattb2;
+	M_player_axe(f, 6, player_axeb2, player_axeb3)
+};
+void() player_axeb3 = [ $axattb3, player_axeb4 ] { self.weaponframe = 7; };
+void() player_axeb4 = [ $axattb4, player_run ] { self.weaponframe = 8; };
+//=============================================================================================
 
+//PLAYER AXE C-------------------------------------------------------------------------------
 void() player_axec1 = [ $axattc1, player_axec2 ] { self.weaponframe = 1; };
-void() player_axec2 = [ $axattc2, player_axec3 ] { self.weaponframe = 2; W_FireAxe();};
-void() player_axec3 = [ $axattc3, player_axec4 ] { self.weaponframe = 3; W_FireAxe(); };
-void() player_axec4 = [ $axattc4, player_run ] { self.weaponframe = 4; W_FireAxe();};
+void() player_axec2 = {
+	float f;
+	f = $axattc2;
+	M_player_axe(f, 2, player_axec2, player_axec3)
+};
+void() player_axec3 = [ $axattc3, player_axec4 ] { self.weaponframe = 3; };
+void() player_axec4 = [ $axattc4, player_run ] { self.weaponframe = 4; };
+//=============================================================================================
 
+//PLAYER AXE D-------------------------------------------------------------------------------
 void() player_axed1 = [ $axattd1, player_axed2 ] { self.weaponframe = 5; };
-void() player_axed2 = [ $axattd2, player_axed3 ] { self.weaponframe = 6; W_FireAxe();};
-void() player_axed3 = [ $axattd3, player_axed4 ] { self.weaponframe = 7; W_FireAxe(); };
-void() player_axed4 = [ $axattd4, player_run ] { self.weaponframe = 8; W_FireAxe();};
+void() player_axed2 = {
+	float f;
+	f = $axattd2;
+	M_player_axe(f, 2, player_axed2, player_axed3)
+};
+void() player_axed3 = [ $axattd3, player_axed4 ] { self.weaponframe = 7; };
+void() player_axed4 = [ $axattd4, player_run ] { self.weaponframe = 8; };
+//=============================================================================================
 
 
 //============================================================================

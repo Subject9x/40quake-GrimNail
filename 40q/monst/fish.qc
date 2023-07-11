@@ -217,6 +217,7 @@ void() monster_fish =
 	self.weapon_str = FISH_STR + FISH_BITE_STR;
 	self.weapon_ap = FISH_BITE_AP;
 	self.weapon_dmg = FISH_BITE_DMG;
+	self.axe_extra_dmg = TRUE;
 	
 	M_ai_mark_stat()
 	M_ai_set_yaw(20)

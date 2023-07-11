@@ -52,9 +52,12 @@
 .float demon_mark;
 .float pain_time;	//pain_finished cooldown
 
+.float axe_extra_dmg; //zombies, soldiers, fish, dogs are all EXTRA vulnerable to axe
+.entity axe_ent;	//what has the axe struck?
+.float axe_hit_time;	//stop player from completely axing down big targets
+
 .float ai_side_charge;
 .float ai_side_charge_angle;
-
 
 .float armor_save_set;
 .float toughness_set;

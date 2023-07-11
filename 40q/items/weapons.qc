@@ -74,10 +74,19 @@ void() W_FireAxe =
 	if (trace_ent.takedamage)
 	{
 		if(trace_ent.axhitme == FALSE){
-			trace_ent.axhitme = 1;
-			SpawnBlood(org, '0 0 0', 20);
+			if(time > self.axe_hit_time){
+				self.show_hostile = time + 1; // wake monsters up
+				trace_ent.axhitme = 1;
+				self.axe_hit_time = time + CHAINAXE_HIT_TIME;
+			}
 		}
-		
+		else{
+			if(time > self.axe_hit_time)
+				trace_ent.axhitme = FALSE;
+		}
+
+		SpawnBlood(org, '0 0 0', 20);
+	
 		oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 		self.weapon_str = self.melee_str + self.strength;
 		self.weapon_ap = self.melee_ap;
@@ -96,7 +105,17 @@ void() W_FireAxe =
 				self.th_pain(this, 20);
 			self = this;
 		}*/
-	
+		self.punchangle_x = crandom() * 2 + (self.axe_hit_time * frametime);
+		self.punchangle_y = crandom() * 2 + (self.axe_hit_time * frametime);
+		self.punchangle_z = crandom() * 2 + (self.axe_hit_time * frametime);
+		if(trace_ent.health > 0)
+		{
+			self.axe_ent = trace_ent;
+		}
+		else{
+			self.axe_ent = world;
+			self.axe_hit_time = time;
+		}
 	}
 	else
 	{ 
@@ -108,6 +127,7 @@ void() W_FireAxe =
 			WriteCoord(MSG_BROADCAST, org_y);
 			WriteCoord(MSG_BROADCAST, org_z);
 		}
+		self.axe_ent = world;
 	}
 };
 
@@ -1041,10 +1061,12 @@ void(vector org, vector vec, float hvy) launch_stub =
 
 	setorigin(newmis, org);
 
-	newmis.velocity = vec * 600;
-	if(hvy){
-		newmis.velocity = vec * 450;
-	}
+	
+	if(hvy)
+		newmis.velocity = vec * 400;
+	else
+		newmis.velocity = vec * 500;
+
 	newmis.angles = vectoangles(newmis.velocity);
 
 	newmis.nextthink = time + 5;
@@ -1066,16 +1088,29 @@ void() W_FireAutogun =
 {
 	vector org;
 	vector dir;
+	vector spread;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	makevectors(self.angles);
 
 	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
 
-	dir = self.enemy.origin - self.origin;
+	dir = self.enemy.origin;
+
+	spread = '15.0 15.0 0';
 	if(self.demon_mark == MARK_EXCESS){
-		dir = dir + normalize(self.enemy.velocity);
+		dir = dir + self.enemy.velocity *0.2;
 	}
+	if(self.demon_mark == MARK_RAGE){
+		spread = '25.0 25.0 0';
+	}
+	if(self.demon_mark == MARK_TWIST){
+		spread = '7.0 7.0 0';
+	}
+	dir = dir - self.origin;
+
+	dir = dir + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
+
 
 	launch_stub(org, dir, FALSE);
 };
@@ -1084,16 +1119,27 @@ void() W_FireHvyStub =
 {
 	vector org;
 	vector dir;
+	vector spread;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	makevectors(self.angles);
 
 	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
+	dir = self.enemy.origin;
 
-	dir = self.enemy.origin - self.origin;
+	spread = '20.0 20.0  0';
 	if(self.demon_mark == MARK_EXCESS){
-		dir = dir + normalize(self.enemy.velocity);
+		dir = dir + self.enemy.velocity * 0.5;
 	}
+	if(self.demon_mark == MARK_RAGE){
+		spread = '35.0 35.0 0.0';
+	}
+	if(self.demon_mark == MARK_TWIST){
+		spread = '10.0 10.0 0.0';
+	}
+	
+	dir = dir - self.origin;
+	dir = dir + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
 
 	launch_stub(org, dir, TRUE);
 };
@@ -1527,7 +1573,8 @@ void() W_Attack =
 		return;
 
 	makevectors(self.v_angle); // calculate forward angle for velocity
-	self.show_hostile = time + 1; // wake monsters up
+	if(self.weapon != IT_AXE)
+		self.show_hostile = time + 1; // wake monsters up
 
 	if (self.weapon == IT_AXE)
 	{
@@ -1546,10 +1593,10 @@ void() W_Attack =
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
-		//player_shot1();
-		//W_FireShotgun();
-		//self.attack_finished = time + 0.5;
-		player_nail1();
+		player_shot1();
+		SuperDamageSound();
+		W_FireBolt(4);
+		self.attack_finished = time + BOLTGUN_ROF;
 	}
 	else if (self.weapon == IT_SUPER_SHOTGUN)
 	{

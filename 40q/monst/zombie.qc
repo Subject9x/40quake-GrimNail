@@ -556,7 +556,8 @@ void() monster_zombie =
 	self.weapon_dmg = ZOMB_CHUNK_DMG;
 	
 	self.pain_time = 3;
-
+	self.axe_extra_dmg = TRUE;
+	
 	M_ai_mark_stat()
 	M_ai_set_yaw(20)
 	M_ai_set_name("Zombie", "Plague Zombie", "Perfect Zombie", "Rage Zombie", "Twisted Zombie")
