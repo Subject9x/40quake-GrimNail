@@ -9,12 +9,12 @@
 #define DMG_MELTA 12
 */
 
-#define CHAINAXE_DMG 25
+#define CHAINAXE_DMG 15
 #define CHAINAXE_STR 0  //+1
 #define CHAINAXE_AP 0
 #define CHAINAXE_ROF 0.85
 
-#define BOLTGUN_DMG 15
+#define BOLTGUN_DMG 17
 #define BOLTGUN_STR 4
 #define BOLTGUN_AP -1
 #define BOLTGUN_AMMO_COST 1
@@ -27,8 +27,8 @@
 #define ASTSHOTG_ROF 0.75
 
 #define TEMPEST_DMG 10
-#define TEMPEST_STR 3
-#define TEMPEST_AP -1
+#define TEMPEST_STR 4
+#define TEMPEST_AP 1
 #define TEMPEST_AMMO_COST 2
 #define TEMPEST_ROF 0.15
 
@@ -95,8 +95,8 @@
 #define CHAINSAW_STR 0
 #define CHAINSAW_AP -1
 
-#define GRENLNCH_DMG 20
-#define GRENLNCH_STR 4
+#define GRENLNCH_DMG 40
+#define GRENLNCH_STR 3
 #define GRENLNCH_AP -1
 
 #define WIZ_SPELL_DMG 15

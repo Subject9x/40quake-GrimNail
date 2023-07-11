@@ -330,6 +330,8 @@ void() monster_army =
 	//40Q stats----------------
 	M_ai_assign_mark()
 
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_MOB;
 	self.health = SOLDIER_HP;
 	self.strength = SOLDIER_STR;

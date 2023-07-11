@@ -278,6 +278,9 @@ void() monster_shalrath =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = VORE_HP;
 	self.strength = VORE_STR;

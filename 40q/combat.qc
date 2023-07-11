@@ -212,6 +212,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	float wepStr;
 	float wepAp;
 	float wepDmg;
+	float trgTough;
 
 	if (!targ.takedamage)
 		return;
@@ -221,6 +222,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	wepStr = inflictor.weapon_str;
 	wepAp = inflictor.weapon_ap;
 	wepDmg = inflictor.weapon_dmg;
+	trgTough = targ.toughness;
 
 	//TODO - adjust quad to match new system
 // check for quad damage powerup on the attacker
@@ -238,18 +240,23 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			take = tabletop_damage(targ, inflictor, damage); 
 		}
 		else{
+			if(wepAp != 0){
+				trgTough = trgTough + wepAp;
+				if(trgTough < 0)
+					trgTough = 0;
+			}
 			take = damage;	
-			if(wepStr > targ.toughness)
+			if(wepStr > trgTough)
 			{
 				take = wepDmg * 1.33;
-				if(wepStr >= targ.toughness * 2){
+				if(wepStr >= trgTough * 2){
 					take = wepDmg * 1.67;
 				}
 			}
 			else
 			{
 				take = wepDmg * 0.67;
-				if(wepStr <= targ.toughness / 2){
+				if(wepStr <= trgTough / 2){
 					take = wepDmg * 0.33;
 				}
 			}

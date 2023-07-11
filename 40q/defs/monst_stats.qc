@@ -58,7 +58,7 @@
 #define SOLDIER_PACK_SMALL 2
 #define SOLDIER_PACK_LT 3
 
-#define ENFORCE_HP 80
+#define ENFORCE_HP 90 //80
 #define ENFORCE_STR 3
 #define ENFORCE_TOUGH 3
 
@@ -68,7 +68,7 @@
 #define ENFORCE_PACK_SMALL 4
 #define ENFORCE_PACK_LT 6
 
-#define KNIGHT_HP 75
+#define KNIGHT_HP 85 // 75
 #define KNIGHT_STR 4
 #define KNIGHT_TOUGH 4
 

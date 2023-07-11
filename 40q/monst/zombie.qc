@@ -450,7 +450,7 @@ void(entity attacker, float take) zombie_pain =
 {
 	float r;
 
-	self.health = 60; // allways reset health
+	//self.health = 60; // allways reset health
 
 	if (take < 9)
 		return; // totally ignore
@@ -469,7 +469,7 @@ void(entity attacker, float take) zombie_pain =
 	if (self.inpain)
 	{
 // if hit again in next gre seconds while not in pain frames, definately drop
-		self.pain_finished = time + self.pain_time;
+		self.pain_finished = time + 3;
 		return; // currently going through an animation, don't change
 	}
 
@@ -540,6 +540,9 @@ void() monster_zombie =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_MOB;
 	self.health = ZOMBIE_HP;
 	self.strength = ZOMBIE_STR;

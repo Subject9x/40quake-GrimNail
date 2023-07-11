@@ -253,6 +253,8 @@ void() monster_demon1 =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = FIEND_HP;
 	self.strength = FIEND_STR;

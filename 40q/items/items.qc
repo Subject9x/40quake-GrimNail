@@ -106,6 +106,9 @@ float(entity e, float healamount, float ignore) T_Heal =
 	if(e.health >= PLAYER_HP)
 		return 0;
 
+	if(e.max_health - healamount < e.health )
+		return 0;
+	
 	if(skill == 4){
 		if(e.wounds >= PLAYER_WOUNDS)
 			return 0;
@@ -115,11 +118,11 @@ float(entity e, float healamount, float ignore) T_Heal =
 		e.wounds = e.wounds + healamount / 50;
 	}
 	
-	if(e.max_health - e.health >= healamount)
-		e.health = e.health + healamount;
 	
+	e.health = e.health + healamount;
 	if (e.health > PLAYER_HP)
 		e.health = PLAYER_HP;
+		
 	return 1;
 };
 

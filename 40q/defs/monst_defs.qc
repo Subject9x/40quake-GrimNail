@@ -5,6 +5,8 @@
 
 #define M_ai_assign_mark() if((self.spawnflags&&MARK_RAGE)){self.demon_mark = MARK_RAGE;}else if((self.spawnflags&&MARK_EXCESS)){self.demon_mark = MARK_EXCESS;}else if((self.spawnflags&&MARK_DESPAIR)){self.demon_mark = MARK_DESPAIR;}else if((self.spawnflags&&MARK_TWIST)){self.demon_mark = MARK_TWIST;}
 
+#define M_dbg_assign_mark() float r; r = random();if(r<0.25){self.demon_mark = MARK_DESPAIR;}else if(r<0.51){self.demon_mark = MARK_EXCESS;}else if(r<0.76){self.demon_mark = MARK_RAGE;}else{self.demon_mark = MARK_TWIST;}
+
 /*
     def = 1:1
     despair = -1
@@ -77,4 +79,4 @@ else{
         Excess: weapon DMG + 10%
         Twist : weapon str + 1
 */
-#define M_ai_mark_stat() if(self.demon_mark==MARK_DESPAIR){self.health = self.health * 1.15;self.max_health = self.health;}else if(self.demon_mark==MARK_EXCESS){self.weapon_dmg = self.weapon_dmg * 1.1;}else if(self.demon_mark==MARK_RAGE){self.melee_str = self.melee_str + 1;}else if(self.demon_mark==MARK_TWIST){self.weapon_str = self.weapon_str + 1;}
+#define M_ai_mark_stat() if(self.demon_mark==MARK_DESPAIR){self.health = self.health * 1.25;self.max_health = self.health;}else if(self.demon_mark==MARK_EXCESS){self.weapon_dmg = self.weapon_dmg * 1.15;}else if(self.demon_mark==MARK_RAGE){self.melee_str = self.melee_str + 1;}else if(self.demon_mark==MARK_TWIST){self.weapon_str = self.weapon_str + 1;self.health=self.health * 0.8;self.max_health=self.health;}

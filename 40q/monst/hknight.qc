@@ -500,6 +500,8 @@ void() monster_hell_knight =
 	//40Q stats----------------
 	M_ai_assign_mark()
 
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_MOB;
 	self.health = HKNIGHT_HP;
 	self.strength = HKNIGHT_STR;

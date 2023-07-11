@@ -156,19 +156,21 @@ void() OgreFireGrenade =
 
 	missile.velocity = normalize(self.enemy.origin - self.origin);
 	
-	missile.avelocity = '300 300 300';
 	if(self.demon_mark == MARK_EXCESS){
-		missile.velocity = missile.velocity * 600;
-		missile.velocity_z = 200;
+		missile.velocity = normalize((self.enemy.origin + self.enemy.velocity*0.5) - self.origin);
+		missile.velocity = missile.velocity * 700;
+		missile.velocity_z = 150;
+		missile.avelocity = '50 50 50';
 	}
-	if(self.demon_mark == MARK_DESPAIR){
-		missile.velocity = missile.velocity * 500;
-		missile.velocity_z = 250;
+	else if(self.demon_mark == MARK_DESPAIR){
+		missile.velocity = missile.velocity * 600;
+		missile.velocity_z = 300;
 		missile.avelocity = '225 250 225';
 	}
 	else{
-		missile.velocity = missile.velocity * 700;
-		missile.velocity_z = 150;
+		missile.velocity = missile.velocity * 500;
+		missile.velocity_z = 200;
+		missile.avelocity = '300 300 300';
 	}
 	missile.angles = vectoangles(missile.velocity);
 
@@ -617,6 +619,8 @@ void() monster_ogre =
 	//40Q stats----------------
 	M_ai_assign_mark()
 
+	M_dbg_assign_mark()	//DEBUG
+	
 	self.flags = self.flags | (FL_DEMON | FL_MOB);
 	self.health = OGRE_HP;
 	self.strength = OGRE_STR;

@@ -433,6 +433,8 @@ void() monster_enforcer =
 	//40Q stats----------------
 	M_ai_assign_mark()
 
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_MOB;
 	self.health = ENFORCE_HP;
 	self.strength = ENFORCE_STR;

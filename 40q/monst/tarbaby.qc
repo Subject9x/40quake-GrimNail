@@ -250,6 +250,9 @@ void() monster_tarbaby =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.strength = SPAWN_STR;
 	self.toughness = SPAWN_TOUGH;

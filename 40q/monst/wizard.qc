@@ -474,6 +474,9 @@ void() monster_wizard =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = WIZARD_HP;
 	self.strength = WIZARD_STR;

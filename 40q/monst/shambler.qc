@@ -443,6 +443,9 @@ void() monster_shambler =
 
 	//40Q stats----------------
 	M_ai_assign_mark()
+
+	M_dbg_assign_mark()	//DEBUG
+
 	self.flags = self.flags | FL_DEMON | FL_MOB;
 	self.health = SHAMBLER_HP;
 	self.strength = SHAMBLER_STR;
