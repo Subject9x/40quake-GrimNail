@@ -1054,7 +1054,6 @@ void(vector org, vector vec, float hvy) launch_stub =
 	newmis.owner = self;
 	newmis.movetype = MOVETYPE_FLY;
 	newmis.solid = SOLID_BBOX;
-	newmis.effects = EF_DIMLIGHT;
 
 	setmodel(newmis, "progs/s_spike.mdl");
 	setsize(newmis, '0 0 0', '0 0 0');
