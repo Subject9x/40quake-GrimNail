@@ -226,7 +226,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 	//TODO - adjust quad to match new system
 // check for quad damage powerup on the attacker
-	if (attacker.super_damage_finished > time){
+	if (attacker.super_damage_finished > time)
+	{
 		damage = damage * 2;
 		wepStr = wepStr * 2;
 		wepAp = wepAp - 1;
@@ -236,31 +237,39 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 //40Q - MECHANICS CHECK:-------------------------------------------------
 	if(targ.toughness && inflictor.weapon_str)
 	{
-		if(skill == 4){
+		if(skill == 4)
+		{
 			take = tabletop_damage(targ, inflictor, damage); 
 		}
-		else{
-			if(targ.axe_extra_dmg && targ.axhitme){
+		else
+		{
+			if(targ.axe_extra_dmg && targ.axhitme)
+			{
 				wepDmg = wepDmg * 2;
 			}
-			if(wepAp != 0){
-				trgTough = trgTough + wepAp;
-				if(trgTough < 0)
-					trgTough = 0;
-			}
-			take = damage;	
+			take = damage;
 			if(wepStr > trgTough)
 			{
 				take = wepDmg * 1.33;
-				if(wepStr >= trgTough * 2){
+				inflictor.dmg_result = DMG_RESULT_HIGH;
+				if(wepStr >= trgTough * 2)
+				{
 					take = wepDmg * 1.67;
+					inflictor.dmg_result = DMG_RESULT_V_HIGH;
+					if(wepStr >= trgTough * 3)
+					{
+						take = targ.health * 10;
+					}
 				}
 			}
 			else
 			{
 				take = wepDmg * 0.67;
-				if(wepStr <= trgTough / 2){
+				inflictor.dmg_result = DMG_RESULT_LOW;
+				if(wepStr <= trgTough / 2)
+				{
 					take = wepDmg * 0.33;
+					inflictor.dmg_result = DMG_RESULT_V_LOW;
 				}
 			}
 		}
@@ -271,35 +280,44 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 	//40Q ARMOR CALC
 	if(targ.armortype != 0){
-		save = ceil(damage * take/damage * 0.5);
+		if(skill > 2)
+			save = ceil(damage * take/damage * 0.5);
+		else
+			save = ceil(damage * take/damage * 0.33);
+		
 		take = take - save;
 		if(save){
 			targ.armorvalue = targ.armorvalue - save;
-			if(targ.armorvalue <= 0.0){
+			if(targ.armorvalue <= 0.0)
+			{
 				targ.armorvalue = 0;
 				targ.armortype = 0;
 				targ.toughness = targ.toughness_set;
 				targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
 			}
-			else{
-				if((targ.items & IT_ARMOR3) && targ.armorvalue < 151){
+			else
+			{
+				if((targ.items & IT_ARMOR3) && targ.armorvalue < 151)
+				{
 					targ.items = targ.items - (targ.items &  IT_ARMOR3);
 					targ.toughness = targ.toughness - 1;
 					targ.melee_str = targ.melee_str - 1;
 				}
-				else if((targ.items & IT_ARMOR2) && targ.armorvalue < 101){
+				else if((targ.items & IT_ARMOR2) && targ.armorvalue < 101)
+				{
 					targ.items = targ.items - (targ.items &  IT_ARMOR2);
 					targ.toughness = targ.toughness - 1;
 					targ.melee_str = targ.melee_str - 1;
 				}
-				else if((targ.items & IT_ARMOR1) && targ.armorvalue < 50){
+				else if((targ.items & IT_ARMOR1) && targ.armorvalue < 50)
+				{
 					targ.items = targ.items - (targ.items &  IT_ARMOR1);
 					targ.toughness = targ.toughness - 1;
 				}
 			}
 		}
 	}
-
+	inflictor.dmg_out = take;
 //-----------------------------------------------------------------------
 
 
@@ -398,20 +416,23 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		}
 	}
 	//--------------------------------------------------------------------------
-
 	if (self.th_pain)
 	{
 		if((self.flags & FL_MONSTER))
+		{
 			if(self.axhitme)
 			{
 				self.nextthink = time + 0.2;	
 			}
+		}
 		else
+		{
 			self.th_pain(attacker, take);
+			self.axhitme - FALSE;	
 		// nightmare mode monsters don't go into pain frames often
 			if (skill == 3)
 				self.pain_finished = time + 5;
-			self.axhitme - FALSE;	
+		}
 	}
 
 	self = oldself;

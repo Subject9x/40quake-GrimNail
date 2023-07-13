@@ -10,8 +10,8 @@
 */
 
 #define CHAINAXE_DMG 10
-#define CHAINAXE_STR 0  //+1
-#define CHAINAXE_AP -1
+#define CHAINAXE_STR 0
+#define CHAINAXE_AP 0
 #define CHAINAXE_ROF 0.5
 #define CHAINAXE_HIT_TIME 0.75
 
@@ -26,6 +26,7 @@
 #define ASTSHOTG_AP 0
 #define ASTSHOTG_AMMO_COST 2
 #define ASTSHOTG_ROF 0.75
+#define ASTSHOTG_PELLET 10
 
 #define TEMPEST_DMG 10
 #define TEMPEST_STR 4
@@ -35,7 +36,7 @@
 
 #define HVYBOLT_DMG 40
 #define HVYBOLT_STR 6
-#define HVYBOLT_AP -2
+#define HVYBOLT_AP -1
 #define HVYBOLT_AMMO_COST 1
 #define HVYBOLT_ROF 0.25
 
@@ -45,17 +46,17 @@
 #define PLASMA_AMMO_COST 2
 #define PLASMA_ROF 0.6
 
-#define ROCKET_DMG 30
+#define ROCKET_DMG 70
 #define ROCKET_STR 3
 #define ROCKET_AP 0
 #define ROCKET_AMMO_COST 5
 #define ROCKET_ROF 0.6
 
-#define MELTA_DMG 400
+#define MELTA_DMG 350
 #define MELTA_STR 8
 #define MELTA_AP -4
 #define MELTA_AMMO_COST 20
-#define MELTA_ROF 0.75
+#define MELTA_ROF 1.0
 #define MELTA_RANGE 450
 
 

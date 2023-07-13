@@ -74,14 +74,14 @@ void() W_FireAxe =
 	if (trace_ent.takedamage)
 	{
 		if(trace_ent.axhitme == FALSE){
-			if(time > self.axe_hit_time){
+			if(time > self.timer_axe_hit){
 				self.show_hostile = time + 1; // wake monsters up
 				trace_ent.axhitme = 1;
-				self.axe_hit_time = time + CHAINAXE_HIT_TIME;
+				self.timer_axe_hit = time + CHAINAXE_HIT_TIME;
 			}
 		}
 		else{
-			if(time > self.axe_hit_time)
+			if(time > self.timer_axe_hit)
 				trace_ent.axhitme = FALSE;
 		}
 
@@ -105,16 +105,16 @@ void() W_FireAxe =
 				self.th_pain(this, 20);
 			self = this;
 		}*/
-		self.punchangle_x = crandom() * 2 + (self.axe_hit_time * frametime);
-		self.punchangle_y = crandom() * 2 + (self.axe_hit_time * frametime);
-		self.punchangle_z = crandom() * 2 + (self.axe_hit_time * frametime);
+		self.punchangle_x = crandom() * 2 + (self.timer_axe_hit * frametime);
+		self.punchangle_y = crandom() * 2 + (self.timer_axe_hit * frametime);
+		self.punchangle_z = crandom() * 2 + (self.timer_axe_hit * frametime);
 		if(trace_ent.health > 0)
 		{
 			self.axe_ent = trace_ent;
 		}
 		else{
 			self.axe_ent = world;
-			self.axe_hit_time = time;
+			self.timer_axe_hit = time;
 		}
 	}
 	else
@@ -233,9 +233,28 @@ void() ClearMultiDamage =
 
 void() ApplyMultiDamage =
 {
+	float crit;
+	crit = FALSE;
+
 	if (!multi_ent)
 		return;
+
+	if(multi_damage >= ASTSHOTG_DMG * (ASTSHOTG_PELLET/2))
+		crit = TRUE;
+	
+	if(crit)
+		self.weapon_str = self.weapon_str + 1;
+
+	if(multi_ent.axe_extra_dmg)
+		multi_damage = multi_damage * 1.5;
+
 	T_Damage(multi_ent, self, self, multi_damage);
+
+	logFloat(multi_ent.classname, crit); //debug
+
+	//reset dmg
+	if(crit)
+		self.weapon_str = self.weapon_str - 1;
 };
 
 void(entity hit, float damage) AddMultiDamage =
@@ -316,7 +335,7 @@ void(float shotcount, vector dir, vector spread) FireBullets =
 
 		traceline(src, src + direction*2048, FALSE, self);
 		if (trace_fraction != 1.0)
-			TraceAttack(4, direction);
+			TraceAttack(ASTSHOTG_DMG, direction);
 
 		shotcount = shotcount - 1;
 	}
@@ -338,7 +357,7 @@ void() W_FireShotgun =
 
 	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim(self, 100000);
-	FireBullets(6, dir, '0.04 0.04 0');
+	FireBullets(ASTSHOTG_PELLET, dir, '0.04 0.04 0');
 };
 
 
@@ -408,7 +427,7 @@ void() T_MissileTouch =
 
 	if (other.health)
 		T_Damage(other, self, self.owner, ROCKET_DMG);
-	
+
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
 	T_RadiusDamage(self, self.owner, 150, other);
@@ -416,13 +435,28 @@ void() T_MissileTouch =
 //	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
 
-	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord(MSG_BROADCAST, self.origin_x);
-	WriteCoord(MSG_BROADCAST, self.origin_y);
-	WriteCoord(MSG_BROADCAST, self.origin_z);
+	if(self.dmg_result == DMG_RESULT_V_HIGH)
+	{
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_EXPLOSION);
+		WriteCoord(MSG_BROADCAST, self.origin_x);
+		WriteCoord(MSG_BROADCAST, self.origin_y);
+		WriteCoord(MSG_BROADCAST, self.origin_z);
+	
+	}
+	if(self.dmg_result > DMG_RESULT_LOW)
+		BecomeExplosion();
+	else
+	{
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_GUNSHOT);
+		WriteCoord(MSG_BROADCAST, self.origin_x);
+		WriteCoord(MSG_BROADCAST, self.origin_y);
+		WriteCoord(MSG_BROADCAST, self.origin_z);
+		remove(self);
+	}
 
-	BecomeExplosion();
+	
 };
 
 
@@ -495,13 +529,26 @@ void() T_PlasmaTouch =
 //	sound(self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
 
-	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte(MSG_BROADCAST, TE_TAREXPLOSION);
-	WriteCoord(MSG_BROADCAST, self.origin_x);
-	WriteCoord(MSG_BROADCAST, self.origin_y);
-	WriteCoord(MSG_BROADCAST, self.origin_z);
+	if(self.dmg_result > 0)
+	{
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_TAREXPLOSION);
+		WriteCoord(MSG_BROADCAST, self.origin_x);
+		WriteCoord(MSG_BROADCAST, self.origin_y);
+		WriteCoord(MSG_BROADCAST, self.origin_z);
+	}
+	if(self.dmg_result > DMG_RESULT_LOW)
+		BecomeExplosion();
+	else
+	{
+		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte(MSG_BROADCAST, TE_GUNSHOT);
+		WriteCoord(MSG_BROADCAST, self.origin_x);
+		WriteCoord(MSG_BROADCAST, self.origin_y);
+		WriteCoord(MSG_BROADCAST, self.origin_z);
+		remove(self);
+	}
 
-	BecomeExplosion();
 };
 
 /*
@@ -722,17 +769,7 @@ void() W_FireMeltaGun={
 		W_SetCurrentAmmo();
 		return;
 	}
-
-// explode if under water
-	/*
-	if (self.waterlevel > 1)
-	{
-		T_RadiusDamage(self, self, 35*self.ammo_cells, world);
-		self.ammo_cells = 0;
-		W_SetCurrentAmmo();
-		return;
-	}
-	*/
+	
 	range = MELTA_RANGE;
 	if(self.waterlevel >= WATERLEVEL_HEAD)
 		range = range * 0.5;
@@ -1026,8 +1063,11 @@ void() stub_touch =
 
 	if (other.health)
 	{
-		SpawnBlood(org, self.velocity*0.2, self.weapon_dmg);
 		T_Damage(other, self, self.owner, self.weapon_dmg);
+		if(self.dmg_result > 0)
+		{
+			SpawnBlood(org, self.velocity*0.2, self.weapon_dmg);
+		}
 	}
 	else
 	{
@@ -1175,7 +1215,7 @@ void(vector org, vector dir) launch_bolt_rnd =
 
 	waterVel = 850;
 	if(self.waterlevel >= WATERLEVEL_HEAD)
-		waterVel = waterVel * 0.5;
+		waterVel = waterVel * 0.67;
 	
 	newmis.velocity = dir * waterVel;	//1000
 
@@ -1209,9 +1249,6 @@ void() W_FireHeavyBolter =
 	newmis.items = 0 | IT_HVY_BOLTER;
 	
 	newmis.touch = heavy_bolter_touch;
-
-	setmodel(newmis, "progs/missile.mdl");
-	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 	self.punchangle_x = crandom() * 0.5;
 	self.punchangle_y = crandom() * 0.5;
 	self.punchangle_z = crandom() * 0.5;
@@ -1243,9 +1280,6 @@ void() W_FireBoltgun =
 	
 	newmis.items = 0 | IT_BOLTGUN;
 	newmis.touch = bolt_touch;
-
-	setmodel(newmis, "progs/missile.mdl");
-	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 	self.punchangle_x = -0.3;
 };
 
@@ -1289,6 +1323,10 @@ void(float ox) W_FireBolt =
 
 void() bolt_touch =
 {
+	float ric;
+
+	ric = FALSE;
+
 	if (other == self.owner)
 		return;
 
@@ -1304,16 +1342,30 @@ void() bolt_touch =
 // hit something that bleeds
 	if (other.takedamage)
 	{
-		if((self.items & IT_BOLTGUN)){
-			spawn_touchblood(BOLTGUN_DMG);
+		if((self.items & IT_BOLTGUN))
+		{
 			T_Damage(other, self, self.owner, BOLTGUN_DMG);
 		}
 		else{
-			spawn_touchblood(TEMPEST_DMG);
 			T_Damage(other, self, self.owner, TEMPEST_DMG);
 		}
 	}
 	else
+	{
+		ric = TRUE;
+	}
+
+	if(self.dmg_result > 0)
+	{
+		spawn_touchblood(self.dmg_out);
+		BecomeExplosion();
+		return;
+	}
+	else
+	{
+		ric = TRUE;
+	}
+	if(ric)
 	{
 		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte(MSG_BROADCAST, TE_SPIKE);
@@ -1321,8 +1373,7 @@ void() bolt_touch =
 		WriteCoord(MSG_BROADCAST, self.origin_y);
 		WriteCoord(MSG_BROADCAST, self.origin_z);
 	}
-	//remove(self);
-	BecomeExplosion();
+	remove(self);
 };
 
 void() heavy_bolter_touch =

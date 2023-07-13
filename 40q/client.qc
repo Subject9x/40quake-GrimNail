@@ -25,6 +25,8 @@ void() player_stand1;
 void(vector org) spawn_tfog;
 void(vector org, entity death_owner) spawn_tdeath;
 
+void() player_mob_look;
+
 float modelindex_eyes, modelindex_player;
 
 /*
@@ -467,7 +469,6 @@ called each time a player is spawned
 void() DecodeLevelParms;
 void() PlayerDie;
 
-
 void() PutClientInServer =
 {
 	entity spot;
@@ -548,6 +549,17 @@ void() PutClientInServer =
 	}
 
 	spawn_tdeath(self.origin, self);
+
+	//DEBUG marks
+    if(!MOB_MARK_ENT)
+    {
+    	MOB_MARK_ENT = spawn();
+        MOB_MARK_ENT.solid = SOLID_NOT;
+        MOB_MARK_ENT.movetype = MOVETYPE_NONE;
+        MOB_MARK_ENT.view_ofs = '0 24 -16';
+		setmodel(MOB_MARK_ENT, "progs/s_empt.spr");
+		setorigin(MOB_MARK_ENT, '0 0 0');
+    }
 };
 
 
@@ -1104,6 +1116,9 @@ void() PlayerPostThink =
 		self.jump_flag = self.velocity_z;
 
 	CheckPowerups();
+
+	//40Q - show dmeon mark
+	player_mob_look();
 };
 
 
@@ -1285,7 +1300,7 @@ void(entity targ, entity attacker) ClientObituary =
 				}
 				if (attacker.classname == "monster_demon1")
 				{
-					bprint(" was eviscerated by a Fiend\n");
+					bprint(" was eviscerated by a ");
 					bprint(attacker.netname);
 					bprint("\n");
 					return;
@@ -1386,9 +1401,9 @@ void(entity targ, entity attacker) ClientObituary =
 				
 				if (attacker.classname == "monster_zombie")
 				{
-					bprint(" joins the Zombies\n");
+					bprint(" joins the \n");
 					bprint(attacker.netname);
-					bprint("\n");
+					bprint("s\n");
 					return;
 				}
 
@@ -1459,5 +1474,51 @@ void(entity targ, entity attacker) ClientObituary =
 
 			bprint(" died\n");
 		}
+	}
+};
+
+void() player_mob_look={
+
+	if(time < self.timer_look_mob)
+		return;
+	
+	makevectors(self.v_angle);
+	traceline(self.origin + (v_up * self.view_ofs_z), self.origin + (v_up * self.view_ofs_z) + (v_forward * 800), FALSE, self);
+	
+	self.timer_look_mob = time + 0.05;
+
+	if(!trace_ent.takedamage)
+	{
+		MOB_MARK_ENT.look_mob = world;
+		return;
+	}
+
+	if(!(trace_ent.flags & FL_MONSTER))
+	{
+		MOB_MARK_ENT.look_mob = world;
+		return;
+	}
+	if(trace_ent != MOB_MARK_ENT.look_mob)
+	{
+		
+		MOB_MARK_ENT.look_mob = trace_ent;
+		MOB_MARK_ENT.view_ofs_y = trace_ent.maxs_z * 0.85;
+		
+		if(trace_ent.demon_mark != 0){
+			setmodel(MOB_MARK_ENT, "progs/mrk_dbg.spr");
+			if(trace_ent.demon_mark == MARK_DESPAIR)
+				MOB_MARK_ENT.frame = 0;
+			else if(trace_ent.demon_mark == MARK_EXCESS)
+				MOB_MARK_ENT.frame = 1;
+			else if(trace_ent.demon_mark == MARK_RAGE)
+				MOB_MARK_ENT.frame = 2;
+			else
+				MOB_MARK_ENT.frame = 3;
+
+		}
+		
+		setorigin(MOB_MARK_ENT, trace_ent.origin);
+		MOB_MARK_ENT.think = mark_frame;
+		MOB_MARK_ENT.nextthink = time + 0.01;
 	}
 };

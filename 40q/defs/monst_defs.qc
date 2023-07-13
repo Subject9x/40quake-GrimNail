@@ -80,3 +80,29 @@ else{
         Twist : weapon str + 1
 */
 #define M_ai_mark_stat() if(self.demon_mark==MARK_DESPAIR){self.health = self.health * 1.25;self.max_health = self.health;}else if(self.demon_mark==MARK_EXCESS){self.weapon_dmg = self.weapon_dmg * 1.15;}else if(self.demon_mark==MARK_RAGE){self.melee_str = self.melee_str + 1;}else if(self.demon_mark==MARK_TWIST){self.weapon_str = self.weapon_str + 1;self.health=self.health * 0.8;self.max_health=self.health;}
+
+void() mark_end={
+
+    setmodel(self, "progs/s_empt.spr");
+    setorigin(self, '0 0 0');
+    self.frame = 0;
+    self.nextthink = -1;
+};
+
+//DEBUG
+void() mark_th={
+
+	self.last_origin = self.origin;
+	
+	makevectors(self.look_mob.angles);
+
+	self.origin = self.look_mob.origin + (v_up * self.view_ofs_y) + (v_forward * self.view_ofs_z) + (v_right * -8);
+
+	setorigin(self, self.origin - self.last_origin * frametime);
+
+	if(self.look_mob.health <= 0)
+        self.think = mark_end;
+    
+    self.nextthink = time + 0.2;
+};
+

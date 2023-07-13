@@ -18,7 +18,7 @@
 
 #define PLAYER_HP 400
 #define PLAYER_TOUGH 4
-#define PLAYER_STR 4
+#define PLAYER_STR 3
 
 #define PLAYER_ARMOR_SV 4
 #define PLAYER_INVULN 6
@@ -33,8 +33,8 @@
 #define FISH_WOUNDS 1
 
 #define DOG_HP 25
-#define DOG_STR 3
-#define DOG_TOUGH 2
+#define DOG_STR 2
+#define DOG_TOUGH 3
 
 #define DOG_ARMOR_SV 6
 #define DOG_INVULN 0
@@ -68,7 +68,7 @@
 #define ENFORCE_PACK_SMALL 4
 #define ENFORCE_PACK_LT 6
 
-#define KNIGHT_HP 85 // 75
+#define KNIGHT_HP 80
 #define KNIGHT_STR 4
 #define KNIGHT_TOUGH 4
 
@@ -76,7 +76,7 @@
 #define KNIGHT_INVULN 0
 #define KNIGHT_WOUNDS 1
 
-#define WIZARD_HP 80
+#define WIZARD_HP 100
 #define WIZARD_STR 3
 #define WIZARD_TOUGH 3
 
@@ -84,7 +84,7 @@
 #define WIZARD_INVULN 5
 #define WIZARD_WOUNDS 2
 
-#define OGRE_HP 200
+#define OGRE_HP 225
 #define OGRE_STR 5
 #define OGRE_TOUGH 5
 
@@ -94,7 +94,7 @@
 #define OGRE_PACK_LT 5
 #define OGRE_PACK_HVY 10
 
-#define HKNIGHT_HP 250
+#define HKNIGHT_HP 275
 #define HKNIGHT_STR 6
 #define HKNIGHT_TOUGH 5
 

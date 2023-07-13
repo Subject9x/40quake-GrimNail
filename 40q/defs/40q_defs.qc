@@ -43,6 +43,16 @@
 #define WATERLEVEL_WAIST 2
 #define WATERLEVEL_HEAD 3
 
+#define DMG_RESULT_V_LOW -2
+#define DMG_RESULT_LOW -1
+#define DMG_RESULT_HIGH 1
+#define DMG_RESULT_V_HIGH 2
+
+.vector last_origin;
+.entity look_mob;	//The monster the player is looking at.
+.float dmg_result;	//T_Damage feedback to projectiles to show hit hints
+.float dmg_out;	//record inflictor dmg for effects.
+
 //Mob base stats
 .float strength;
 .float toughness;
@@ -54,7 +64,6 @@
 
 .float axe_extra_dmg; //zombies, soldiers, fish, dogs are all EXTRA vulnerable to axe
 .entity axe_ent;	//what has the axe struck?
-.float axe_hit_time;	//stop player from completely axing down big targets
 
 .float ai_side_charge;
 .float ai_side_charge_angle;
@@ -62,7 +71,6 @@
 .float armor_save_set;
 .float toughness_set;
 .float strength_set;
-
 
 // Ranged weapon stats
 .float weapon_str;
@@ -74,7 +82,11 @@
 .float melee_ap;
 .float melee_dmg;
 
+// TIMERS
+.float timer_axe_hit;	//stop player from completely axing down big targets
 .float timer_shotgun_fire;
+.float timer_look_mob;
+
 
 // Assault waves
 void(string msg, vector v) logVec={
@@ -107,3 +119,37 @@ void(string msg, float val) logFloat={
 };
 
 entity WORLD_ENT;	//stand-in for World something something assignable fields.
+entity MOB_MARK_ENT;
+void() mark_th;
+void() mark_frame1;
+void() mark_frame2;
+void() mark_frame3;
+
+
+void() mark_frame =
+{
+	//self.frame = 0;
+	//self.think = mark_frame1;
+	self.think = mark_frame;
+	mark_th();
+};
+//TODO - animated sigils
+void() mark_frame1 = 
+{
+	self.frame = 1;
+	self.think = mark_frame2;
+	mark_th();
+};
+void() mark_frame2 =
+{
+
+	self.frame = 2;
+	self.think = mark_frame3;
+	mark_th();
+};
+void() mark_frame3 =
+{
+	self.frame = 3;
+	self.think = mark_frame;
+	mark_th();
+};

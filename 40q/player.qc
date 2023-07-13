@@ -96,7 +96,7 @@ $frame axattc1 axattc2 axattc3 axattc4 axattc5 axattc6
 
 $frame axattd1 axattd2 axattd3 axattd4 axattd5 axattd6
 
-#define M_player_axe(frm, wepfrm, th1, th2) self.weaponframe = wepfrm;W_FireAxe();self.frame = frm;if(self.axe_ent && time < self.axe_hit_time){self.think = th1;self.attack_finished = time + 0.1;}else{self.think = th2;}self.nextthink = time + 0.1;
+#define M_player_axe(frm, wepfrm, th1, th2) self.weaponframe = wepfrm;W_FireAxe();self.frame = frm;if(self.axe_ent && time < self.timer_axe_hit){self.think = th1;self.attack_finished = time + 0.1;}else{self.think = th2;}self.nextthink = time + 0.1;
 
 /*
 ==============================================================================

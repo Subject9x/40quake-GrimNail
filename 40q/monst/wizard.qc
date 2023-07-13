@@ -248,6 +248,8 @@ void() Wiz_FastFire =
 		
 		if(self.demon_mark == MARK_TWIST)
 			setmodel(newmis, "progs/k_spike.mdl");
+		else if(self.demon_mark == MARK_EXCESS)
+			setmodel(newmis, "progs/v_spike.mdl");
 		else
 			setmodel(newmis, "progs/w_spike.mdl");
 		setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
@@ -448,6 +450,7 @@ void() monster_wizard =
 	precache_model("progs/h_wizard.mdl");
 	precache_model("progs/w_spike.mdl");
 	precache_model("progs/k_spike.mdl");
+	precache_model("progs/v_spike.mdl");
 
 
 	precache_sound("wizard/hit.wav"); // used by c code
