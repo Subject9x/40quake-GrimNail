@@ -78,9 +78,11 @@ else{
         Excess: weapon DMG + 10%
         Twist : weapon str + 1
 */
-#define M_ai_mark_stat() if(self.demon_mark==MARK_DESPAIR){self.health=self.health * 1.33;self.max_health=self.health;self.colormod=MARK_DESPAIR_CLR;}else if(self.demon_mark==MARK_EXCESS){self.weapon_dmg = self.weapon_dmg * 1.15;self.colormod=MARK_EXCESS_CLR;}else if(self.demon_mark==MARK_RAGE){self.melee_str = self.melee_str + 1;self.colormod=MARK_RAGE_CLR;}else if(self.demon_mark==MARK_TWIST){self.weapon_str = self.weapon_str + 1;self.health=self.health * 0.8;self.max_health=self.health;self.melee_dmg=self.melee_dmg*0.67;self.colormod=MARK_TWIST_CLR;}
+#define M_ai_mark_stat() if(self.demon_mark==MARK_DESPAIR){self.health=self.health * 1.33;self.max_health=self.health;}else if(self.demon_mark==MARK_EXCESS){self.weapon_dmg = self.weapon_dmg * 1.15;self.colormod=MARK_EXCESS_CLR;}else if(self.demon_mark==MARK_RAGE){self.melee_str = self.melee_str + 1;self.colormod=MARK_RAGE_CLR;}else if(self.demon_mark==MARK_TWIST){self.weapon_str = self.weapon_str + 1;self.health=self.health * 0.8;self.max_health=self.health;self.melee_dmg=self.melee_dmg*0.67;self.colormod=MARK_TWIST_CLR;}
 
 #define M_ai_mark_glow() if(self.demon_mark==MARK_DESPAIR){self.glow_color=MARK_DESPAIR_CLR_8;self.glow_size=30;self.glow_trail=TRUE;}else if(self.demon_mark==MARK_EXCESS){self.glow_color=MARK_EXCESS_CLR_8;self.glow_size=30;self.glow_trail=TRUE;}else if(self.demon_mark==MARK_RAGE){self.glow_color=MARK_RAGE_CLR_8;self.glow_size=30;self.glow_trail=TRUE;}else if(self.demon_mark==MARK_TWIST){self.glow_color=MARK_TWIST_CLR_8;self.glow_size=30;self.glow_trail=TRUE;}
+
+#define M_ai_mark_color() if(self.demon_mark==MARK_DESPAIR){self.colormod=MARK_DESPAIR_CLR;}else if(self.demon_mark==MARK_EXCESS){self.colormod=MARK_EXCESS_CLR;}else if(self.demon_mark==MARK_RAGE){self.colormod=MARK_RAGE_CLR;}else if(self.demon_mark==MARK_TWIST){self.colormod=MARK_TWIST_CLR;}
 
 void() mark_end={
 

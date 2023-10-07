@@ -167,9 +167,10 @@ void() OgreFireGrenade =
 	else if (self.demon_mark == MARK_DESPAIR)
 	{
 		missile.velocity = missile.velocity * 475;
-		missile.velocity_z = 250;
+		missile.velocity_z = 150;
 		missile.avelocity = '225 250 225';
 		missile.modelflags = 0 | MF_TRACER;
+		missile.effects = 0 | EF_FULLBRIGHT;
 	}
 	else
 	{

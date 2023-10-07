@@ -273,7 +273,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 					inflictor.dmg_result = DMG_RESULT_V_HIGH;
 					if(wepStr >= trgTough * 3)
 					{
-						take = targ.health * 10;
+						take = wepDmg * 2;
 					}
 				}
 			}
@@ -355,6 +355,11 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // add to the damage total for clients, which will be sent as a single
 // message at the end of the frame
 // FIXME: remove after combining shotgun blasts?
+	if (attacker.classname == "monster_shambler")
+	{
+		dprint(strcat("damage: ", ftos(damage), "\n"));	//debug)
+		dprint(strcat("dmg: ", ftos(take), "\n"));	//debug)
+	}
 	if (targ.flags & FL_CLIENT)
 	{
 		targ.dmg_take = targ.dmg_take + take;
@@ -425,6 +430,13 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	//40Q - MONSTER INFIGHTING--------------------------------------------------
 	if ((self.flags & FL_MONSTER) && attacker != world)
 	{
+		if ((self.flags & FL_DEMON))
+		{
+			if (self.alpha > 0.67)
+			{
+				self.alpha = self.health / self.max_health;
+			}
+		}
 		if (self != attacker && attacker != self.enemy)
 		{
 			if( ((self.flags & FL_DEMON) && !(attacker.flags & FL_DEMON)) || (attacker.flags & FL_CLIENT))

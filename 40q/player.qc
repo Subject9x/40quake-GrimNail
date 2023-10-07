@@ -566,11 +566,32 @@ vector(float dm) VelocityForDamage =
 void(string gibname, float dm) ThrowGib =
 {
 	entity new;
+	entity temp;
 
 	new = spawn();
+	if (new == world)
+	{
+		return;
+	}
 	new.origin = self.origin;
+	
+	new.demon_mark = self.demon_mark;
+	temp = self;
+	self = new;
+
+		M_ai_mark_color();
+
+		if ((temp.flags & FL_DEMON))
+		{
+			self.alpha = 0.8;
+			self.effects = 0 | EF_FULLBRIGHT;
+			M_ai_mark_glow();
+		}
+	self = temp;
+	
 	setmodel(new, gibname);
 	setsize(new, '0 0 0', '0 0 0');
+
 	new.velocity = VelocityForDamage(dm);
 	new.movetype = MOVETYPE_BOUNCE;
 	new.solid = SOLID_NOT;
@@ -586,6 +607,15 @@ void(string gibname, float dm) ThrowGib =
 
 void(string gibname, float dm) ThrowHead =
 {
+	if ((self.flags & FL_MONSTER))
+	{
+		if ((self.flags & FL_DEMON))
+		{
+			self.alpha = 0.8;
+			self.effects = 0 | EF_FULLBRIGHT;
+		}
+	}
+
 	setmodel(self, gibname);
 	self.frame = 0;
 	self.nextthink = -1;

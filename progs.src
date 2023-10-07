@@ -6,10 +6,11 @@ defs.qc
 40q/defs/40q_defs.qc
 40q/defs/monst_stats.qc
 40q/defs/wep_stats.qc
+40q/defs/monst_defs.qc
 
 subs.qc
 40q/fight.qc
-ai.qc
+40q/ai.qc
 40q/combat.qc
 
 40q/items/items.qc
@@ -25,8 +26,6 @@ triggers.qc
 plats.qc
 
 40q/misc.qc
-
-40q/defs/monst_defs.qc
 
 40q/monst/ogre.qc
 40q/monst/demon.qc

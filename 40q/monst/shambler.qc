@@ -132,12 +132,12 @@ void() sham_smash10 = [ $smash10, sham_smash11 ]
 	if (!CanDamage(self.enemy, self))
 		return;
 
-	ldmg = (random() + random() + random()) * 40;
+	ldmg = self.melee_dmg * random() * 0.25 + self.melee_dmg * 0.75;
 	
 	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 	self.weapon_str = self.melee_str + self.strength;
 	self.weapon_ap = self.melee_ap;
-	self.weapon_dmg = self.melee_dmg;
+	self.weapon_dmg =ldmg;
 
 	T_Damage(self.enemy, self, self, ldmg);
 
@@ -171,12 +171,12 @@ void(float side) ShamClaw =
 	if (vlen(delta) > 100)
 		return;
 
+	ldmg = self.melee_dmg * random() * 0.75 + self.melee_dmg * 0.25;
+	
 	oWep = [self.weapon_str, self.weapon_ap, self.weapon_dmg];
 	self.weapon_str = self.melee_str + self.strength;
 	self.weapon_ap = self.melee_ap;
-	self.weapon_dmg = self.melee_dmg;
-
-	ldmg = (random() + random() + random()) * self.weapon_dmg;
+	self.weapon_dmg = ldmg;
 
 	T_Damage(self.enemy, self, self, ldmg);
 
@@ -284,13 +284,34 @@ void() CastLightning =
 };
 
 //TODO
+void() CastPlagueExplode =
+{
+	sound(self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_NORM);
+	T_RadiusDamage(self, self.owner, self.weapon_dmg * 0.85, self.owner);
+	self.touch = SUB_Null;
+	self.solid = SOLID_NOT;
+	self.think = SUB_Remove;
+	self.nextthink = time + 0.1;
+}
+void() CastPlagueTouch =
+{
+	if (other.takedamage)
+	{
+		sound(self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_NORM);
+		T_Damage(other, self, self.owner, self.weapon_dmg);
+		self.solid = SOLID_NOT;
+		self.touch = SUB_Null;
+		self.think = SUB_Remove;
+		self.nextthink = time + 0.05;
+		return;
+	}
+};
 void() CastPlague =
 {
 
 	vector org, dir;
 	float range;
-
-	self.effects = self.effects | EF_MUZZLEFLASH;
+	float rand;
 
 	ai_face();
 
@@ -301,29 +322,103 @@ void() CastPlague =
 
 	range = 400;
 
-	traceline(org, self.origin + dir*range, TRUE, self);
+	newmis = spawn();
+	if (newmis == world)
+	{
+		return;
+	}
+	self.effects = self.effects | EF_MUZZLEFLASH;
+	rand = random();
+
+	sound(self, CHAN_WEAPON, "zombie/z_miss.wav", 1, ATTN_NORM);
+	
+	newmis.owner = self;
+	newmis.movetype = MOVETYPE_TOSS;
+	newmis.solid = SOLID_BBOX;
+	newmis.demon_mark = self.demon_mark;
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
+	
+	// set missile speed
+	makevectors(self.angles);
+	
+	newmis.velocity = normalize(self.enemy.origin - org);
+	newmis.velocity = newmis.velocity * 600;
+	newmis.velocity_z = newmis.velocity_z + 150;
+	newmis.avelocity = '225 250 225';
+	newmis.modelflags = 0 | MF_TRACER | MF_ZOMGIB;
+	newmis.effects = newmis.effects | EF_FULLBRIGHT;
+	newmis.alpha = 0.8;
+	
+	newmis.angles = vectoangles(newmis.velocity);
+	
+	newmis.touch = CastPlagueTouch;
+	newmis.think = CastPlagueExplode;
+	
+	// set missile duration
+	
+	if (rand < 0.4)
+	{
+		setmodel(newmis, "progs/gib1.mdl");
+	}
+	else if (rand < 0.7)
+	{
+		setmodel(newmis, "progs/gib2.mdl");
+	}
+	else {
+		setmodel(newmis, "progs/gib3.mdl");
+	}
+
+	newmis.colormod = MARK_DESPAIR_CLR * 2;
+	newmis.nextthink = time + 1.0 + (random() * 3);
+	setsize(newmis, '0 0 0', '0 0 0');
+	setorigin(newmis, org);
 }; 
 
 void() sham_magic1 = [ $magic1, sham_magic2 ]
 {
 	ai_face();
 	sound(self, CHAN_WEAPON, "shambler/sattck1.wav", 1, ATTN_NORM);
+
 };
 void() sham_magic2 = [ $magic2, sham_magic3 ] { ai_face(); };
 void() sham_magic3 = [ $magic3, sham_magic4 ]
 {
+	entity o;
+
 	ai_face();
 	self.nextthink = self.nextthink + 0.2;
-	entity o;
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	ai_face();
+
 	self.owner = spawn();
 	o = self.owner;
+
+	if (self.demon_mark == MARK_DESPAIR)
+	{
+		o.colormod = MARK_DESPAIR_CLR * 2;
+		o.effects = 0 | EF_ADDITIVE | EF_FULLBRIGHT;
+		o.alpha = 0.8;
+	}
+	else if (self.demon_mark == MARK_EXCESS)
+	{
+		o.colormod = MARK_EXCESS_CLR * 2;
+		o.effects = 0 | EF_ADDITIVE | EF_FULLBRIGHT;
+		o.alpha = 0.8;
+	}
+	else if (self.demon_mark == MARK_TWIST)
+	{
+		o.colormod = MARK_TWIST_CLR * 2;
+		o.effects = 0 | EF_ADDITIVE | EF_FULLBRIGHT;
+		o.alpha = 0.8;
+	}
 	setmodel(o, "progs/s_light.mdl");
+
 	setorigin(o, self.origin);
 	o.angles = self.angles;
-	o.nextthink = time + 0.7;
+	o.nextthink = time + 0.8;
 	o.think = SUB_Remove;
 };
 void() sham_magic4 = [ $magic4, sham_magic5 ]
@@ -338,16 +433,57 @@ void() sham_magic5 = [ $magic5, sham_magic6 ]
 };
 void() sham_magic6 = [ $magic6, sham_magic9 ]
 {
-	remove(self.owner);
-	CastLightning();
-	sound(self, CHAN_WEAPON, "shambler/sboom.wav", 1, ATTN_NORM);
+	self.owner.frame = 1;
+
+	if (self.demon_mark == MARK_DESPAIR)
+	{
+		CastPlague();
+	}
+	else
+	{
+		sound(self, CHAN_WEAPON, "shambler/sboom.wav", 1, ATTN_NORM);
+		CastLightning();
+	}
+
 };
-void() sham_magic9 = [ $magic9, sham_magic10 ] { CastLightning(); };
-void() sham_magic10 = [ $magic10, sham_magic11 ] { CastLightning(); };
+void() sham_magic9 = [ $magic9, sham_magic10 ] 
+{ 
+	if (self.owner)
+	{
+		remove(self.owner);
+	}
+	
+	if (self.demon_mark == MARK_DESPAIR)
+	{
+		CastPlague();
+	}
+	else
+	{
+		CastLightning();
+	}
+};
+void() sham_magic10 = [ $magic10, sham_magic11 ] 
+{
+	if (self.demon_mark == MARK_DESPAIR)
+	{
+		CastPlague();
+	}
+	else
+	{
+		CastLightning();
+	}
+};
 void() sham_magic11 = [ $magic11, sham_magic12 ]
 {
-	if (skill == 3)
-		CastLightning();
+	if (self.demon_mark == MARK_DESPAIR)
+	{
+		CastPlague();
+	}
+	else
+	{
+		if (skill == 3)
+			CastLightning();
+	}
 };
 void() sham_magic12 = [ $magic12, sham_run1    ] {};
 
@@ -448,6 +584,7 @@ void() monster_shambler =
 	precache_sound("shambler/melee1.wav");
 	precache_sound("shambler/melee2.wav");
 	precache_sound("shambler/smack.wav");
+	precache_sound("zombie/z_miss.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -484,9 +621,10 @@ void() monster_shambler =
 	self.weapon_dmg = SHMBL_SPELL_DMG;
 
 	//RAGE GOD NO MAGIKS
-	if(self.demon_mark != MARK_RAGE)
+	if (self.demon_mark != MARK_RAGE)
+	{
 		self.th_missile = sham_magic1;
-	
+	}
 	
 	M_ai_mark_stat()
 	M_ai_set_name("Shambler", "Shambling Plaguehost", "Ravenous Shambler", "Blooded Shambler", "Master Shambler")

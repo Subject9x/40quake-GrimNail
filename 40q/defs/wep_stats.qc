@@ -125,8 +125,8 @@
 #define SHMBL_SPELL_STR 6
 #define SHMBL_SPELL_AP -3
 
-#define SHMBL_CLAW_DMG 50
-#define SHMBL_CLAW_STR 8
+#define SHMBL_CLAW_DMG 40
+#define SHMBL_CLAW_STR 2
 #define SHMBL_CLAW_AP -3
 
 /*
