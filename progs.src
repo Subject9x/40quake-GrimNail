@@ -1,6 +1,7 @@
 ../progs.dat
 
 defs.qc
+40q/defs/dpextensions.qc
 
 40q/defs/40q_defs.qc
 40q/defs/monst_stats.qc

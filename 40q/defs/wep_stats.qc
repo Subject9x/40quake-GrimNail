@@ -19,7 +19,7 @@
 #define BOLTGUN_STR 4
 #define BOLTGUN_AP -1
 #define BOLTGUN_AMMO_COST 1
-#define BOLTGUN_ROF 0.55
+#define BOLTGUN_ROF 0.45
 
 #define ASTSHOTG_DMG 5
 #define ASTSHOTG_STR 3
@@ -73,7 +73,7 @@
 #define ZOMB_CHUNK_STR 3
 #define ZOMB_CHUNK_AP 2
 
-#define AUTOGUN_DMG 7
+#define AUTOGUN_DMG 5
 #define AUTOGUN_STR 3
 #define AUTOGUN_AP 0
 
@@ -81,7 +81,7 @@
 #define SHOTGUN_STR 3
 #define SHOTGUN_AP 0
 
-#define HVYSTUB_DMG 15
+#define HVYSTUB_DMG 10
 #define HVYSTUB_STR 4
 #define HVYSTUB_AP 0
 
@@ -105,7 +105,7 @@
 #define WIZ_SPELL_STR 4
 #define WIZ_SPELL_AP -2
 
-#define KNIGHT_SPELL_DMG 10
+#define KNIGHT_SPELL_DMG 15
 #define KNIGHT_SPELL_STR 5
 #define KNIGHT_SPELL_AP 0
 

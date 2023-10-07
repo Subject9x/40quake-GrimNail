@@ -442,7 +442,7 @@ void() monster_shambler =
 	self.th_pain = sham_pain;
 
 	//40Q stats----------------
-	M_ai_assign_mark()
+	//M_ai_assign_mark()
 
 	M_dbg_assign_mark()	//DEBUG
 
@@ -465,7 +465,8 @@ void() monster_shambler =
 	//RAGE GOD NO MAGIKS
 	if(self.demon_mark != MARK_RAGE)
 		self.th_missile = sham_magic1;
-
+	
+	
 	M_ai_mark_stat()
 	M_ai_set_name("Shambler", "Shambling Plaguehost", "Ravenous Shambler", "Blooded Shambler", "Master Shambler")
 	M_ai_set_yaw(20)

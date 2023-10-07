@@ -644,8 +644,10 @@ void() ai_run_missile =
 	ChangeYaw();
 	if (FacingIdeal())
 	{
-		self.th_missile();
-		self.attack_state = AS_STRAIGHT;
+		if(self.th_missile){
+			self.th_missile();
+			self.attack_state = AS_STRAIGHT;
+		}
 	}
 };
 
@@ -688,6 +690,9 @@ void(float dist) ai_run =
 {
 
 	movedist = dist;
+	if(time < self.hinder_time){
+		dist = dist * (skill / 5) * 0.5;
+	}
 // see if the enemy is dead
 	if (self.enemy.health <= 0)
 	{

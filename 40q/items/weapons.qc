@@ -66,23 +66,24 @@ void() W_FireAxe =
 
 	source = self.origin + '0 0 16';
 	traceline(source, source + v_forward*64, FALSE, self);
-	if (trace_fraction == 1.0)
+	if (trace_fraction >= 0.67)
+	{
+		self.axe_ent = world;
+		self.timer_axe_hit = -1;
+		self.attack_finished = time + CHAINAXE_ROF;
 		return;
-
+	}
+		
 	org = trace_endpos - v_forward*4;
 
 	if (trace_ent.takedamage)
 	{
-		if(trace_ent.axhitme == FALSE){
-			if(time > self.timer_axe_hit){
-				self.show_hostile = time + 1; // wake monsters up
-				trace_ent.axhitme = 1;
-				self.timer_axe_hit = time + CHAINAXE_HIT_TIME;
-			}
-		}
-		else{
-			if(time > self.timer_axe_hit)
-				trace_ent.axhitme = FALSE;
+		if(self.axe_ent != trace_ent)
+		{
+			self.axe_ent = trace_ent;
+			self.axe_ent.axhitme = TRUE;
+			self.show_hostile = time + 1; // wake monsters up
+			self.timer_axe_hit = time + CHAINAXE_HIT_TIME;
 		}
 
 		SpawnBlood(org, '0 0 0', 20);
@@ -108,13 +109,12 @@ void() W_FireAxe =
 		self.punchangle_x = crandom() * 2 + (self.timer_axe_hit * frametime);
 		self.punchangle_y = crandom() * 2 + (self.timer_axe_hit * frametime);
 		self.punchangle_z = crandom() * 2 + (self.timer_axe_hit * frametime);
-		if(trace_ent.health > 0)
+
+		if((self.axe_ent.health < 0) || (time > self.timer_axe_hit))
 		{
-			self.axe_ent = trace_ent;
-		}
-		else{
+			self.axe_ent.axhitme = FALSE;
 			self.axe_ent = world;
-			self.timer_axe_hit = time;
+			self.timer_axe_hit = -1;	
 		}
 	}
 	else
@@ -128,6 +128,8 @@ void() W_FireAxe =
 			WriteCoord(MSG_BROADCAST, org_z);
 		}
 		self.axe_ent = world;
+		self.timer_axe_hit = -1;
+		self.attack_finished = time + CHAINAXE_ROF;
 	}
 };
 
@@ -455,8 +457,6 @@ void() T_MissileTouch =
 		WriteCoord(MSG_BROADCAST, self.origin_z);
 		remove(self);
 	}
-
-	
 };
 
 
@@ -589,6 +589,9 @@ void() W_FirePlasma =
 // set missile duration
 	missile.nextthink = time + 3;
 	missile.think = SUB_Remove;
+
+	missile.modelflags = MF_TRACER3;
+	missile.effects = EF_FULLBRIGHT;
 
 	setmodel(missile, "progs/v_spike.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
@@ -1213,6 +1216,8 @@ void(vector org, vector dir) launch_bolt_rnd =
 	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 	setorigin(newmis, org);
 
+	newmis.modelflags = MF_TRACER2;
+
 	waterVel = 850;
 	if(self.waterlevel >= WATERLEVEL_HEAD)
 		waterVel = waterVel * 0.67;
@@ -1280,6 +1285,7 @@ void() W_FireBoltgun =
 	
 	newmis.items = 0 | IT_BOLTGUN;
 	newmis.touch = bolt_touch;
+	
 	self.punchangle_x = -0.3;
 };
 

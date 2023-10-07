@@ -462,7 +462,7 @@ void() weapon_touch =
 			return;
 		hadammo = other.ammo_rockets;
 		new = IT_SUPER_SHOTGUN;
-		other.ammo_shells = other.ammo_shells + 5;
+		other.ammo_shells = other.ammo_shells + 10;
 	}
 	else if (self.classname == "weapon_rocketlauncher")
 	{
@@ -478,7 +478,7 @@ void() weapon_touch =
 			return;
 		hadammo = other.ammo_cells;
 		new = IT_GRENADE_LAUNCHER;
-		other.ammo_cells = other.ammo_cells + 5;
+		other.ammo_cells = other.ammo_cells + 25;
 	}
 	else if (self.classname == "weapon_lightning")
 	{
@@ -672,6 +672,9 @@ void() ammo_touch =
 		
 		if (other.ammo_nails < 200)
 			other.ammo_nails = other.ammo_nails + self.aflag;
+		
+		if (other.ammo_cells < 200)
+			other.ammo_cells = other.ammo_cells + self.aflag * 0.5;
 	}
 
 //	cells

@@ -231,10 +231,17 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		damage = damage * 2;
 		wepStr = wepStr * 2;
 		wepAp = wepAp - 1;
-		wepDmg = wepDmg + 1;
+		wepDmg = wepDmg * 2;
 	}
 
 //40Q - MECHANICS CHECK:-------------------------------------------------
+	//Player Axe-hitting protection time, balances being able to melee
+	if((targ.flags & FL_CLIENT) && !(attacker.flags & FL_CLIENT)){
+		if(time < targ.timer_axe_hit){
+			damage = damage * 0.33;
+			wepDmg = wepDmg * 0.33;
+		}
+	}
 	if(targ.toughness && inflictor.weapon_str)
 	{
 		if(skill == 4)
@@ -342,7 +349,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // FIXME: remove after combining shotgun blasts?
 	if (targ.flags & FL_CLIENT)
 	{
-
 		targ.dmg_take = targ.dmg_take + take;
 		targ.dmg_save = targ.dmg_save + save;
 		targ.dmg_inflictor = inflictor;
@@ -353,7 +359,13 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
-		targ.velocity = targ.velocity + dir*damage*8;
+		targ.velocity = targ.velocity + dir*take*8;
+	}
+	if((targ.flags & FL_MONSTER) && !(targ.flags & FL_DEMON)){
+		if(time > targ.hinder_cool){
+			targ.hinder_time = time + ((wepStr / 10) * 2);
+			targ.hinder_cool = time + (4 - skill);
+		}
 	}
 
 // check for godmode or invincibility
@@ -428,7 +440,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		else
 		{
 			self.th_pain(attacker, take);
-			self.axhitme - FALSE;	
+			self.axhitme = FALSE;	
 		// nightmare mode monsters don't go into pain frames often
 			if (skill == 3)
 				self.pain_finished = time + 5;

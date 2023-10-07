@@ -183,9 +183,15 @@ void() player_shot6 = [ $shotatt6, player_run ] { self.weaponframe = 6; };
 void() player_axe1 = [ $axatt1, player_axe2 ] { self.weaponframe = 1; };
 void() player_axe2 = 
 {
-	float f;
-	f = $axatt2;
-	M_player_axe(f, 2, player_axe2, player_axe3)
+	self.nextthink = time + 0.1;
+	W_FireAxe();
+	self.weaponframe = 2;
+	if(self.axe_ent == world)
+	{
+		self.think = player_axe3;
+		return;
+	}
+	self.think = player_axe2;
 
 };
 void() player_axe3 = [ $axatt3, player_axe4 ] { self.weaponframe = 3; };
@@ -196,9 +202,16 @@ void() player_axe4 = [ $axatt4, player_run ] { self.weaponframe = 4; };
 void() player_axeb1 = [ $axattb1, player_axeb2 ] { self.weaponframe = 5; };
 void() player_axeb2 =
 {
-	float f;
-	f = $axattb2;
-	M_player_axe(f, 6, player_axeb2, player_axeb3)
+	self.nextthink = time + 0.1;
+	W_FireAxe();
+	self.weaponframe = 6;
+	if(self.axe_ent == world)
+	{
+		self.think = player_axeb3;
+		return;
+	}
+	self.think = player_axeb2;
+
 };
 void() player_axeb3 = [ $axattb3, player_axeb4 ] { self.weaponframe = 7; };
 void() player_axeb4 = [ $axattb4, player_run ] { self.weaponframe = 8; };
@@ -207,9 +220,15 @@ void() player_axeb4 = [ $axattb4, player_run ] { self.weaponframe = 8; };
 //PLAYER AXE C-------------------------------------------------------------------------------
 void() player_axec1 = [ $axattc1, player_axec2 ] { self.weaponframe = 1; };
 void() player_axec2 = {
-	float f;
-	f = $axattc2;
-	M_player_axe(f, 2, player_axec2, player_axec3)
+	self.nextthink = time + 0.1;
+	W_FireAxe();
+	self.weaponframe = 2;
+	if(self.axe_ent == world)
+	{
+		self.think = player_axec3;
+		return;
+	}
+	self.think = player_axec2;
 };
 void() player_axec3 = [ $axattc3, player_axec4 ] { self.weaponframe = 3; };
 void() player_axec4 = [ $axattc4, player_run ] { self.weaponframe = 4; };
@@ -218,9 +237,15 @@ void() player_axec4 = [ $axattc4, player_run ] { self.weaponframe = 4; };
 //PLAYER AXE D-------------------------------------------------------------------------------
 void() player_axed1 = [ $axattd1, player_axed2 ] { self.weaponframe = 5; };
 void() player_axed2 = {
-	float f;
-	f = $axattd2;
-	M_player_axe(f, 2, player_axed2, player_axed3)
+	self.nextthink = time + 0.1;
+	W_FireAxe();
+	self.weaponframe = 6;
+	if(self.axe_ent == world)
+	{
+		self.think = player_axed3;
+		return;
+	}
+	self.think = player_axed2;
 };
 void() player_axed3 = [ $axattd3, player_axed4 ] { self.weaponframe = 7; };
 void() player_axed4 = [ $axattd4, player_run ] { self.weaponframe = 8; };

@@ -38,6 +38,11 @@
 #define MARK_DESPAIR 16
 #define MARK_TWIST 32
 
+#define MARK_RAGE_CLR '0.8 0.33 0.15'
+#define MARK_EXCESS_CLR '0.8 0.15 0.7'
+#define MARK_DESPAIR_CLR '0.05 0.8 0.15'
+#define MARK_TWIST_CLR '0.15 0.33 0.8'
+
 #define WATERLEVEL_NOT 0
 #define WATERLEVEL_LEGS 1
 #define WATERLEVEL_WAIST 2
@@ -47,6 +52,7 @@
 #define DMG_RESULT_LOW -1
 #define DMG_RESULT_HIGH 1
 #define DMG_RESULT_V_HIGH 2
+
 
 .vector last_origin;
 .entity look_mob;	//The monster the player is looking at.
@@ -67,6 +73,10 @@
 
 .float ai_side_charge;
 .float ai_side_charge_angle;
+
+.float hinder_time;
+.float hinder_slow;
+.float hinder_cool;
 
 .float armor_save_set;
 .float toughness_set;

@@ -677,11 +677,11 @@ void() PlayerJump =
 	if (self.waterlevel >= 2)
 	{
 		if (self.watertype == CONTENT_WATER)
-			self.velocity_z = 100;
+			self.velocity_z = 150;	//100
 		else if (self.watertype == CONTENT_SLIME)
-			self.velocity_z = 80;
+			self.velocity_z = 120;	//80
 		else
-			self.velocity_z = 50;
+			self.velocity_z = 100;	//50
 
 // play swiming sound
 		if (self.swim_flag < time)
@@ -709,7 +709,7 @@ void() PlayerJump =
 	self.button2 = 0;
 // player jumping sound
 	sound(self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
-	self.velocity_z = self.velocity_z + 270;
+	self.velocity_z = self.velocity_z + 325; //270
 };
 
 
