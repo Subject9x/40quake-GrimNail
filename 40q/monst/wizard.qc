@@ -54,6 +54,31 @@ will duck back out and catch it.
 */
 
 /*
+	Customize wizard spike depending on demon mark
+*/
+void(vector vec) WizardSpikeMarkStyle=
+{
+	if (self.owner.demon_mark == MARK_DESPAIR)
+	{
+		setmodel(newmis, "progs/w_spike.mdl");
+		newmis.modelflags = 0 | MF_TRACER | MF_GIB;
+		newmis.velocity = vec*500;
+	}
+	else if (self.owner.demon_mark == MARK_EXCESS)
+	{
+		setmodel(newmis, "progs/v_spike.mdl");
+		newmis.modelflags = 0 | MF_TRACER3;
+		newmis.velocity = vec*725;
+	}
+	else if (self.owner.demon_mark == MARK_TWIST)
+	{
+		setmodel(newmis, "progs/k_spike.mdl");
+		newmis.modelflags = 0 | MF_TRACER2;
+		newmis.velocity = vec*600;
+	}
+};
+
+/*
 =============
 LaunchMissile
 
@@ -236,22 +261,10 @@ void() Wiz_FastFire =
 		
 		launch_spike(self.origin, vec);
 		
-		if(self.demon_mark == MARK_EXCESS)
-			newmis.velocity = vec*725;
-		else if(self.demon_mark == MARK_DESPAIR)
-			newmis.velocity = vec*500;
-		else
-			newmis.velocity = vec*600;
-		
 		newmis.owner = self.owner;
 		newmis.classname = "wizspike";
 		
-		if(self.demon_mark == MARK_TWIST)
-			setmodel(newmis, "progs/k_spike.mdl");
-		else if(self.demon_mark == MARK_EXCESS)
-			setmodel(newmis, "progs/v_spike.mdl");
-		else
-			setmodel(newmis, "progs/w_spike.mdl");
+		WizardSpikeMarkStyle(vec);
 		setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
 
 		newmis.weapon_str = self.weapon_str;
@@ -284,6 +297,7 @@ void() Wiz_StartFast =
 	missile.weapon_str = self.weapon_str;
 	missile.weapon_ap = self.weapon_ap;
 	missile.weapon_dmg = self.weapon_dmg;
+
 
 	missile = spawn();
 	missile.owner = self;
@@ -493,11 +507,12 @@ void() monster_wizard =
 	self.weapon_dmg = WIZ_SPELL_DMG;
 	
 	if(self.demon_mark == MARK_RAGE){
-		self.demon_mark	 = 0;	//RAGE GOD DESPISES MAGIKS
+		self.demon_mark = MARK_TWIST;	//RAGE GOD DESPISES MAGIKS
 	}
 	M_ai_mark_stat()
 	M_ai_set_yaw(20)
-	M_ai_set_name("Wizard", "Plague Wizard", "Obsess Wizard", "Anger Wizard", "Scheming Wizard")
+	M_ai_set_name("Wizard", "Plague Wizard", "Obsessed Wizard", "NULL Wizard", "Scheming Wizard")
+	M_ai_mark_glow()
 	//------------------------
 
 	flymonster_start();

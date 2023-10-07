@@ -105,6 +105,14 @@ void(entity targ, entity attacker) Killed =
 // bump the monster counter
 	if (self.flags & FL_MONSTER)
 	{
+		if (self.glow_trail)
+		{
+			self.glow_trail = FALSE;
+		}
+		if (self.axhitme)
+		{
+			self.health = -99;
+		}
 		killed_monsters = killed_monsters + 1;
 		WriteByte(MSG_ALL, SVC_KILLEDMONSTER);
 	}

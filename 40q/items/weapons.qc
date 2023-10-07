@@ -110,12 +110,13 @@ void() W_FireAxe =
 		self.punchangle_y = crandom() * 2 + (self.timer_axe_hit * frametime);
 		self.punchangle_z = crandom() * 2 + (self.timer_axe_hit * frametime);
 
-		if((self.axe_ent.health < 0) || (time > self.timer_axe_hit))
+		if(time > self.timer_axe_hit)
 		{
 			self.axe_ent.axhitme = FALSE;
 			self.axe_ent = world;
 			self.timer_axe_hit = -1;	
 		}
+		self.attack_finished = self.attack_finished + 0.1;
 	}
 	else
 	{ 

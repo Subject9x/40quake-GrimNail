@@ -266,6 +266,7 @@ void() monster_tarbaby =
 
 	M_ai_mark_stat()
 	M_ai_set_yaw(20)
+	M_ai_mark_glow()
 	//------------------------
 	
 	walkmonster_start();

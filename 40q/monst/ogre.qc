@@ -156,21 +156,34 @@ void() OgreFireGrenade =
 
 	missile.velocity = normalize(self.enemy.origin - self.origin);
 	
-	if(self.demon_mark == MARK_EXCESS){
+	if (self.demon_mark == MARK_EXCESS)
+	{
 		missile.velocity = normalize((self.enemy.origin + self.enemy.velocity*0.5) - self.origin);
 		missile.velocity = missile.velocity * 700;
 		missile.velocity_z = 150;
 		missile.avelocity = '50 50 50';
+		missile.modelflags = 0 | MF_TRACER3;
 	}
-	else if(self.demon_mark == MARK_DESPAIR){
-		missile.velocity = missile.velocity * 600;
-		missile.velocity_z = 300;
+	else if (self.demon_mark == MARK_DESPAIR)
+	{
+		missile.velocity = missile.velocity * 475;
+		missile.velocity_z = 250;
 		missile.avelocity = '225 250 225';
+		missile.modelflags = 0 | MF_TRACER;
 	}
-	else{
-		missile.velocity = missile.velocity * 500;
+	else
+	{
+		missile.velocity = missile.velocity * 600;
 		missile.velocity_z = 200;
 		missile.avelocity = '300 300 300';
+		if (self.demon_mark == MARK_RAGE)
+		{
+			missile.modelflags = 0 | MF_ROCKET;
+		}
+		else
+		{
+			missile.modelflags = 0 | MF_TRACER2;
+		}
 	}
 	missile.angles = vectoangles(missile.velocity);
 
@@ -179,17 +192,26 @@ void() OgreFireGrenade =
 
 	// set missile duration
 	setmodel(missile, "progs/grenade.mdl");
-	if(self.demon_mark == MARK_TWIST){
+	if (self.demon_mark == MARK_DESPAIR)
+	{
+		setmodel(missile, "progs/gib3.mdl");
+		missile.colormod = MARK_DESPAIR_CLR * 1.3;
+	}
+	if (self.demon_mark == MARK_RAGE)
+	{
+		missile.colormod = MARK_RAGE_CLR * 1.25;
+	}
+	
+	if (self.demon_mark == MARK_TWIST)
+	{
 		missile.nextthink = time + 1.5;
 		setmodel(missile, "progs/s_light.spr");
 	}
-	else{
+	else
+	{
 		missile.nextthink = time + 2.5;
 	}
 
-	if(self.demon_mark == MARK_DESPAIR){
-		setmodel(missile, "progs/zom_gib.mdl");
-	}
 
 
 	setsize(missile, '0 0 0', '0 0 0');

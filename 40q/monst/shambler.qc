@@ -283,6 +283,27 @@ void() CastLightning =
 	LightningDamage(org, trace_endpos, self, self.weapon_dmg);
 };
 
+//TODO
+void() CastPlague =
+{
+
+	vector org, dir;
+	float range;
+
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	ai_face();
+
+	org = self.origin + '0 0 40';
+
+	dir = self.enemy.origin + '0 0 16' - org;
+	dir = normalize(dir);
+
+	range = 400;
+
+	traceline(org, self.origin + dir*range, TRUE, self);
+}; 
+
 void() sham_magic1 = [ $magic1, sham_magic2 ]
 {
 	ai_face();
@@ -470,6 +491,7 @@ void() monster_shambler =
 	M_ai_mark_stat()
 	M_ai_set_name("Shambler", "Shambling Plaguehost", "Ravenous Shambler", "Blooded Shambler", "Master Shambler")
 	M_ai_set_yaw(20)
+	M_ai_mark_glow()
 	//------------------------
 	
 	walkmonster_start();

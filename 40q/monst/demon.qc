@@ -270,6 +270,7 @@ void() monster_demon1 =
 	M_ai_mark_stat()
 	M_ai_set_name("Demon", "Beast of Rot", "Fiendish Sensation", "Demon of Blood", "Horrible Pink")
 	M_ai_set_yaw(20)
+	M_ai_mark_glow()
 	//------------------------
 	
 	walkmonster_start();
