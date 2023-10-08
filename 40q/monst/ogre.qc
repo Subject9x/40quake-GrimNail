@@ -195,7 +195,7 @@ void() OgreFireGrenade =
 	setmodel(missile, "progs/grenade.mdl");
 	if (self.demon_mark == MARK_DESPAIR)
 	{
-		setmodel(missile, "progs/gib3.mdl");
+		setmodel(missile, "progs/gib1.mdl");
 		missile.colormod = MARK_DESPAIR_CLR * 1.3;
 	}
 	if (self.demon_mark == MARK_RAGE)
@@ -664,14 +664,19 @@ void() monster_ogre =
 	M_ai_set_name("Ogre", "Rotted Ogre", "Obsessive Ogre", "Mad Ogre", "Twisted Ogre")
 	M_ai_set_yaw(20)
 
-	if(self.demon_mark == MARK_DESPAIR){
+	if (self.demon_mark == MARK_DESPAIR)
+	{
 		self.toughness = self.toughness + 1;
+		self.weapon_ap = -1;
 	}
+	if (self.demon_mark == MARK_TWIST)
+	{
+		self.weapon_ap = -2;
+	}
+
 	self.toughness_set = self.toughness;
 	//------------------------
-
-
-
+	
 	walkmonster_start();
 };
 

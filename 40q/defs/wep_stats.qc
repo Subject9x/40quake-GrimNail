@@ -44,7 +44,7 @@
 #define PLASMA_STR 7
 #define PLASMA_AP -3
 #define PLASMA_AMMO_COST 2
-#define PLASMA_ROF 0.6
+#define PLASMA_ROF 0.5
 
 #define ROCKET_DMG 70
 #define ROCKET_STR 3
@@ -98,8 +98,8 @@
 #define CHAINSAW_AP -1
 
 #define GRENLNCH_DMG 40
-#define GRENLNCH_STR 3
-#define GRENLNCH_AP -1
+#define GRENLNCH_STR 4
+#define GRENLNCH_AP 0
 
 #define WIZ_SPELL_DMG 15
 #define WIZ_SPELL_STR 4

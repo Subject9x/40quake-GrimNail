@@ -277,7 +277,7 @@ void() armor_touch =
 	
 	if(self.armortype == IT_ARMOR1){
 		other.toughness = other.toughness + 1;
-		value = 100;
+		value = 150;
 		sprint(other, "Armor MKII\n");
 		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
@@ -285,7 +285,7 @@ void() armor_touch =
 		//other.armor_save = self.armor_save - 1;
 		other.toughness = other.toughness + 1;
 		other.melee_str = other.melee_str + 1;
-		value = 150;
+		value = 250;
 		sprint(other, "Armor MKIII\n");
 		centerprint(other, "Armor Upgrade - Toughness + 1\nStrength + 1");
 	}
@@ -293,7 +293,7 @@ void() armor_touch =
 		//other.invuln_save = self.invuln_save - 1;
 		other.toughness = other.toughness + 1;
 		other.melee_str = other.melee_str + 1;
-		value = 200;
+		value = 300;
 		sprint(other, "Armor MKIV \n");
 		centerprint(other, "Armor Upgrade - Toughness + 1\nStrength + 1");
 	}

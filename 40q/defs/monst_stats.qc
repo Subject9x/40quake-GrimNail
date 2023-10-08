@@ -16,9 +16,9 @@
 #define MOB_HP_SPAWN 80
 */
 
-#define PLAYER_HP 400
+#define PLAYER_HP 500
 #define PLAYER_TOUGH 4
-#define PLAYER_STR 3
+#define PLAYER_STR 4
 
 #define PLAYER_ARMOR_SV 4
 #define PLAYER_INVULN 6

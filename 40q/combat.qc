@@ -277,11 +277,15 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 					}
 				}
 			}
+			else if(wepStr == trgTough)
+			{
+				take = wepDmg;
+			}
 			else
 			{
 				take = wepDmg * 0.67;
 				inflictor.dmg_result = DMG_RESULT_LOW;
-				if(wepStr <= trgTough / 2)
+				if(wepStr <= trgTough * 0.5)
 				{
 					take = wepDmg * 0.33;
 					inflictor.dmg_result = DMG_RESULT_V_LOW;
@@ -372,7 +376,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
-		targ.velocity = targ.velocity + dir*take*8;
+		targ.velocity = targ.velocity + dir*take*4;	//was 8, space man gets less stagger
 	}
 	if((targ.flags & FL_MONSTER) && !(targ.flags & FL_DEMON)){
 		if(time > targ.hinder_cool){
