@@ -90,6 +90,43 @@ void() Laser_Touch =
 };
 
 //UNUSED ATM
+void(vector org, vector vec) LaunchPlasma =
+{
+
+	sound(self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
+
+	vec = normalize(vec);
+
+	newmis = spawn();
+	newmis.owner = self;
+	newmis.movetype = MOVETYPE_FLYMISSILE;
+	newmis.solid = SOLID_BBOX;
+
+	newmis.modelflags = MF_TRACER3;
+	newmis.effects = EF_FULLBRIGHT;
+
+	setmodel(newmis, "progs/v_spike.mdl");
+	setsize(newmis, '0 0 0', '0 0 0');
+
+	setorigin(newmis, org);
+	
+	if(self.demon_mark == MARK_RAGE){
+		newmis.velocity = vec * 700;
+	}
+	else{
+		newmis.velocity = vec * 550;
+	}
+
+	newmis.angles = vectoangles(newmis.velocity);
+
+	newmis.nextthink = time + 3;
+	newmis.think = SUB_Remove;
+	newmis.touch = T_PlasmaTouch;
+
+	newmis.weapon_str = self.weapon_str;
+	newmis.weapon_ap = self.weapon_ap;
+	newmis.weapon_dmg = self.weapon_dmg;
+};
 void(vector org, vector vec) LaunchLaser =
 {
 	if (self.classname == "monster_enforcer")
@@ -130,16 +167,38 @@ void(vector org, vector vec) LaunchLaser =
 
 void() enforcer_fire =
 {
-	W_FireHvyStub();
-	//todo - remove when ready
-	/*vector org;
+	vector org;
+	vector dir;
+	vector spread;
 
-	self.effects = self.effects | EF_MUZZLEFLASH;
-	makevectors(self.angles);
+	if (self.subType == ENFORCE_TYPE_PLAS)
+	{
+		self.effects = self.effects | EF_MUZZLEFLASH;
+		makevectors(self.angles);
+	
+		org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
+		dir = self.enemy.origin;
 
-	org = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
+		spread = '10.0 10.0  0';
+		if(self.demon_mark == MARK_EXCESS){
+			dir = dir + self.enemy.velocity * 0.3;
+		}
+		if(self.demon_mark == MARK_RAGE){
+			spread = '25.0 25.0 0.0';
+		}
+		if(self.demon_mark == MARK_TWIST){
+			spread = '5.0 5.0 0.0';
+		}
+		
+		dir = dir - self.origin;
+		dir = dir + crandom()*spread_x*v_right + crandom()*spread_y*v_up;
 
-	LaunchLaser(org, self.enemy.origin - self.origin);*/
+		LaunchPlasma(org, dir);
+	}
+	else
+	{
+		W_FireHvyStub();
+	}
 };
 
 //============================================================================
@@ -192,23 +251,38 @@ void() enf_atk1 = [ $attack1, enf_atk2 ] { ai_face(); };
 void() enf_atk2 = [ $attack2, enf_atk3 ] { ai_face(); };
 void() enf_atk3 = [ $attack3, enf_atk4 ] { 
 	ai_face();
-	enforcer_fire();
+	if (self.subType != ENFORCE_TYPE_PLAS)
+	{
+		enforcer_fire();
+	}
 };
 void() enf_atk4 = [ $attack4, enf_atk5 ] { 
-	enforcer_fire(); 
 	ai_face();
+	if (self.subType != ENFORCE_TYPE_PLAS)
+	{
+		if (self.demon_mark != MARK_TWIST)
+		{
+			enforcer_fire();
+		}
+	}
 };
 void() enf_atk5 = [ $attack5, enf_atk6 ] { 
 	ai_face();
 };
 void() enf_atk6 = [ $attack6, enf_atk7 ] { 
-	enforcer_fire(); 
+	if (self.subType != ENFORCE_TYPE_PLAS)
+	{
+		enforcer_fire();
+	}
 };
 void() enf_atk7 = [ $attack7, enf_atk8 ] { 
 	ai_face();
 };
 void() enf_atk8 = [ $attack8, enf_atk9 ] { 
-	enforcer_fire();
+	if (self.demon_mark != MARK_TWIST)
+	{
+		enforcer_fire();
+	}
 	if(cvar("skill") > 1){
 	 	ai_face(); 
 	}
@@ -217,13 +291,24 @@ void() enf_atk9 = [ $attack5, enf_atk10 ] {
 	ai_face();
  };
 void() enf_atk10 = [ $attack6, enf_atk11 ] { 
-	enforcer_fire(); 
+
+	if (self.subType != ENFORCE_TYPE_PLAS)
+	{
+		enforcer_fire();
+	}
 };
 void() enf_atk11 = [ $attack7, enf_atk12 ] { 
 	ai_face();
  };
 void() enf_atk12 = [ $attack8, enf_atk13 ] { 
-	enforcer_fire();
+
+	if (self.subType != ENFORCE_TYPE_PLAS)
+	{
+		if (self.demon_mark != MARK_TWIST)
+		{
+			enforcer_fire();
+		}
+	}
 	if(cvar("skill") > 1){
 	 	ai_face(); 
 	}
@@ -371,6 +456,10 @@ void() enf_fdie11 = [ $fdeath11, enf_fdie11 ] {};
 
 void() enf_die =
 {
+	if ((self.effects & EF_DIMLIGHT))
+	{
+		self.effects = self.effects - (self.effects & EF_DIMLIGHT);
+	}
 // check for gib
 	if (self.health < -35)
 	{
@@ -402,6 +491,7 @@ void() monster_enforcer =
 		return;
 	}
 	precache_model2 ("progs/enforcer.mdl");
+	precache_model2 ("progs/enforcer.md5");
 	precache_model2 ("progs/h_mega.mdl");
 	precache_model2 ("progs/laser.mdl");
 
@@ -431,6 +521,15 @@ void() monster_enforcer =
 	self.th_missile = enf_atk1;
 
 	//40Q stats----------------
+	if (!self.subType)
+	{
+		self.subType = ENFORCE_TYPE_STUB;
+		if (random() < 0.3)
+		{
+			self.subType = ENFORCE_TYPE_PLAS;
+			self.effects = self.effects | EF_DIMLIGHT;
+		}
+	}
 	M_ai_assign_mark()
 
 	M_dbg_assign_mark()	//DEBUG
@@ -443,9 +542,17 @@ void() monster_enforcer =
 	self.invuln_save = ENFORCE_INVULN;
 	self.wounds = ENFORCE_WOUNDS;
 
-	self.weapon_str = HVYSTUB_STR;
-	self.weapon_ap = HVYSTUB_AP;
-	self.weapon_dmg = HVYSTUB_DMG;
+	if (self.subType == ENFORCE_TYPE_PLAS)
+	{
+		self.weapon_str = PLASMA_STR;
+		self.weapon_ap = PLASMA_AP;
+		self.weapon_dmg = PLASMA_DMG;
+	}
+	else{
+		self.weapon_str = HVYSTUB_STR;
+		self.weapon_ap = HVYSTUB_AP;
+		self.weapon_dmg = HVYSTUB_DMG;
+	}
 	
 	M_ai_mark_stat()
 	M_ai_set_name("Enforcer", "Infected Enforcer", "Hedonist Enforcer", "Anger Prophet", "Twisted Enforcer")

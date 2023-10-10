@@ -66,7 +66,8 @@ void() W_FireAxe =
 
 	source = self.origin + '0 0 16';
 	traceline(source, source + v_forward*64, FALSE, self);
-	if (trace_fraction >= 0.67)
+	
+	if (trace_fraction >= 0.7)
 	{
 		self.axe_ent = world;
 		self.timer_axe_hit = -1;

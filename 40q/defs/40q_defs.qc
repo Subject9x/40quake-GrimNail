@@ -63,6 +63,7 @@
 .entity look_mob;	//The monster the player is looking at.
 .float dmg_result;	//T_Damage feedback to projectiles to show hit hints
 .float dmg_out;	//record inflictor dmg for effects.
+.float subType;	// monster sub types
 
 //Mob base stats
 .float strength;
@@ -99,11 +100,16 @@
 
 // TIMERS
 .float timer_axe_hit;	//stop player from completely axing down big targets
-.float timer_shotgun_fire;
 .float timer_look_mob;
 
+// PLAYER STUFF
+.float marks_despair;
+.float marks_rage;
+.float marks_twist;
+.float marks_excess;
 
-// Assault waves
+
+
 void(string msg, vector v) logVec={
 
 	dprint("\n");

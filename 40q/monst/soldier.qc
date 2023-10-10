@@ -209,22 +209,26 @@ void(entity attacker, float damage) army_pain =
 
 void() army_fire =
 {
-
-	W_FireAutogun();
-	/*vector dir;
+	vector dir;
 	entity en;
+	if (self.subType == SOLDIER_TYPE_SHTGN)
+	{
+		ai_face();
 
-	ai_face();
+		sound(self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);
 
-	sound(self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);*/
+		// fire somewhat behind the player, so a dodging player is harder to hit
+		en = self.enemy;
 
-// fire somewhat behind the player, so a dodging player is harder to hit
-	/*en = self.enemy;
+		dir = en.origin - en.velocity*0.2;
+		dir = normalize(dir - self.origin);
 
-	dir = en.origin - en.velocity*0.2;
-	dir = normalize(dir - self.origin);
-
-	FireBullets(4, dir, '0.1 0.1 0');*/
+		FireBullets(SHOTGUN_PELLET, dir, '0.1 0.1 0');
+	}
+	else
+	{
+		W_FireAutogun();
+	}
 };
 
 
@@ -328,6 +332,15 @@ void() monster_army =
 	self.th_die = army_die;
 
 	//40Q stats----------------
+	if (self.subType == 0)
+	{
+		self.subType = SOLDIER_TYPE_AUTO;
+		if (random() < 0.4)
+		{
+			self.subType = SOLDIER_TYPE_SHTGN;
+		}
+	}
+
 	M_ai_assign_mark()
 
 	M_dbg_assign_mark()	//DEBUG
@@ -340,9 +353,18 @@ void() monster_army =
 	self.invuln_save = SOLDIER_INVULN;
 	self.wounds = SOLDIER_WOUNDS;
 
-	self.weapon_dmg = AUTOGUN_DMG;
-	self.weapon_str = AUTOGUN_STR;
-	self.weapon_ap = AUTOGUN_AP;
+	if (self.subType == SOLDIER_TYPE_SHTGN)
+	{
+		self.weapon_dmg = SHOTGUN_DMG;
+		self.weapon_str = SHOTGUN_STR;
+		self.weapon_ap = SHOTGUN_AP;
+	}
+	else
+	{
+		self.weapon_dmg = AUTOGUN_DMG;
+		self.weapon_str = AUTOGUN_STR;
+		self.weapon_ap = AUTOGUN_AP;
+	}
 	self.axe_extra_dmg = TRUE;
 	
 	M_ai_mark_stat()

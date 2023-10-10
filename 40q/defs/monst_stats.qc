@@ -16,15 +16,24 @@
 #define MOB_HP_SPAWN 80
 */
 
+//MOB SUB TYPES - generally use demon marks, but this can be used too
+#define SOLDIER_TYPE_AUTO 1
+#define SOLDIER_TYPE_SHTGN 2
+
+#define ENFORCE_TYPE_STUB 1
+#define ENFORCE_TYPE_PLAS 2
+
+//PLAYER
+
 #define PLAYER_HP 500
 #define PLAYER_TOUGH 4
 #define PLAYER_STR 4
 
 #define PLAYER_ARMOR_SV 4
-#define PLAYER_INVULN 6
+#define PLAYER_INVULN 2
 #define PLAYER_WOUNDS 8
 
-#define FISH_HP 25
+#define FISH_HP 40
 #define FISH_STR 2
 #define FISH_TOUGH 2 
 
@@ -32,9 +41,9 @@
 #define FISH_INVULN 0
 #define FISH_WOUNDS 1
 
-#define DOG_HP 25
+#define DOG_HP 35
 #define DOG_STR 2
-#define DOG_TOUGH 3
+#define DOG_TOUGH 4
 
 #define DOG_ARMOR_SV 6
 #define DOG_INVULN 0
@@ -48,7 +57,7 @@
 #define ZOMBIE_INVULN 0
 #define ZOMBIE_WOUNDS 3
 
-#define SOLDIER_HP 30
+#define SOLDIER_HP 40
 #define SOLDIER_STR 2
 #define SOLDIER_TOUGH 3
 
@@ -58,7 +67,7 @@
 #define SOLDIER_PACK_SMALL 2
 #define SOLDIER_PACK_LT 3
 
-#define ENFORCE_HP 90 //80
+#define ENFORCE_HP 100 //80
 #define ENFORCE_STR 3
 #define ENFORCE_TOUGH 3
 
@@ -68,7 +77,7 @@
 #define ENFORCE_PACK_SMALL 4
 #define ENFORCE_PACK_LT 6
 
-#define KNIGHT_HP 80
+#define KNIGHT_HP 100
 #define KNIGHT_STR 4
 #define KNIGHT_TOUGH 4
 
@@ -84,8 +93,8 @@
 #define WIZARD_INVULN 5
 #define WIZARD_WOUNDS 2
 
-#define OGRE_HP 225
-#define OGRE_STR 5
+#define OGRE_HP 300
+#define OGRE_STR 4
 #define OGRE_TOUGH 5
 
 #define OGRE_ARMOR_SV 5
@@ -94,15 +103,15 @@
 #define OGRE_PACK_LT 5
 #define OGRE_PACK_HVY 10
 
-#define HKNIGHT_HP 275
+#define HKNIGHT_HP 200
 #define HKNIGHT_STR 6
-#define HKNIGHT_TOUGH 5
+#define HKNIGHT_TOUGH 6
 
 #define HKNIGHT_ARMOR_SV 3
 #define HKNIGHT_INVULN 7
 #define HKNIGHT_WOUNDS 0
 
-#define FIEND_HP 300
+#define FIEND_HP 250
 #define FIEND_STR 4
 #define FIEND_TOUGH 4
 
@@ -110,7 +119,7 @@
 #define FIEND_INVULN 6
 #define FIEND_WOUNDS 3
 
-#define SPAWN_HP 80
+#define SPAWN_HP 60
 #define SPAWN_STR 6
 #define SPAWN_TOUGH 4
 

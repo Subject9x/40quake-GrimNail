@@ -9,28 +9,28 @@
 #define DMG_MELTA 12
 */
 
-#define CHAINAXE_DMG 10
+#define CHAINAXE_DMG 8
 #define CHAINAXE_STR 0
 #define CHAINAXE_AP 0
 #define CHAINAXE_ROF 0.5
 #define CHAINAXE_HIT_TIME 0.75
 
-#define BOLTGUN_DMG 17
+#define BOLTGUN_DMG 14
 #define BOLTGUN_STR 4
 #define BOLTGUN_AP -1
 #define BOLTGUN_AMMO_COST 1
 #define BOLTGUN_ROF 0.45
 
-#define ASTSHOTG_DMG 5
-#define ASTSHOTG_STR 3
+#define ASTSHOTG_DMG 12
+#define ASTSHOTG_STR 4
 #define ASTSHOTG_AP 0
 #define ASTSHOTG_AMMO_COST 2
 #define ASTSHOTG_ROF 0.75
 #define ASTSHOTG_PELLET 10
 
-#define TEMPEST_DMG 10
+#define TEMPEST_DMG 9
 #define TEMPEST_STR 4
-#define TEMPEST_AP 1
+#define TEMPEST_AP -1
 #define TEMPEST_AMMO_COST 2
 #define TEMPEST_ROF 0.15
 
@@ -44,11 +44,11 @@
 #define PLASMA_STR 7
 #define PLASMA_AP -3
 #define PLASMA_AMMO_COST 2
-#define PLASMA_ROF 0.5
+#define PLASMA_ROF 0.4
 
 #define ROCKET_DMG 70
 #define ROCKET_STR 3
-#define ROCKET_AP 0
+#define ROCKET_AP -1
 #define ROCKET_AMMO_COST 5
 #define ROCKET_ROF 0.6
 
@@ -63,23 +63,24 @@
 //Monster weapons
 #define FISH_BITE_DMG 5
 #define FISH_BITE_STR 2
-#define FISH_BITE_AP 1
+#define FISH_BITE_AP -1
 
 #define DOG_BITE_DMG 3
 #define DOG_BITE_STR 3
-#define DOG_BITE_AP 1
+#define DOG_BITE_AP -1
 
 #define ZOMB_CHUNK_DMG 3
 #define ZOMB_CHUNK_STR 3
-#define ZOMB_CHUNK_AP 2
+#define ZOMB_CHUNK_AP 1
 
 #define AUTOGUN_DMG 5
 #define AUTOGUN_STR 3
 #define AUTOGUN_AP 0
 
-#define SHOTGUN_DMG 5
+#define SHOTGUN_DMG 7
 #define SHOTGUN_STR 3
 #define SHOTGUN_AP 0
+#define SHOTGUN_PELLET 6
 
 #define HVYSTUB_DMG 10
 #define HVYSTUB_STR 4
@@ -107,11 +108,11 @@
 
 #define KNIGHT_SPELL_DMG 15
 #define KNIGHT_SPELL_STR 5
-#define KNIGHT_SPELL_AP 0
+#define KNIGHT_SPELL_AP -1
 
 #define FIEND_CLAW_DMG 25
 #define FIEND_CLAW_STR 0 
-#define FIEND_CLAW_AP -3
+#define FIEND_CLAW_AP -2
 
 #define SPAWN_SPLAT_DMG 25
 #define SPAWN_SPLAT_STR 3
@@ -119,7 +120,7 @@
 
 #define VORE_SPELL_DMG 100
 #define VORE_SPELL_STR 6
-#define VORE_SPELL_AP -3
+#define VORE_SPELL_AP -4
 
 #define SHMBL_SPELL_DMG 15
 #define SHMBL_SPELL_STR 6
@@ -127,7 +128,7 @@
 
 #define SHMBL_CLAW_DMG 40
 #define SHMBL_CLAW_STR 2
-#define SHMBL_CLAW_AP -3
+#define SHMBL_CLAW_AP -2
 
 /*
     TRAP WEAPON STATS
@@ -146,9 +147,9 @@
 #define TRP_LAS_STR 3
 #define TRP_LAS_AP 0
 
-#define TRP_LAS_H_DMG 9
+#define TRP_LAS_H_DMG 25
 #define TRP_LAS_H_STR 4
-#define TRP_LAS_H_AP 0
+#define TRP_LAS_H_AP -1
 
 #define EXP_SML_DMG 10
 #define EXP_SML_STR 3
@@ -169,3 +170,21 @@
 #define FRE_BLL_DMG 25
 #define FRE_BLL_STR 5
 #define FRE_BLL_AP 0
+
+
+//ITEMS
+
+#define ARMOR1_SV 1
+#define ARMOR1_TGH 1
+#define ARMOR1_STR 1
+#define ARMOR1_VAL 150
+
+#define ARMOR2_SV 1
+#define ARMOR2_TGH 1
+#define ARMOR2_STR 1
+#define ARMOR2_VAL 275
+
+#define ARMOR3_SV 1
+#define ARMOR3_TGH 1
+#define ARMOR3_STR 1
+#define ARMOR3_VAL 400
