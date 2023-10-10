@@ -221,6 +221,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	float wepAp;
 	float wepDmg;
 	float trgTough;
+	float trgSave;
 
 	if (!targ.takedamage)
 		return;
@@ -297,41 +298,50 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		take = damage;
 	}
 
-	//40Q ARMOR CALC
+	//40Q ARMOR CALC - really for clients-only. very boring if all mobs have it.
 	if(targ.armortype != 0){
-		if(skill > 2)
-			save = ceil(damage * take/damage * 0.5);
-		else
-			save = ceil(damage * take/damage * 0.33);
+		save = 0.7;
+		trgSave = targ.armor_save + wepAp;
+		if (trgSave < targ.invuln_save)
+		{
+			trgSave = targ.invuln_save;
+		}
+		save = max(0, save - (1.0 - (trgSave / 6)));
+		save = ceil(save * take);
 		
-		take = take - save;
+		take = max(0, take - save);
 		if(save){
 			targ.armorvalue = targ.armorvalue - save;
 			if(targ.armorvalue <= 0.0)
 			{
 				targ.armorvalue = 0;
 				targ.armortype = 0;
+				targ.armor_save = PLAYER_ARMOR_SV;
 				targ.toughness = targ.toughness_set;
 				targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
 			}
 			else
 			{
-				if((targ.items & IT_ARMOR3) && targ.armorvalue < 151)
+				if((targ.items & IT_ARMOR3) && targ.armorvalue < 201)
 				{
 					targ.items = targ.items - (targ.items &  IT_ARMOR3);
-					targ.toughness = targ.toughness - 1;
-					targ.melee_str = targ.melee_str - 1;
+					targ.toughness = targ.toughness - ARMOR3_TGH;
+					targ.melee_str = targ.melee_str - ARMOR3_STR;
+					targ.armor_save = targ.armor_save - ARMOR3_SV;
+					targ.invuln_save = targ.invuln_save - 1;
 				}
-				else if((targ.items & IT_ARMOR2) && targ.armorvalue < 101)
+				else if((targ.items & IT_ARMOR2) && targ.armorvalue < 151)
 				{
 					targ.items = targ.items - (targ.items &  IT_ARMOR2);
-					targ.toughness = targ.toughness - 1;
-					targ.melee_str = targ.melee_str - 1;
+					targ.toughness = targ.toughness - ARMOR2_TGH;
+					targ.melee_str = targ.melee_str - ARMOR2_STR;
+					targ.armor_save = targ.armor_save - ARMOR2_SV;
 				}
 				else if((targ.items & IT_ARMOR1) && targ.armorvalue < 50)
 				{
-					targ.items = targ.items - (targ.items &  IT_ARMOR1);
-					targ.toughness = targ.toughness - 1;
+					targ.items = targ.items - (targ.items & IT_ARMOR1);
+					targ.toughness = targ.toughness - ARMOR2_TGH;
+					targ.armor_save = targ.armor_save - ARMOR2_SV;
 				}
 			}
 		}
@@ -359,11 +369,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // add to the damage total for clients, which will be sent as a single
 // message at the end of the frame
 // FIXME: remove after combining shotgun blasts?
-	if (attacker.classname == "monster_shambler")
-	{
-		dprint(strcat("damage: ", ftos(damage), "\n"));	//debug)
-		dprint(strcat("dmg: ", ftos(take), "\n"));	//debug)
-	}
 	if (targ.flags & FL_CLIENT)
 	{
 		targ.dmg_take = targ.dmg_take + take;

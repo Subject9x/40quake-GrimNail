@@ -276,30 +276,35 @@ void() armor_touch =
 		return;
 	
 	if(self.armortype == IT_ARMOR1){
-		other.toughness = other.toughness + 1;
-		value = 150;
+		other.toughness = other.toughness + ARMOR1_TGH;
+		other.armor_save = other.armor_save + ARMOR1_SV;
+		value = ARMOR1_VAL;
 		sprint(other, "Armor MKII\n");
 		centerprint(other, "Armor Upgrade - Toughness + 1");
 	}
 	if(self.armortype == IT_ARMOR2){
 		//other.armor_save = self.armor_save - 1;
-		other.toughness = other.toughness + 1;
+		other.toughness = other.toughness + ARMOR2_TGH;
 		other.melee_str = other.melee_str + 1;
-		value = 250;
+		other.armor_save = other.armor_save + ARMOR2_SV;
+		value = ARMOR2_VAL;
 		sprint(other, "Armor MKIII\n");
 		centerprint(other, "Armor Upgrade - Toughness + 1\nStrength + 1");
 	}
 	if(self.armortype == IT_ARMOR3){
 		//other.invuln_save = self.invuln_save - 1;
-		other.toughness = other.toughness + 1;
+		other.toughness = other.toughness + ARMOR3_TGH;
 		other.melee_str = other.melee_str + 1;
-		value = 300;
+		other.armor_save = other.armor_save + ARMOR3_SV;
+		other.invuln_save = other.invuln_save + 1;
+		value = ARMOR3_VAL;
 		sprint(other, "Armor MKIV \n");
 		centerprint(other, "Armor Upgrade - Toughness + 1\nStrength + 1");
 	}
-	if(value > other.armorvalue)
+	if(value > other.armorvalue){
 		other.armorvalue = value;
 		other.armortype = self.armortype;
+	}
 
 	other.items = other.items | self.armortype;
 
@@ -1068,6 +1073,7 @@ void() sigil_touch =
 /*QUAKED item_sigil (0 .5 .8) (-16 -16 -24) (16 16 32) E1 E2 E3 E4
 End of level sigil, pick up to end episode and return to jrstart.
 */
+void() item_demon_sigil;
 
 void() item_sigil =
 {
@@ -1076,7 +1082,6 @@ void() item_sigil =
 
 	precache_sound("misc/runekey.wav");
 	self.noise = "misc/runekey.wav";
-
 	if (self.spawnflags & 1)
 	{
 		precache_model("progs/end1.mdl");
@@ -1102,6 +1107,73 @@ void() item_sigil =
 	setsize(self, '-16 -16 -24', '16 16 32');
 	StartItem();
 };
+
+/*
+	Overriding Sigils to be tempting pickups.
+*/
+void() demon_sigil_touch =
+{
+	if (other.classname != "player")
+		return;
+	if (other.health <= 0)
+		return;
+
+	centerprint(other, "You got the rune!");
+
+	sound(other, CHAN_ITEM, self.noise, 1, ATTN_NORM);
+	
+	stuffcmd(other, "bf\n");
+
+	self.solid = SOLID_NOT;
+	self.model = string_null;
+
+	self.classname = ""; // so rune doors won't find it
+
+	activator = other;
+	SUB_UseTargets(); // fire all targets / killtargets
+};
+
+void() item_demon_sigil =
+{
+	if (!self.spawnflags)
+		objerror("no spawnflags");
+
+	precache_sound("misc/runekey.wav");
+	self.noise = "misc/runekey.wav";
+
+	self.alpha = 0.8;
+	self.effects = 0 | EF_ADDITIVE;
+	if (self.spawnflags & 1)
+	{
+		precache_model("progs/end1.mdl");
+		setmodel(self, "progs/end1.mdl");
+		self.colormod = MARK_DESPAIR_CLR * 1.3;
+	}
+	if (self.spawnflags & 2)
+	{
+		precache_model2 ("progs/end2.mdl");
+		setmodel(self, "progs/end2.mdl");
+		self.colormod = MARK_TWIST_CLR * 1.3;
+	}
+	if (self.spawnflags & 4)
+	{
+		precache_model2 ("progs/end3.mdl");
+		setmodel(self, "progs/end3.mdl");
+		self.colormod = MARK_RAGE_CLR * 1.3;
+	}
+	if (self.spawnflags & 8)
+	{
+		precache_model2 ("progs/end4.mdl");
+		setmodel(self, "progs/end4.mdl");
+		self.colormod = MARK_EXCESS_CLR * 1.3;
+	}
+
+	self.touch = demon_sigil_touch;
+	setsize(self, '-8 -8 -12', '8 8 16');
+	StartItem();
+};
+
+
 
 /*
 ===============================================================================
