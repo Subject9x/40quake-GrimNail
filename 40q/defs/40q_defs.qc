@@ -38,10 +38,10 @@
 #define MARK_DESPAIR 16
 #define MARK_TWIST 32
 
-#define MARK_RAGE_CLR '0.8 0.33 0.15'
-#define MARK_EXCESS_CLR '0.8 0.15 0.7'
-#define MARK_DESPAIR_CLR '0.05 0.8 0.15'
-#define MARK_TWIST_CLR '0.15 0.33 0.8'
+#define MARK_RAGE_CLR '1.0 0.7 0.7'
+#define MARK_EXCESS_CLR '1.0 0.7 0.9'
+#define MARK_DESPAIR_CLR '0.7 1.0 0.6'
+#define MARK_TWIST_CLR '0.7 0.7 1.0'
 
 #define MARK_RAGE_CLR_8 108
 #define MARK_EXCESS_CLR_8 128

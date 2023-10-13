@@ -40,17 +40,22 @@
 #define HVYBOLT_AMMO_COST 1
 #define HVYBOLT_ROF 0.25
 
-#define PLASMA_DMG 55
+#define PLASMA_DMG 75
 #define PLASMA_STR 7
 #define PLASMA_AP -3
 #define PLASMA_AMMO_COST 2
 #define PLASMA_ROF 0.4
 
-#define ROCKET_DMG 70
+
+#define ROCKET_DMG_AT 40
+#define ROCKET_STR_AT 8
+#define ROCKET_AP_AT -2
+
+#define ROCKET_DMG 100
 #define ROCKET_STR 3
-#define ROCKET_AP -1
+#define ROCKET_AP 0
 #define ROCKET_AMMO_COST 5
-#define ROCKET_ROF 0.6
+#define ROCKET_ROF 1.0
 
 #define MELTA_DMG 350
 #define MELTA_STR 8
